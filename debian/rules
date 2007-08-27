@@ -7,6 +7,9 @@ SOURCE := $(shell dpkg-parsechangelog | sed -ne 's,^Source: *\(.*\)$$,\1,p')
 VERSION_DEBIAN := $(shell dpkg-parsechangelog | sed -ne 's,^Version: *\(.*\)$$,\1,p')
 VERSION := $(shell echo "$(VERSION_DEBIAN)" | sed -e 's,^[^:]*:,,' -e 's,-[^-]*$$,,')
  
+BUILD_DIR = debian/build
+STAMPS_DIR = debian/stamps
+
 source: $(STAMPS_DIR)/source
 
 $(STAMPS_DIR)/source: SOURCE_FILES = $(filter-out debian, $(wildcard * .[^.]*))
@@ -16,7 +19,7 @@ $(STAMPS_DIR)/source: $(BUILD_DIR) $(STAMPS_DIR)
 	rm -rf '$(DIR)'
 	mkdir -p '$(DIR)'
 	cp -al $(SOURCE_FILES) '$(DIR)'
-	# patch
+	cd $(DIR); QUILT_PATCHES=$(CURDIR)/debian/patches quilt --quiltrc /dev/null push -a || test $$? = 2
 	touch $@
 
 setup: $(STAMPS_DIR)/setup_deb
