@@ -14,28 +14,29 @@ source: $(STAMPS_DIR)/source
 
 $(STAMPS_DIR)/source: SOURCE_FILES = $(filter-out debian, $(wildcard * .[^.]*))
 $(STAMPS_DIR)/source: DIR = $(BUILD_DIR)/source
-$(STAMPS_DIR)/source: $(BUILD_DIR) $(STAMPS_DIR)
+$(STAMPS_DIR)/source:
 	dh_testdir
 	rm -rf '$(DIR)'
-	mkdir -p '$(DIR)'
+	mkdir -p $(STAMPS_DIR) '$(DIR)'
 	cp -al $(SOURCE_FILES) '$(DIR)'
 	cd $(DIR); QUILT_PATCHES=$(CURDIR)/debian/patches quilt --quiltrc /dev/null push -a || test $$? = 2
 	touch $@
 
-setup: $(STAMPS_DIR)/setup_deb
+setup: $(STAMPS_DIR)/setup_deb $(STAMPS_DIR)/setup_udeb
 
 $(STAMPS_DIR)/setup_%: SOURCE_DIR=$(BUILD_DIR)/source
-$(STAMPS_DIR)/setup_%: DIR=$(BUILD_DIR)/build_%
+$(STAMPS_DIR)/setup_%: DIR=$(BUILD_DIR)/build_$*
 $(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/source
 	dh_testdir
 	rm -rf '$(DIR)'
 	cp -al '$(SOURCE_DIR)' '$(DIR)'
-	# config
+	cp debian/config/config.$* '$(DIR)'/.config
+	make -C '$(DIR)' oldconfig
 	touch $@
 
-build: $(STAMPS_DIR)/build_deb
+build: $(STAMPS_DIR)/build_deb $(STAMPS_DIR)/build_udeb
 
-$(STAMPS_DIR)/build_%: DIR=$(BUILD_DIR)/build_%
+$(STAMPS_DIR)/build_%: DIR=$(BUILD_DIR)/build_$*
 $(STAMPS_DIR)/build_%: $(STAMPS_DIR)/setup_%
 	dh_testdir
 	make -C '$(DIR)'
