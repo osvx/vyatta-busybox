@@ -1,0 +1,68 @@
+#!/usr/bin/make -f
+
+SHELL := sh -e
+DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+DEB_BUILD_ARCH := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+SOURCE := $(shell dpkg-parsechangelog | sed -ne 's,^Source: *\(.*\)$$,\1,p')
+VERSION_DEBIAN := $(shell dpkg-parsechangelog | sed -ne 's,^Version: *\(.*\)$$,\1,p')
+VERSION := $(shell echo "$(VERSION_DEBIAN)" | sed -e 's,^[^:]*:,,' -e 's,-[^-]*$$,,')
+ 
+source: $(STAMPS_DIR)/source
+
+$(STAMPS_DIR)/source: SOURCE_FILES = $(filter-out debian, $(wildcard * .[^.]*))
+$(STAMPS_DIR)/source: DIR = $(BUILD_DIR)/source
+$(STAMPS_DIR)/source: $(BUILD_DIR) $(STAMPS_DIR)
+	dh_testdir
+	rm -rf '$(DIR)'
+	mkdir -p '$(DIR)'
+	cp -al $(SOURCE_FILES) '$(DIR)'
+	# patch
+	touch $@
+
+setup: $(STAMPS_DIR)/setup_deb
+
+$(STAMPS_DIR)/setup_%: SOURCE_DIR=$(BUILD_DIR)/source
+$(STAMPS_DIR)/setup_%: DIR=$(BUILD_DIR)/build_%
+$(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/source
+	dh_testdir
+	rm -rf '$(DIR)'
+	cp -al '$(SOURCE_DIR)' '$(DIR)'
+	# config
+	touch $@
+
+build: $(STAMPS_DIR)/build_deb
+
+$(STAMPS_DIR)/build_%: DIR=$(BUILD_DIR)/build_%
+$(STAMPS_DIR)/build_%: $(STAMPS_DIR)/setup_%
+	dh_testdir
+	make -C '$(DIR)'
+	touch $@
+
+$(BUILD_DIR) $(STAMPS_DIR):
+	@[ -d $@ ] || mkdir $@
+
+maintainerclean:
+	rm -rf $(filter-out .svn debian, $(wildcard * .[^.]*))
+
+clean:
+	dh_testdir
+	rm -rf $(BUILD_DIR) $(STAMPS_DIR)
+	dh_clean
+
+binary-indep:
+
+binary-arch: binary-arch_deb
+
+binary: binary-indep binary-arch
+
+DIR_ORIG = ../orig/$(SOURCE)-$(VERSION)
+TAR_ORIG = ../$(SOURCE)_$(VERSION).orig.tar.gz
+
+orig: $(DIR_ORIG)
+	rsync --delete --exclude debian --exclude .svn --link-dest=$(DIR_ORIG)/ -a $(DIR_ORIG)/ .
+
+$(DIR_ORIG):
+	@[ -e $(TAR_ORIG) ] || ( echo "Can't find orig tarball" >&2; exit 1 )
+	mkdir -p ../orig
+	tar -C ../orig -xzf $(TAR_ORIG)
+
