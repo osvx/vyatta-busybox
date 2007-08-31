@@ -34,7 +34,7 @@ $(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/source
 	make -C '$(DIR)' oldconfig
 	touch $@
 
-build: $(STAMPS_DIR)/build_deb $(STAMPS_DIR)/build_udeb
+build: $(STAMPS_DIR)/build_deb $(STAMPS_DIR)/build_static $(STAMPS_DIR)/build_udeb
 
 $(STAMPS_DIR)/build_%: DIR=$(BUILD_DIR)/build_$*
 $(STAMPS_DIR)/build_%: $(STAMPS_DIR)/setup_%
@@ -55,7 +55,7 @@ clean:
 
 binary-indep:
 
-binary-arch: binary-arch_deb binary-arch_udeb
+binary-arch: binary-arch_deb binary-arch_static binary-arch_udeb
 
 binary-arch_deb: DIR = $(BUILD_DIR)/build_deb
 binary-arch_deb: export DH_OPTIONS = -pbusybox
@@ -64,6 +64,18 @@ binary-arch_deb: $(STAMPS_DIR)/build_deb
 	dh_testroot
 	dh_clean -k -d
 	dh_install --sourcedir=$(DIR)
+	$(MAKE) -f debian/rules binary-arch_all
+
+binary-arch_static: PACKAGE = busybox-static
+binary-arch_static: DIR = $(BUILD_DIR)/build_static
+binary-arch_static: export DH_OPTIONS = -p$(PACKAGE)
+binary-arch_static: $(STAMPS_DIR)/build_static
+	dh_testdir
+	dh_testroot
+	dh_clean -k -d
+	dh_install --sourcedir=$(DIR)
+	install -D -m644 debian/$(PACKAGE).override \
+		debian/$(PACKAGE)/usr/share/lintian/overrides/$(PACKAGE)
 	$(MAKE) -f debian/rules binary-arch_all
 
 binary-arch_udeb: PACKAGE = busybox-udeb

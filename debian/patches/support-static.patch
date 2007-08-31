@@ -1,0 +1,43 @@
+--- busybox.orig/Makefile
++++ busybox/Makefile
+@@ -563,12 +563,18 @@
+ 
+ busybox-all  := $(core-y) $(libs-y)
+ 
++ifdef CONFIG_STATIC
++LDFLAGS_busybox = -Wl,--warn-common -Wl,--sort-common
++else
++LDFLAGS_busybox = -Wl,--warn-common -Wl,--sort-common -Wl,--gc-sections
++endif
++
+ # Rule to link busybox - also used during CONFIG_KALLSYMS
+ # May be overridden by arch/$(ARCH)/Makefile
+ quiet_cmd_busybox__ ?= LINK    $@
+       cmd_busybox__ ?= $(srctree)/scripts/trylink $(CC) $(LDFLAGS) \
+       -o $@ -Wl,-M \
+-      -Wl,--warn-common -Wl,--sort-common -Wl,--gc-sections \
++      $(LDFLAGS_busybox)\
+       -Wl,--start-group $(busybox-all) -Wl,--end-group \
+       $(LDLIBS)
+ 
+--- busybox.orig/applets/applets.c
++++ busybox/applets/applets.c
+@@ -15,18 +15,6 @@
+ #include <assert.h>
+ #include "busybox.h"
+ 
+-/* Apparently uclibc defines __GLIBC__ (compat trick?). Oh well. */
+-#if ENABLE_STATIC && defined(__GLIBC__) && !defined(__UCLIBC__)
+-#warning Static linking against glibc produces buggy executables
+-#warning (glibc does not cope well with ld --gc-sections).
+-#warning See sources.redhat.com/bugzilla/show_bug.cgi?id=3400
+-#warning Note that glibc is unsuitable for static linking anyway.
+-#warning If you still want to do it, remove -Wl,--gc-sections
+-#warning from top-level Makefile and remove this warning.
+-#error Aborting compilation.
+-#endif
+-
+-
+ /* Declare <applet>_main() */
+ #define PROTOTYPES
+ #include "applets.h"
