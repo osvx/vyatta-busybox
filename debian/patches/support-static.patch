@@ -1,6 +1,6 @@
 --- busybox.orig/Makefile
 +++ busybox/Makefile
-@@ -563,12 +563,18 @@
+@@ -565,12 +565,18 @@
  
  busybox-all  := $(core-y) $(libs-y)
  
@@ -14,7 +14,7 @@
  # May be overridden by arch/$(ARCH)/Makefile
  quiet_cmd_busybox__ ?= LINK    $@
        cmd_busybox__ ?= $(srctree)/scripts/trylink $(CC) $(LDFLAGS) \
-       -o $@ -Wl,-M \
+       -o $@ -Wl,-Map -Wl,$@.map \
 -      -Wl,--warn-common -Wl,--sort-common -Wl,--gc-sections \
 +      $(LDFLAGS_busybox)\
        -Wl,--start-group $(busybox-all) -Wl,--end-group \

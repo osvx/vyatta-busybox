@@ -1,11 +1,11 @@
 --- busybox.orig/shell/ash.c
 +++ busybox/shell/ash.c
-@@ -1674,7 +1674,7 @@
+@@ -1676,7 +1676,7 @@
  	{ NULL, VSTRFIXED|VTEXTFIXED|VUNSET,    "MAIL\0",       changemail },
  	{ NULL, VSTRFIXED|VTEXTFIXED|VUNSET,    "MAILPATH\0",   changemail },
  #endif
--	{ NULL, VSTRFIXED|VTEXTFIXED,           defpathvar,     changepath },
-+	{ NULL, VSTRFIXED|VTEXTFIXED|VEXPORT,   defpathvar,     changepath },
+-	{ NULL, VSTRFIXED|VTEXTFIXED,           bb_PATH_root_path, changepath },
++	{ NULL, VSTRFIXED|VTEXTFIXED|VEXPORT,   bb_PATH_root_path, changepath },
  	{ NULL, VSTRFIXED|VTEXTFIXED,           "PS1=$ ",       NULL },
  	{ NULL, VSTRFIXED|VTEXTFIXED,           "PS2=> ",       NULL },
  	{ NULL, VSTRFIXED|VTEXTFIXED,           "PS4=+ ",       NULL },

@@ -1,6 +1,6 @@
 --- busybox.orig/Makefile.custom
 +++ busybox/Makefile.custom
-@@ -85,7 +85,7 @@
+@@ -87,7 +87,7 @@
  
  # Documentation Targets
  .PHONY: doc
@@ -9,7 +9,7 @@
  
  docs/busybox.pod: $(srctree)/docs/busybox_header.pod \
  		$(srctree)/include/usage.h \
-@@ -102,10 +102,10 @@
+@@ -104,10 +104,10 @@
  	$(Q)-mkdir -p docs
  	$(Q)-pod2text $< > $@
  
