@@ -1,4 +1,4 @@
-busybox (1:1.7.2-1) UNRELEASED; urgency=low
+busybox (1:1.9.1-1) UNRELEASED; urgency=low
 
   * New upstream release.
   * Drop unused busybox-floppy-udeb.
