@@ -1,6 +1,9 @@
 busybox (1:1.9.1-2) UNRELEASED; urgency=low
 
   * Readd sections gc to dynamic built binaries.
+  * debian/config.udeb:
+    - Fix remaining problems.
+    - Disable ifconfig.
 
  -- Bastian Blank <waldi@debian.org>  Thu, 13 Mar 2008 13:32:55 +0100
 
