@@ -4,8 +4,10 @@ busybox (1:1.9.1-2) experimental; urgency=low
   * debian/config.udeb:
     - Fix remaining problems.
     - Disable ifconfig.
+  * util-linux/mount.c:
+    - Support relatime. (closes: #460824)
 
- -- Bastian Blank <waldi@debian.org>  Thu, 13 Mar 2008 13:43:41 +0100
+ -- Bastian Blank <waldi@debian.org>  Thu, 13 Mar 2008 14:25:53 +0100
 
 busybox (1:1.9.1-1) experimental; urgency=low
 
