@@ -1,1 +1,1 @@
-busybox-cvs-static: statically-linked-binary ./bin/busybox
+statically-linked-binary ./bin/busybox
