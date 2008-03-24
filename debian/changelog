@@ -2,8 +2,7 @@ busybox (1:1.9.2-1) UNRELEASED; urgency=low
 
   * New upstream release.
   * [deb] Reenable prefer applets.
-  * [deb] Make the shell use applets first.
-  * [static] Make the shell use applets first.
+  * [deb, static] Make the shell use applets first. (closes: #472389)
 
  -- Bastian Blank <waldi@debian.org>  Sat, 22 Mar 2008 23:15:54 +0100
 
