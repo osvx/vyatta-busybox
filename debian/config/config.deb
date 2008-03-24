@@ -1,4 +1,4 @@
-#
+ #
 # Automatically generated make config: don't edit
 # Busybox version: 1.9.1
 # Thu Feb 14 19:49:48 2008
@@ -30,7 +30,7 @@ CONFIG_FEATURE_SUID=y
 # CONFIG_FEATURE_SUID_CONFIG is not set
 # CONFIG_FEATURE_SUID_CONFIG_QUIET is not set
 # CONFIG_SELINUX is not set
-# CONFIG_FEATURE_PREFER_APPLETS is not set
+CONFIG_FEATURE_PREFER_APPLETS=y
 CONFIG_BUSYBOX_EXEC_PATH="/proc/self/exe"
 CONFIG_FEATURE_SYSLOG=y
 CONFIG_FEATURE_HAVE_RPC=y
@@ -717,7 +717,7 @@ CONFIG_ASH_EXPAND_PRMT=y
 # Bourne Shell Options
 #
 # CONFIG_FEATURE_SH_EXTRA_QUIET is not set
-# CONFIG_FEATURE_SH_STANDALONE is not set
+CONFIG_FEATURE_SH_STANDALONE=y
 # CONFIG_CTTYHACK is not set
 
 #
