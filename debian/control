@@ -1,5 +1,6 @@
 Source: busybox
 Priority: optional
+Section: utils
 Maintainer: Debian Install System Team <debian-boot@lists.debian.org>
 Uploaders: Bastian Blank <waldi@debian.org>
 Build-Depends: debhelper (>> 5), quilt
@@ -10,7 +11,6 @@ Architecture: any
 Depends: ${shlibs:Depends}
 Conflicts: busybox-static
 Replaces: busybox-static
-Section: utils
 Description: Tiny utilities for small and embedded systems
  BusyBox combines tiny versions of many common UNIX utilities into a single
  small executable. It provides minimalist replacements for the most common
@@ -30,6 +30,7 @@ Architecture: any
 Depends: ${shlibs:Depends}
 Conflicts: busybox
 Replaces: busybox
+Priority: extra
 Section: shells
 Description: Standalone rescue shell with tons of builtin utilities
  BusyBox combines tiny versions of many common UNIX utilities into a single
