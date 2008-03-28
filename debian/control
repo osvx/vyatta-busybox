@@ -3,7 +3,7 @@ Priority: optional
 Section: utils
 Maintainer: Debian Install System Team <debian-boot@lists.debian.org>
 Uploaders: Bastian Blank <waldi@debian.org>
-Build-Depends: debhelper (>> 5), quilt
+Build-Depends: debhelper (>> 5), lsb-release, quilt
 Standards-Version: 3.7.3
 
 Package: busybox

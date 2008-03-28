@@ -39,7 +39,7 @@ build: $(STAMPS_DIR)/build_deb $(STAMPS_DIR)/build_static $(STAMPS_DIR)/build_ud
 $(STAMPS_DIR)/build_%: DIR=$(BUILD_DIR)/build_$*
 $(STAMPS_DIR)/build_%: $(STAMPS_DIR)/setup_%
 	dh_testdir
-	make -C '$(DIR)' busybox docs/busybox.1
+	make -C '$(DIR)' busybox docs/busybox.1 BB_EXTRA_VERSION="$(shell lsb_release -is) $(VERSION_DEBIAN)"
 	touch $@
 
 $(BUILD_DIR) $(STAMPS_DIR):

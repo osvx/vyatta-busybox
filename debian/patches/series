@@ -3,3 +3,4 @@ shell-ash-export-HOME.patch
 support-static.patch
 mount-relatime.patch
 applets-fallback.patch
+version.patch
