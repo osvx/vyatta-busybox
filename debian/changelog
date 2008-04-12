@@ -1,9 +1,9 @@
-busybox (1:1.9.2-3) UNRELEASED; urgency=low
+busybox (1:1.9.2-3) unstable; urgency=low
 
   * Readd package version into greeting.
   * Ignore init action if device is not available. (closes: #473659)
 
- -- Bastian Blank <waldi@debian.org>  Fri, 28 Mar 2008 14:48:11 +0100
+ -- Bastian Blank <waldi@debian.org>  Sat, 12 Apr 2008 17:23:30 +0200
 
 busybox (1:1.9.2-2) unstable; urgency=low
 
