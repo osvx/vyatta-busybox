@@ -1,6 +1,6 @@
 --- busybox.orig/scripts/defconfig
 +++ busybox/scripts/defconfig
-@@ -27,8 +27,8 @@
+@@ -30,8 +30,8 @@
  CONFIG_FEATURE_SUID_CONFIG=y
  CONFIG_FEATURE_SUID_CONFIG_QUIET=y
  # CONFIG_SELINUX is not set
@@ -52,7 +52,7 @@
  	bool "cttyhack"
 --- busybox.orig/shell/ash.c
 +++ busybox/shell/ash.c
-@@ -6568,20 +6568,6 @@
+@@ -6629,20 +6629,6 @@
  {
  	int repeated = 0;
  
@@ -73,7 +73,7 @@
   repeat:
  #ifdef SYSV
  	do {
-@@ -6626,11 +6612,7 @@
+@@ -6687,11 +6673,7 @@
  
  	clearredir(1);
  	envp = environment();
@@ -86,7 +86,7 @@
  		tryexec(argv[0], argv, envp);
  		e = errno;
  	} else {
-@@ -6645,6 +6627,11 @@
+@@ -6706,6 +6688,11 @@
  		}
  	}
  
@@ -101,7 +101,7 @@
 --- busybox.orig/libbb/vfork_daemon_rexec.c
 +++ busybox/libbb/vfork_daemon_rexec.c
 @@ -100,7 +100,7 @@
- 	return r;
+ 	return 0;
  }
  
 -#if ENABLE_FEATURE_PREFER_APPLETS
@@ -109,7 +109,7 @@
  void save_nofork_data(struct nofork_save_area *save)
  {
  	memcpy(&save->die_jmp, &die_jmp, sizeof(die_jmp));
-@@ -168,7 +168,7 @@
+@@ -170,7 +170,7 @@
  int spawn_and_wait(char **argv)
  {
  	int rc;
@@ -246,7 +246,7 @@
   * but I want to save a few bytes here. Check libbb.h before changing! */
 --- busybox.orig/libbb/appletlib.c
 +++ busybox/libbb/appletlib.c
-@@ -604,9 +604,9 @@
+@@ -607,9 +607,9 @@
  
  	if (ENABLE_FEATURE_INSTALLER && strcmp(argv[1], "--install") == 0) {
  		const char *busybox;
@@ -260,7 +260,7 @@
  		return 0;
 --- busybox.orig/include/libbb.h
 +++ busybox/include/libbb.h
-@@ -557,12 +557,12 @@
+@@ -650,12 +650,12 @@
  /* BB_EXECxx always execs (it's not doing NOFORK/NOEXEC stuff),
   * but it may exec busybox and call applet instead of searching PATH.
   */
@@ -278,7 +278,7 @@
  #else
  #define BB_EXECVP(prog,cmd)     execvp(prog,cmd)
  #define BB_EXECLP(prog,cmd,...) execlp(prog,cmd, __VA_ARGS__)
-@@ -1114,7 +1114,7 @@
+@@ -1211,7 +1211,7 @@
  extern const char bb_path_motd_file[];
  extern const char bb_path_wtmp_file[];
  extern const char bb_dev_null[];
@@ -352,7 +352,7 @@
  
  # These are auto-selected by other options
  
-@@ -283,7 +270,7 @@
+@@ -294,7 +281,7 @@
  config BUILD_LIBBUSYBOX
  	bool "Build shared libbusybox"
  	default n
@@ -361,7 +361,7 @@
  	help
  	  Build a shared library libbusybox.so.N.N.N which contains all
  	  busybox code.
-@@ -492,7 +479,7 @@
+@@ -503,7 +490,7 @@
  
  config INSTALL_APPLET_DONT
  	bool "not installed"
