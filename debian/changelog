@@ -1,4 +1,4 @@
-busybox (1:1.10.3-1) UNRELEASED; urgency=low
+busybox (1:1.10.2-2) UNRELEASED; urgency=low
 
   * New upstream release.
   * [deb, static] Again prefer applets and fallback to real executable if it
