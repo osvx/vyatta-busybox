@@ -1,7 +1,7 @@
 busybox (1:1.10.2-2) UNRELEASED; urgency=low
 
   * [deb, static] Again prefer applets and fallback to real executable if it
-    is not found.
+    is not found. (closes: #498029)
   * [deb, static] Reenable long options for several applets. (closes: #490396)
   * [udeb] Fix installation.
 
