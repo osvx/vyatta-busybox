@@ -39,7 +39,7 @@ build: $(STAMPS_DIR)/build_deb $(STAMPS_DIR)/build_static $(STAMPS_DIR)/build_ud
 $(STAMPS_DIR)/build_%: DIR=$(BUILD_DIR)/build_$*
 $(STAMPS_DIR)/build_%: $(STAMPS_DIR)/setup_%
 	dh_testdir
-	make -C '$(DIR)' busybox docs/busybox.1 BB_EXTRA_VERSION="$(shell lsb_release -is) $(VERSION_DEBIAN)"
+	make -C '$(DIR)' install docs/busybox.1 BB_EXTRA_VERSION="$(shell lsb_release -is) $(VERSION_DEBIAN)"
 	touch $@
 
 $(BUILD_DIR) $(STAMPS_DIR):
@@ -86,10 +86,10 @@ binary-arch_udeb: $(STAMPS_DIR)/build_udeb
 	dh_testdir
 	dh_testroot
 	dh_clean -k -d
-	make -C $(DIR) install CONFIG_PREFIX=$(OUT_DIR)
 	# Remove init link, but init support is still compiled in to be
 	# used.
-	rm -f $(OUT_DIR)/sbin/init
+	rm -f $(DIR)/_install/sbin/init
+	dh_install --sourcedir=$(DIR)
 	$(MAKE) -f debian/rules binary-arch_all
 
 binary-arch_all:
