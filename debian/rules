@@ -31,7 +31,7 @@ $(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/source
 	rm -rf '$(DIR)'
 	cp -al '$(SOURCE_DIR)' '$(DIR)'
 	cp debian/config/config.$* '$(DIR)'/.config
-	make -C '$(DIR)' oldconfig
+	$(MAKE) -C '$(DIR)' oldconfig
 	touch $@
 
 build: $(STAMPS_DIR)/build_deb $(STAMPS_DIR)/build_static $(STAMPS_DIR)/build_udeb
@@ -39,7 +39,7 @@ build: $(STAMPS_DIR)/build_deb $(STAMPS_DIR)/build_static $(STAMPS_DIR)/build_ud
 $(STAMPS_DIR)/build_%: DIR=$(BUILD_DIR)/build_$*
 $(STAMPS_DIR)/build_%: $(STAMPS_DIR)/setup_%
 	dh_testdir
-	make -C '$(DIR)' install docs/busybox.1 BB_EXTRA_VERSION="$(shell lsb_release -is) $(VERSION_DEBIAN)"
+	$(MAKE) -C '$(DIR)' install docs/busybox.1 BB_EXTRA_VERSION="$(shell lsb_release -is) $(VERSION_DEBIAN)"
 	touch $@
 
 $(BUILD_DIR) $(STAMPS_DIR):
