@@ -30,7 +30,7 @@ $(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/source
 	dh_testdir
 	rm -rf '$(DIR)'
 	cp -al '$(SOURCE_DIR)' '$(DIR)'
-	cp debian/config/config.$* '$(DIR)'/.config
+	cp debian/config/$* '$(DIR)'/.config
 	$(MAKE) -C '$(DIR)' oldconfig
 	touch $@
 
