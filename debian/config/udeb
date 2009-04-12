@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.13.3
-# Sun Apr 12 11:45:13 2009
+# Sun Apr 12 12:17:36 2009
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -118,7 +118,7 @@ CONFIG_GUNZIP=y
 # CONFIG_RPM2CPIO is not set
 # CONFIG_RPM is not set
 CONFIG_TAR=y
-# CONFIG_FEATURE_TAR_CREATE is not set
+CONFIG_FEATURE_TAR_CREATE=y
 # CONFIG_FEATURE_TAR_AUTODETECT is not set
 # CONFIG_FEATURE_TAR_FROM is not set
 # CONFIG_FEATURE_TAR_OLDGNU_COMPATIBILITY is not set
