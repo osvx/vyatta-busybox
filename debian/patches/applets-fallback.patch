@@ -1,6 +1,6 @@
 --- a/scripts/defconfig
 +++ b/scripts/defconfig
-@@ -31,7 +31,7 @@
+@@ -34,7 +34,7 @@
  CONFIG_FEATURE_SUID_CONFIG_QUIET=y
  # CONFIG_SELINUX is not set
  # CONFIG_FEATURE_PREFER_APPLETS is not set
@@ -11,38 +11,38 @@
  
 --- a/shell/ash.c
 +++ b/shell/ash.c
-@@ -6629,20 +6629,6 @@
+@@ -6971,20 +6971,6 @@
  {
  	int repeated = 0;
  
 -#if ENABLE_FEATURE_SH_STANDALONE
--	if (strchr(cmd, '/') == NULL) {
--		int a = find_applet_by_name(cmd);
--		if (a >= 0) {
--			if (APPLET_IS_NOEXEC(a))
--				run_applet_no_and_exit(a, argv);
--			/* re-exec ourselves with the new arguments */
--			execve(bb_busybox_exec_path, argv, envp);
--			/* If they called chroot or otherwise made the binary no longer
--			 * executable, fall through */
+-	if (applet_no >= 0) {
+-		if (APPLET_IS_NOEXEC(applet_no)) {
+-			while (*envp)
+-				putenv(*envp++);
+-			run_applet_no_and_exit(applet_no, argv);
 -		}
+-		/* re-exec ourselves with the new arguments */
+-		execve(bb_busybox_exec_path, argv, envp);
+-		/* If they called chroot or otherwise made the binary no longer
+-		 * executable, fall through */
 -	}
 -#endif
 -
   repeat:
  #ifdef SYSV
  	do {
-@@ -6687,14 +6673,14 @@
+@@ -7034,14 +7020,14 @@
  
- 	clearredir(1);
- 	envp = environment();
--	if (strchr(argv[0], '/')
+ 	clearredir(/*drop:*/ 1);
+ 	envp = listvars(VEXPORT, VUNSET, 0);
+-	if (strchr(argv[0], '/') != NULL
 -#if ENABLE_FEATURE_SH_STANDALONE
--	 || find_applet_by_name(argv[0]) >= 0
+-	 || (applet_no = find_applet_by_name(argv[0])) >= 0
 -#endif
 -	) {
-+	if (strchr(argv[0], '/')) {
- 		tryexec(argv[0], argv, envp);
++	if (strchr(argv[0], '/') != NULL) {
+ 		tryexec(USE_FEATURE_SH_STANDALONE(applet_no,) argv[0], argv, envp);
  		e = errno;
  	} else {
 +#if ENABLE_FEATURE_SH_STANDALONE
@@ -64,11 +64,10 @@
  /* check if path points to an executable file;
   * return 1 if found;
   * return 0 otherwise;
-@@ -61,11 +64,59 @@
+@@ -68,11 +71,59 @@
  }
  
  #if ENABLE_FEATURE_PREFER_APPLETS
--/* just like the real execvp, but try to launch an applet named 'file' first
 +int bb_execv_applet(const char *name, char *const argv[], char *const envp[])
 +{
 +	const char **path = bb_busybox_exec_paths;
@@ -84,9 +83,9 @@
 +	return -1;
 +}
 +
-+/* just like the real execvp, but try to launch applet if exec failes
+ /* just like the real execvp, but try to launch an applet named 'file' first
   */
- int bb_execvp(const char *file, char *const argv[])
+ int FAST_FUNC bb_execvp(const char *file, char *const argv[])
  {
 -	return execvp(find_applet_by_name(file) >= 0 ? bb_busybox_exec_path : file,
 -					argv);
@@ -147,24 +146,23 @@
   * but I want to save a few bytes here. Check libbb.h before changing! */
 --- a/include/libbb.h
 +++ b/include/libbb.h
-@@ -651,11 +651,11 @@
+@@ -730,11 +730,11 @@
   * but it may exec busybox and call applet instead of searching PATH.
   */
  #if ENABLE_FEATURE_PREFER_APPLETS
-+int bb_execv_applet(const char *name, char *const argv[], char *const envp[]);
- int bb_execvp(const char *file, char *const argv[]);
++int bb_execv_applet(const char *name, char *const argv[], char *const envp[]) FAST_FUNC;
+ int bb_execvp(const char *file, char *const argv[]) FAST_FUNC;
 -#define BB_EXECVP(prog,cmd) bb_execvp(prog,cmd)
 -#define BB_EXECLP(prog,cmd,...) \
 -	execlp((find_applet_by_name(prog) >= 0) ? CONFIG_BUSYBOX_EXEC_PATH : prog, \
 -		cmd, __VA_ARGS__)
-+int bb_execlp(const char *file, const char *arg, ...);
++int bb_execlp(const char *file, const char *arg, ...) FAST_FUNC;
 +#define BB_EXECVP(prog,cmd)     bb_execvp(prog,cmd)
 +#define BB_EXECLP(prog,cmd,...) bb_execlp(prog,cmd, __VA_ARGS__)
  #else
  #define BB_EXECVP(prog,cmd)     execvp(prog,cmd)
  #define BB_EXECLP(prog,cmd,...) execlp(prog,cmd, __VA_ARGS__)
-@@ -1211,7 +1211,8 @@
- extern const char bb_path_motd_file[];
+@@ -1370,6 +1370,7 @@
  extern const char bb_path_wtmp_file[];
  extern const char bb_dev_null[];
  extern const char bb_busybox_exec_path[];
@@ -174,7 +172,7 @@
  extern const char bb_PATH_root_path[]; /* "PATH=/sbin:/usr/sbin:/bin:/usr/bin" */
 --- a/Config.in
 +++ b/Config.in
-@@ -238,13 +238,10 @@
+@@ -245,13 +245,10 @@
  
  config BUSYBOX_EXEC_PATH
  	string "Path to BusyBox executable"
@@ -182,9 +180,9 @@
 +	default "/bin/busybox"
  	help
  	  When Busybox applets need to run other busybox applets, BusyBox
--	  sometimes needs to exec() itself.  When the /proc filesystem is
+-	  sometimes needs to exec() itself. When the /proc filesystem is
 -	  mounted, /proc/self/exe always points to the currently running
--	  executable.  If you haven't got /proc, set this to wherever you
+-	  executable. If you haven't got /proc, set this to wherever you
 -	  want to run BusyBox from.
 +	  sometimes needs to exec() itself.
  

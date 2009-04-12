@@ -1,15 +1,15 @@
---- busybox.orig/Makefile.custom
-+++ busybox/Makefile.custom
-@@ -98,7 +98,7 @@
+--- a/Makefile.custom
++++ b/Makefile.custom
+@@ -103,7 +103,7 @@
  
  # Documentation Targets
  .PHONY: doc
 -doc: docs/busybox.pod docs/BusyBox.txt docs/BusyBox.1 docs/BusyBox.html
 +doc: docs/busybox.pod docs/BusyBox.txt docs/busybox.1 docs/BusyBox.html
  
- docs/busybox.pod: $(srctree)/docs/busybox_header.pod \
- 		$(srctree)/include/usage.h \
-@@ -115,10 +115,10 @@
+ # FIXME: Doesn't belong here
+ disp_doc = \
+@@ -124,10 +124,10 @@
  	$(Q)-mkdir -p docs
  	$(Q)-pod2text $< > $@
  

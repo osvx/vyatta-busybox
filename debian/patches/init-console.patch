@@ -1,6 +1,6 @@
---- busybox.orig/init/init.c
-+++ busybox/init/init.c
-@@ -505,13 +505,9 @@
+--- a/init/init.c
++++ b/init/init.c
+@@ -497,13 +497,9 @@
  	for (a = init_action_list; a; a = tmp) {
  		tmp = a->next;
  		if (a->action_type & action_type) {

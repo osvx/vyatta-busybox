@@ -1,6 +1,6 @@
---- busybox.orig/shell/ash.c
-+++ busybox/shell/ash.c
-@@ -1748,7 +1748,7 @@
+--- a/shell/ash.c
++++ b/shell/ash.c
+@@ -1764,7 +1764,7 @@
  	{ VSTRFIXED|VTEXTFIXED|VUNSET, "MAIL\0"    , changemail      },
  	{ VSTRFIXED|VTEXTFIXED|VUNSET, "MAILPATH\0", changemail      },
  #endif
