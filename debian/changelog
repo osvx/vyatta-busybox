@@ -2,6 +2,7 @@ busybox (1:1.13.3-1) UNRELEASED; urgency=low
 
   * New upstream release.
     - Unbreak compressed usage. (closes: #521443)
+  * [deb, udeb] Enable udhpc. (closes: #504089)
 
  -- Bastian Blank <waldi@debian.org>  Thu, 02 Apr 2009 18:16:21 +0200
 
