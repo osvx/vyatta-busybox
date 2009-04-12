@@ -3,3 +3,4 @@ shell-ash-export-HOME.patch
 applets-fallback.patch
 version.patch
 init-console.patch
+strip.patch

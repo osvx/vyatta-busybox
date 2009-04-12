@@ -5,6 +5,7 @@ busybox (1:1.13.3-1) UNRELEASED; urgency=low
   * [deb, udeb] Enable udhpc. (closes: #504089)
   * [udeb] Enable tftp. (closes: #510058)
   * [udeb] Enable tar archive creation. (closes: #487433)
+  * Make strip build option work correctly. (closes: #503581)
 
  -- Bastian Blank <waldi@debian.org>  Thu, 02 Apr 2009 18:16:21 +0200
 
