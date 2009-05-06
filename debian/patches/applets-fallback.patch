@@ -68,7 +68,7 @@
  }
  
  #if ENABLE_FEATURE_PREFER_APPLETS
-+int bb_execv_applet(const char *name, char *const argv[], char *const envp[])
++int FAST_FUNC bb_execv_applet(const char *name, char *const argv[], char *const envp[])
 +{
 +	const char **path = bb_busybox_exec_paths;
 +
@@ -96,7 +96,7 @@
 +	return execvp(file, argv);
 +}
 +
-+int bb_execlp(const char *file, const char *arg, ...)
++int FAST_FUNC bb_execlp(const char *file, const char *arg, ...)
 +{
 +#define INITIAL_ARGV_MAX 16
 +	size_t argv_max = INITIAL_ARGV_MAX;
