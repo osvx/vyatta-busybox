@@ -1,4 +1,4 @@
-busybox (1:1.13.3-1) UNRELEASED; urgency=low
+busybox (1:1.13.3-1) unstable; urgency=low
 
   * New upstream release.
     - Unbreak compressed usage. (closes: #521443)
@@ -7,7 +7,7 @@ busybox (1:1.13.3-1) UNRELEASED; urgency=low
   * [udeb] Enable tar archive creation. (closes: #487433)
   * Make strip build option work correctly. (closes: #503581)
 
- -- Bastian Blank <waldi@debian.org>  Thu, 02 Apr 2009 18:16:21 +0200
+ -- Bastian Blank <waldi@debian.org>  Wed, 06 May 2009 13:30:12 +0200
 
 busybox (1:1.10.2-2) unstable; urgency=low
 
