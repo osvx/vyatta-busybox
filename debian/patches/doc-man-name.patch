@@ -8,8 +8,8 @@
 +doc: docs/busybox.pod docs/BusyBox.txt docs/busybox.1 docs/BusyBox.html
  
  # FIXME: Doesn't belong here
- disp_doc = \
-@@ -124,10 +124,10 @@
+        cmd_doc =
+@@ -126,10 +126,10 @@
  	$(Q)-mkdir -p docs
  	$(Q)-pod2text $< > $@
  

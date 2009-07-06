@@ -1,6 +1,6 @@
 --- a/Makefile
 +++ b/Makefile
-@@ -689,20 +689,10 @@
+@@ -690,20 +690,10 @@
  endif # ifdef CONFIG_KALLSYMS
  
  # busybox image - including updated kernel symbols
