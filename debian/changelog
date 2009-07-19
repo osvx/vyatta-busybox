@@ -1,8 +1,12 @@
-busybox (1:1.14.2-1) UNRELEASED; urgency=low
+busybox (1:1.14.2-2) UNRELEASED; urgency=low
 
+  [ Bastian Blank ]
   * New upstream release.
 
- -- Bastian Blank <waldi@debian.org>  Mon, 06 Jul 2009 12:33:27 +0200
+  [ Otavio Salvador ]
+  * [udeb] Add an udhcpc script to be used by netcfg.
+
+ -- Otavio Salvador <otavio@ossystems.com.br>  Sun, 19 Jul 2009 14:43:18 -0300
 
 busybox (1:1.13.3-1) unstable; urgency=low
 
