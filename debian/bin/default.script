@@ -27,6 +27,11 @@ do_hostname() {
 }
 
 case "$1" in
+	deconfig)
+		ip addr flush dev "$interface"
+		ip link set "$interface" down 
+		;;
+
 	bound|renew)
 		do_hostname
 		
