@@ -90,8 +90,6 @@ binary-arch_udeb: $(STAMPS_DIR)/build_udeb
 	# used.
 	rm -f $(DIR)/_install/sbin/init
 	dh_install --sourcedir=$(DIR)
-	install -D -m755 debian/bin/default.script \
-		debian/$(PACKAGE)/usr/share/udhcpc/default.script
 	$(MAKE) -f debian/rules binary-arch_all
 
 binary-arch_all:
