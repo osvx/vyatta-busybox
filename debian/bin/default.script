@@ -28,8 +28,8 @@ do_hostname() {
 
 case "$1" in
 	deconfig)
+		ip link set "$interface" up
 		ip addr flush dev "$interface"
-		ip link set "$interface" down 
 		;;
 
 	bound|renew)
@@ -43,8 +43,6 @@ case "$1" in
 			broadcast="broadcast $broadcast"
 		fi
 
-		ip link set "$interface" up
-		ip addr flush dev "$interface"
 		ip addr add "$ip$subnet" "$broadcast" dev "$interface"
 
 		if [ -n "$mtu" ]; then
