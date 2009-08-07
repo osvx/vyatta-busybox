@@ -1,2 +1,2 @@
 _install/* /
-../../bin/default.script usr/share/udhcpc
+../../contrib/default.script usr/share/udhcpc
