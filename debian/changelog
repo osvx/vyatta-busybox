@@ -1,4 +1,4 @@
-busybox (1:1.14.2-2) UNRELEASED; urgency=low
+busybox (1:1.14.2-1) UNRELEASED; urgency=low
 
   [ Bastian Blank ]
   * New upstream release.
@@ -6,6 +6,9 @@ busybox (1:1.14.2-2) UNRELEASED; urgency=low
 
   [ Otavio Salvador ]
   * [udeb] Add an udhcpc script to be used by netcfg.
+
+  [ Max Vozeler ]
+  * Backport mkswap UUID support. (closes: #531572)
 
  -- Otavio Salvador <otavio@ossystems.com.br>  Sun, 19 Jul 2009 14:43:18 -0300
 
