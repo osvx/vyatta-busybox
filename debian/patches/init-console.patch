@@ -4,7 +4,7 @@
  	for (a = init_action_list; a; a = a->next) {
  		if (!(a->action_type & action_type))
  			continue;
-+		if (!(a->terminal[0] && access(a->terminal, R_OK | W_OK)))
++		if (a->terminal[0] && access(a->terminal, R_OK | W_OK))
 +			continue;
  
  		if (a->action_type & (SYSINIT | WAIT | ONCE | CTRLALTDEL | SHUTDOWN)) {

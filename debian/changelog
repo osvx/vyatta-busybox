@@ -1,3 +1,9 @@
+busybox (1:1.14.2-2) UNRELEASED; urgency=low
+
+  * Fix handling of missing devices in init. (closes: #541115)
+
+ -- Bastian Blank <waldi@debian.org>  Thu, 20 Aug 2009 15:58:14 +0200
+
 busybox (1:1.14.2-1) unstable; urgency=low
 
   [ Bastian Blank ]
