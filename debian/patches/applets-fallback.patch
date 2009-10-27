@@ -1,6 +1,6 @@
 --- a/scripts/defconfig
 +++ b/scripts/defconfig
-@@ -32,7 +32,7 @@
+@@ -33,7 +33,7 @@
  CONFIG_FEATURE_SUID_CONFIG_QUIET=y
  # CONFIG_SELINUX is not set
  # CONFIG_FEATURE_PREFER_APPLETS is not set
@@ -11,7 +11,7 @@
  
 --- a/shell/ash.c
 +++ b/shell/ash.c
-@@ -7087,20 +7087,6 @@
+@@ -7169,20 +7169,6 @@
  {
  	int repeated = 0;
  
@@ -32,7 +32,7 @@
   repeat:
  #ifdef SYSV
  	do {
-@@ -7150,14 +7136,14 @@
+@@ -7232,14 +7218,14 @@
  
  	clearredir(/*drop:*/ 1);
  	envp = listvars(VEXPORT, VUNSET, 0);
@@ -42,7 +42,7 @@
 -#endif
 -	) {
 +	if (strchr(argv[0], '/') != NULL) {
- 		tryexec(USE_FEATURE_SH_STANDALONE(applet_no,) argv[0], argv, envp);
+ 		tryexec(IF_FEATURE_SH_STANDALONE(applet_no,) argv[0], argv, envp);
  		e = errno;
  	} else {
 +#if ENABLE_FEATURE_SH_STANDALONE
@@ -50,7 +50,7 @@
 +#endif
 +
  		e = ENOENT;
- 		while ((cmdname = padvance(&path, argv[0])) != NULL) {
+ 		while ((cmdname = path_advance(&path, argv[0])) != NULL) {
  			if (--idx < 0 && pathopt == NULL) {
 --- a/libbb/execable.c
 +++ b/libbb/execable.c
@@ -146,7 +146,7 @@
   * but I want to save a few bytes here. Check libbb.h before changing! */
 --- a/include/libbb.h
 +++ b/include/libbb.h
-@@ -741,11 +741,11 @@
+@@ -758,11 +758,11 @@
   * but it may exec busybox and call applet instead of searching PATH.
   */
  #if ENABLE_FEATURE_PREFER_APPLETS
@@ -162,7 +162,7 @@
  #else
  #define BB_EXECVP(prog,cmd)     execvp(prog,cmd)
  #define BB_EXECLP(prog,cmd,...) execlp(prog,cmd, __VA_ARGS__)
-@@ -1427,6 +1427,7 @@
+@@ -1455,6 +1455,7 @@
  extern const char bb_path_wtmp_file[];
  extern const char bb_dev_null[];
  extern const char bb_busybox_exec_path[];
@@ -172,7 +172,7 @@
  extern const char bb_PATH_root_path[]; /* "PATH=/sbin:/usr/sbin:/bin:/usr/bin" */
 --- a/Config.in
 +++ b/Config.in
-@@ -245,13 +245,10 @@
+@@ -255,13 +255,10 @@
  
  config BUSYBOX_EXEC_PATH
  	string "Path to BusyBox executable"

@@ -1,3 +1,9 @@
+busybox (1:1.15.2-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Bastian Blank <waldi@debian.org>  Sun, 18 Oct 2009 12:08:04 +0200
+
 busybox (1:1.14.2-2) unstable; urgency=low
 
   * Fix handling of missing devices in init. (closes: #541115)

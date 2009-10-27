@@ -4,4 +4,3 @@ applets-fallback.patch
 version.patch
 init-console.patch
 strip.patch
-utillinux-mkswap-uuid.patch

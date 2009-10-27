@@ -1,6 +1,6 @@
 --- a/shell/ash.c
 +++ b/shell/ash.c
-@@ -1766,7 +1766,7 @@
+@@ -1773,7 +1773,7 @@
  	{ VSTRFIXED|VTEXTFIXED|VUNSET, "MAIL\0"    , changemail      },
  	{ VSTRFIXED|VTEXTFIXED|VUNSET, "MAILPATH\0", changemail      },
  #endif
