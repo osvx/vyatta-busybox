@@ -1,6 +1,18 @@
 busybox (1:1.15.2-1) UNRELEASED; urgency=low
 
+  [ Bastian Blank ]
   * New upstream release.
+
+  [ Axel Beckert ]
+  * Add binary packages containing symbolic links for
+    syslogd/klogd/logread. (Closes: #537623)
+  * Add binary packages containing symbolic links for udhcpc and udhcpd plus
+    configuration (based on the old udhcp source package).
+  * Added transtional packages to replace udhcpc and udhcpd by
+    busybox-udhcpc and busybox-udhcpd. (Closes: #503529)
+  * Enabled PID file support in normal and static build (needed for at
+    least udhcpc and udhcpd in a non-volatile environment)
+  * Fixed typo in copyright file
 
  -- Bastian Blank <waldi@debian.org>  Sun, 18 Oct 2009 12:08:04 +0200
 
