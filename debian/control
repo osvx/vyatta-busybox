@@ -20,10 +20,12 @@ Description: Tiny utilities for small and embedded systems
  provide the expected functionality and behave very much like their GNU
  counterparts.
  .
- This package installs the BusyBox binary but does not install symlinks
- for any of the supported utilities. You can use /bin/busybox --install
- to install BusyBox to the current directory (you do not want to do this
- in / on your Debian system!).
+ This package installs the BusyBox binary but does not install
+ symlinks for any of the supported utilities. Some of the utilities
+ can be used in the system by installing the busybox-syslogd,
+ busybox-udhcpc or busybox-udhcpd packages. You can also use
+ /bin/busybox --install to install BusyBox to the current directory
+ (but you do not want to do this in / on your Debian system!)
 
 Package: busybox-static
 Architecture: any
@@ -67,3 +69,50 @@ Description: Tiny utilities for the debian-installer
  the debian-installer, this package is not for you. Installing this 
  on your Debian system is a very, very bad idea. You have been warned.
 
+Package: busybox-syslogd
+Architecture: all
+Depends: busybox | busybox-static
+Provides: linux-kernel-log-daemon, system-log-daemon, klogd, syslogd
+Replaces: sysklogd, klogd, inetutils-syslogd
+Conflicts: klogd, syslogd, sysklogd, linux-kernel-log-daemon, system-log-daemon
+Description: Provides syslogd and klogd using busybox
+ The system log daemon is responsible for providing logging of
+ messages received from programs and facilities on the local host as
+ well as from remote hosts.
+ .
+ The kernel log daemon listens to kernel message sources and is
+ responsible for prioritizing and processing operating system
+ messages.
+ .
+ The busybox implementation of the syslogd is particular useful on
+ embedded, diskless (netboot) or flash disk based systems because it
+ can use a fixed size ring buffer for logging instead of saving logs
+ to the disk or sending it to remote logging servers. The ring buffer
+ can be read using the (also busybox based) command logread.
+ .
+ This package provides the glue to the busybox syslogd and klogd to be
+ used in the system by providing the appropriate symbolic links and
+ scripts.
+
+Package: udhcpc
+Architecture: all
+Depends: busybox (>= ${source:Version}) | busybox-static (>= ${source:Version})
+Description: Provides the busybox DHCP client implementation
+ Busybox contains a very small yet fully function RFC compliant DHCP
+ client formerly known as udhcpc.
+ .
+ This package contains the glue to use the busybox udhcpc as DHCP
+ client in the system by providing the appropriate symbolic links and
+ scripts.
+
+Package: udhcpd
+Architecture: all
+Depends: busybox (>= ${source:Version}) | busybox-static (>= ${source:Version})
+Provides: dhcpd
+Description: Provides the busybox DHCP server implementation
+ Busybox contains a very small yet fully function RFC compliant DHCP
+ server formerly known as udhcpd.
+ .
+ This package contains the glue to use the busybox udhcpd as DHCP
+ server in the system by providing the appropriate symbolic links and
+ scripts.

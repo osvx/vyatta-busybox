@@ -42,6 +42,11 @@ $(STAMPS_DIR)/build_%: $(STAMPS_DIR)/setup_%
 	$(MAKE) -C '$(DIR)' install docs/busybox.1 BB_EXTRA_VERSION="$(shell lsb_release -is) $(VERSION_DEBIAN)"
 	touch $@
 
+$(STAMPS_DIR)/indepbuild_%: DIR=$(BUILD_DIR)/indepbuild_$*
+$(STAMPS_DIR)/indepbuild_%: 
+	dh_testdir
+	touch $@
+
 $(BUILD_DIR) $(STAMPS_DIR):
 	@[ -d $@ ] || mkdir $@
 
@@ -53,7 +58,7 @@ clean:
 	rm -rf $(BUILD_DIR) $(STAMPS_DIR)
 	dh_clean
 
-binary-indep:
+binary-indep: binary-indep_busybox-syslogd binary-indep_udhcpc binary-indep_udhcpd
 
 binary-arch: binary-arch_busybox binary-arch_busybox-static binary-arch_busybox-udeb
 
@@ -97,6 +102,46 @@ binary-arch_all:
 	dh_fixperms
 	dh_installdeb
 	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary-indep_busybox-syslogd: export DH_OPTIONS = -pbusybox-syslogd
+binary-indep_busybox-syslogd:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -d
+	dh_link
+	dh_installinit -u"defaults 10 90"
+	dh_installinit -u"defaults 11 89" --name=busybox-klogd
+	$(MAKE) -f debian/rules binary-indep_all
+
+binary-indep_udhcpc: export DH_OPTIONS = -pudhcpc
+binary-indep_udhcpc:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -d
+	dh_link
+	dh_install -X.svn
+	$(MAKE) -f debian/rules binary-indep_all
+
+binary-indep_udhcpd: export DH_OPTIONS = -pudhcpd
+binary-indep_udhcpd:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -d
+	dh_link
+	dh_installinit --onlyscripts
+	dh_install -X.svn
+	$(MAKE) -f debian/rules binary-indep_all
+
+binary-indep_all:
+	dh_installdirs
+	dh_installdocs
+	dh_installchangelogs
+	dh_compress
+	dh_fixperms
+	dh_installdeb
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb
