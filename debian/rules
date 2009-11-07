@@ -63,7 +63,7 @@ binary-arch_deb: $(STAMPS_DIR)/build_deb
 	dh_testdir
 	dh_testroot
 	dh_clean -k -d
-	dh_install --sourcedir=$(DIR)
+	dh_install -X.svn --sourcedir=$(DIR)
 	$(MAKE) -f debian/rules binary-arch_all
 
 binary-arch_static: PACKAGE = busybox-static
@@ -73,9 +73,7 @@ binary-arch_static: $(STAMPS_DIR)/build_static
 	dh_testdir
 	dh_testroot
 	dh_clean -k -d
-	dh_install --sourcedir=$(DIR)
-	install -D -m644 debian/$(PACKAGE).override \
-		debian/$(PACKAGE)/usr/share/lintian/overrides/$(PACKAGE)
+	dh_install -X.svn --sourcedir=$(DIR)
 	$(MAKE) -f debian/rules binary-arch_all
 
 binary-arch_udeb: PACKAGE = busybox-udeb
@@ -89,7 +87,7 @@ binary-arch_udeb: $(STAMPS_DIR)/build_udeb
 	# Remove init link, but init support is still compiled in to be
 	# used.
 	rm -f $(DIR)/_install/sbin/init
-	dh_install --sourcedir=$(DIR)
+	dh_install -X.svn --sourcedir=$(DIR)
 	$(MAKE) -f debian/rules binary-arch_all
 
 binary-arch_all:

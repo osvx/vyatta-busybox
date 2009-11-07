@@ -1,2 +1,2 @@
+../../tree/busybox-udeb/* /
 _install/* /
-../../contrib/default.script usr/share/udhcpc
