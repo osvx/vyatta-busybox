@@ -21,7 +21,7 @@
 # Suite 330, Boston, MA 02111-1307 USA
 #
 ### BEGIN INIT INFO
-# Provides:          klogd
+# Provides:          busybox-klogd klogd
 # Required-Start:    
 # Required-Stop:
 # Should-Start:      syslogd
