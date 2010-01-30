@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 # udhcpc client script to be used by Debian Installer
-# Copyright (C) 2009 Otavio Salvador <otavio@debian.org>
+# Copyright (C) 2009, 2010 Otavio Salvador <otavio@debian.org>
 
 do_resolv_conf() {
 	local cfg=/etc/resolv.conf
@@ -26,6 +26,23 @@ do_hostname() {
 	fi
 }
 
+do_leases() {
+	local file="/var/lib/udhcp/udhcpc.leases"
+
+	mkdir -p /var/lib/udhcp
+	cat > $file <<EOF
+lease {
+  interface "$interface";
+  fixed-address "$ip";
+  filename "$boot_file";
+  subnet-mask "$subnet";
+  option domain-nam "$domain";
+  option routers "$router";
+  option ntp-servers "$ntpsrv";
+}
+EOF
+}
+
 case "$1" in
 	deconfig)
 		ip link set "$interface" up
@@ -39,11 +56,7 @@ case "$1" in
 			subnet="/$subnet"
 		fi
 
-		if [ -n "$broadcast" ]; then
-			broadcast="broadcast $broadcast"
-		fi
-
-		ip addr add "$ip$subnet" "$broadcast" dev "$interface"
+		ip addr add "$ip$subnet" dev "$interface"
 
 		if [ -n "$mtu" ]; then
 			ip link set "$interface" mtu "$mtu"
@@ -61,6 +74,10 @@ case "$1" in
 		if [ -n "$ntpsrv" ]; then
 			printf "$ntpsrv" > /tmp/dhcp-ntp-servers
 		fi
+
+		logger -t udhcpc "Got IP $ip (using $interface) and routing through $router"
+
+		do_leases
 		;;
 	*)
 		echo "udhcpc: has been called with an unknown param: $1"

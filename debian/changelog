@@ -14,6 +14,7 @@ busybox (1:1.15.2-1) UNRELEASED; urgency=low
 
   [ Otavio Salvador ]
   * [udeb] set executable bit in udhcpc script
+  * [udeb] write a lease file for udhcpc response
 
  -- Bastian Blank <waldi@debian.org>  Sun, 18 Oct 2009 12:08:04 +0200
 
