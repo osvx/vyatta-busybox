@@ -12,6 +12,9 @@ busybox (1:1.15.2-1) UNRELEASED; urgency=low
     least udhcpc and udhcpd in a non-volatile environment)
   * Fixed typo in copyright file
 
+  [ Otavio Salvador ]
+  * [udeb] set executable bit in udhcpc script
+
  -- Bastian Blank <waldi@debian.org>  Sun, 18 Oct 2009 12:08:04 +0200
 
 busybox (1:1.14.2-2) unstable; urgency=low
