@@ -38,11 +38,11 @@ lease {
   option subnet-mask $subnet;
   option domain-name "$domain";
   option host-name "$hostname";
-  option domain-name-servers $dns;
+  option domain-name-servers ${dns/ /,};
   option dhcp-server-identifier $serverid;
   option dhcp-lease-time $lease;
   option routers $router;
-  option ntp-servers "$ntpsrv";
+  option ntp-servers $ntpsrv;
 }
 EOF
 }
