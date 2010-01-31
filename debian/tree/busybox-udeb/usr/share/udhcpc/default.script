@@ -33,11 +33,15 @@ do_leases() {
 	cat > $file <<EOF
 lease {
   interface "$interface";
-  fixed-address "$ip";
+  fixed-address $ip;
   filename "$boot_file";
-  subnet-mask "$subnet";
-  option domain-nam "$domain";
-  option routers "$router";
+  option subnet-mask $subnet;
+  option domain-name "$domain";
+  option host-name "$hostname";
+  option domain-name-servers $dns;
+  option dhcp-server-identifier $serverid;
+  option dhcp-lease-time $lease;
+  option routers $router;
   option ntp-servers "$ntpsrv";
 }
 EOF
@@ -52,11 +56,7 @@ case "$1" in
 	bound|renew)
 		do_hostname
 		
-		if [ -n "$subnet" ]; then
-			subnet="/$subnet"
-		fi
-
-		ip addr add "$ip$subnet" dev "$interface"
+		ip addr add "$ip/$subnet" dev "$interface"
 
 		if [ -n "$mtu" ]; then
 			ip link set "$interface" mtu "$mtu"
@@ -77,7 +77,7 @@ case "$1" in
 
 		logger -t udhcpc "Got IP $ip (using $interface) and routing through $router"
 
-		do_leases
+		do_lease
 		;;
 	*)
 		echo "udhcpc: has been called with an unknown param: $1"
