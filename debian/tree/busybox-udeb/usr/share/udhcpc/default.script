@@ -77,7 +77,7 @@ case "$1" in
 
 		logger -t udhcpc "Got IP $ip (using $interface) and routing through $router"
 
-		do_lease
+		do_leases
 		;;
 	*)
 		echo "udhcpc: has been called with an unknown param: $1"
