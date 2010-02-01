@@ -34,7 +34,7 @@ do_leases() {
 	local file="/var/lib/udhcp/udhcpc.leases"
 
 	mkdir -p /var/lib/udhcp
-	cat > $file <<EOF
+	cat >> $file <<EOF
 lease {
   interface "$interface";
   fixed-address $ip;
