@@ -1,7 +1,8 @@
-busybox (1:1.15.2-1) UNRELEASED; urgency=low
+busybox (1:1.15.3-1) UNRELEASED; urgency=low
 
   [ Bastian Blank ]
   * New upstream release.
+  * Use 3.0 (quilt) source format.
 
   [ Axel Beckert ]
   * Add binary packages containing symbolic links for
