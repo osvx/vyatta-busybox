@@ -8,7 +8,7 @@ Standards-Version: 3.7.3
 
 Package: busybox
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts: busybox-static
 Replaces: busybox-static
 Description: Tiny utilities for small and embedded systems
@@ -29,7 +29,7 @@ Description: Tiny utilities for small and embedded systems
 
 Package: busybox-static
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts: busybox
 Replaces: busybox
 Priority: extra
@@ -53,7 +53,7 @@ Description: Standalone rescue shell with tons of builtin utilities
 Package: busybox-udeb
 XC-Package-Type: udeb
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Section: debian-installer
 Priority: extra
 Description: Tiny utilities for the debian-installer
@@ -71,7 +71,7 @@ Description: Tiny utilities for the debian-installer
 
 Package: busybox-syslogd
 Architecture: all
-Depends: busybox | busybox-static
+Depends: busybox (>= ${source:Version}) | busybox-static (>= ${source:Version}), ${misc:Depends}
 Provides: linux-kernel-log-daemon, system-log-daemon, klogd, syslogd
 Replaces: sysklogd, klogd, inetutils-syslogd
 Conflicts: klogd, syslogd, sysklogd, linux-kernel-log-daemon, system-log-daemon
@@ -96,7 +96,7 @@ Description: Provides syslogd and klogd using busybox
 
 Package: udhcpc
 Architecture: all
-Depends: busybox (>= ${source:Version}) | busybox-static (>= ${source:Version})
+Depends: busybox (>= ${source:Version}) | busybox-static (>= ${source:Version}), ${misc:Depends}
 Description: Provides the busybox DHCP client implementation
  Busybox contains a very small yet fully function RFC compliant DHCP
  client formerly known as udhcpc.
@@ -107,7 +107,7 @@ Description: Provides the busybox DHCP client implementation
 
 Package: udhcpd
 Architecture: all
-Depends: busybox (>= ${source:Version}) | busybox-static (>= ${source:Version})
+Depends: busybox (>= ${source:Version}) | busybox-static (>= ${source:Version}), ${misc:Depends}
 Provides: dhcpd
 Description: Provides the busybox DHCP server implementation
  Busybox contains a very small yet fully function RFC compliant DHCP
