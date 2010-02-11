@@ -3,6 +3,7 @@ busybox (1:1.15.3-1) UNRELEASED; urgency=low
   [ Bastian Blank ]
   * New upstream release.
   * Use 3.0 (quilt) source format.
+  * Use debhelper compat level 7.
 
   [ Axel Beckert ]
   * Add binary packages containing symbolic links for

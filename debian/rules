@@ -64,7 +64,7 @@ binary-arch_busybox: export DH_OPTIONS = -pbusybox
 binary-arch_busybox: $(STAMPS_DIR)/build_deb
 	dh_testdir
 	dh_testroot
-	dh_clean -k -d
+	dh_prep
 	dh_install -X.svn --sourcedir=$(DIR)
 	@$(MAKE) -f debian/rules binary-arch_all
 
@@ -73,7 +73,7 @@ binary-arch_busybox-static: export DH_OPTIONS = -pbusybox-static
 binary-arch_busybox-static: $(STAMPS_DIR)/build_static
 	dh_testdir
 	dh_testroot
-	dh_clean -k -d
+	dh_prep
 	dh_install -X.svn --sourcedir=$(DIR)
 	@$(MAKE) -f debian/rules binary-arch_all
 
@@ -82,7 +82,7 @@ binary-arch_busybox-udeb: export DH_OPTIONS = -pbusybox-udeb
 binary-arch_busybox-udeb: $(STAMPS_DIR)/build_udeb
 	dh_testdir
 	dh_testroot
-	dh_clean -k -d
+	dh_prep
 	# Remove init link, but init support is still compiled in to be
 	# used.
 	rm -f $(DIR)/_install/sbin/init
@@ -107,7 +107,7 @@ binary-indep_busybox-syslogd: export DH_OPTIONS = -pbusybox-syslogd
 binary-indep_busybox-syslogd:
 	dh_testdir
 	dh_testroot
-	dh_clean -k -d
+	dh_prep
 	dh_link
 	dh_installinit -u"defaults 10 90"
 	dh_installinit -u"defaults 11 89" --name=busybox-klogd
@@ -117,7 +117,7 @@ binary-indep_udhcpc: export DH_OPTIONS = -pudhcpc
 binary-indep_udhcpc:
 	dh_testdir
 	dh_testroot
-	dh_clean -k -d
+	dh_prep
 	dh_link
 	dh_install -X.svn
 	$(MAKE) -f debian/rules binary-indep_all
@@ -126,7 +126,7 @@ binary-indep_udhcpd: export DH_OPTIONS = -pudhcpd
 binary-indep_udhcpd:
 	dh_testdir
 	dh_testroot
-	dh_clean -k -d
+	dh_prep
 	dh_link
 	dh_installinit --onlyscripts
 	dh_install -X.svn
