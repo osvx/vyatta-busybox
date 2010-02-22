@@ -1,4 +1,4 @@
-busybox (1:1.15.3-1) UNRELEASED; urgency=low
+busybox (1:1.15.3-1) unstable; urgency=low
 
   [ Bastian Blank ]
   * New upstream release.
@@ -21,7 +21,7 @@ busybox (1:1.15.3-1) UNRELEASED; urgency=low
   [ Frans Pop ]
   * [udeb] disable CONFIG_CTTYHACK as it's no longer used in D-I.
 
- -- Bastian Blank <waldi@debian.org>  Sun, 18 Oct 2009 12:08:04 +0200
+ -- Bastian Blank <waldi@debian.org>  Mon, 22 Feb 2010 10:13:57 +0100
 
 busybox (1:1.14.2-2) unstable; urgency=low
 
