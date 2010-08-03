@@ -2,6 +2,7 @@
 
 SHELL := sh -e
 DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+DEB_HOST_ARCH_OS := $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 DEB_BUILD_ARCH := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 SOURCE := $(shell dpkg-parsechangelog | sed -ne 's,^Source: *\(.*\)$$,\1,p')
 VERSION_DEBIAN := $(shell dpkg-parsechangelog | sed -ne 's,^Version: *\(.*\)$$,\1,p')
@@ -27,7 +28,7 @@ $(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/patch
 	rm -rf '$(DIR)'
 	mkdir -p '$(DIR)'
 	cp -a $(SOURCE_FILES) '$(DIR)'
-	cp debian/config/$* '$(DIR)'/.config
+	cat debian/config/os/$(DEB_HOST_ARCH_OS) debian/config/pkg/$* > '$(DIR)'/.config
 	$(MAKE) -C '$(DIR)' oldconfig
 	touch $@
 

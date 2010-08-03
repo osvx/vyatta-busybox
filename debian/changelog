@@ -22,6 +22,9 @@ busybox (1:1.17.1-1) UNRELEASED; urgency=low
     - debian/patches/applets-fallback.patch
     - debian/patches/doc-man-name.patch
     - debian/patches/shell-ash-export-HOME.patch
+  * Add per-OS configuration overrides.
+  * Add FreeBSD and Hurd compatibility patches from the latest git upstream
+    branch, and a few more to be merged soon (Closes: #323670).
 
  -- Aurelien Jarno <aurel32@debian.org>  Sun, 01 Aug 2010 23:57:28 +0200
 
