@@ -1,3 +1,30 @@
+busybox (1:1.17.1-1) UNRELEASED; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream release.
+    - Add --list option (Closes: #405108).
+    - Fix nc segfaults (Closes: #503672).
+    - Enable new options:
+      [all] Add support for unicode (Closes: #395227, #570789)
+      [all] Enable btrfs volume identification
+  * Update configuration:
+    [udeb/deb] Enable dd conv=notrunc (Closes: #552495)
+  * Fix busybox-udeb description: s/busybox-cvs-udeb/busybox-udeb/
+  * Fix busybox description wrt --install option (Closes: #326243).
+  * Fix /etc/init.d/udhcpd restart (Closes: #581342)
+  * Fix /etc/init.d/busybox-{klogd,syslogd} to correctly depend on 
+    $remote_fs.
+  * Fix bashism in udhcpc default.script (Closes: #572008, #572013,
+    #572622).
+
+  [ Jérémie Koenig ]
+  * Refresh patches:
+    - debian/patches/applets-fallback.patch
+    - debian/patches/doc-man-name.patch
+    - debian/patches/shell-ash-export-HOME.patch
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 01 Aug 2010 23:57:28 +0200
+
 busybox (1:1.15.3-1) unstable; urgency=low
 
   [ Bastian Blank ]

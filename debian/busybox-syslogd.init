@@ -22,8 +22,8 @@
 #
 ### BEGIN INIT INFO
 # Provides:          busybox-syslogd syslogd
-# Required-Start:    
-# Required-Stop:
+# Required-Start:    $remote_fs
+# Required-Stop:     $remote_fs
 # Should-Start:      
 # Should-Stop:
 # Default-Start:     2 3 4 5

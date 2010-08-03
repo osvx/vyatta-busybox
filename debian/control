@@ -23,9 +23,7 @@ Description: Tiny utilities for small and embedded systems
  This package installs the BusyBox binary but does not install
  symlinks for any of the supported utilities. Some of the utilities
  can be used in the system by installing the busybox-syslogd,
- busybox-udhcpc or busybox-udhcpd packages. You can also use
- /bin/busybox --install to install BusyBox to the current directory
- (but you do not want to do this in / on your Debian system!)
+ busybox-udhcpc or busybox-udhcpd packages.
 
 Package: busybox-static
 Architecture: any
@@ -65,7 +63,7 @@ Description: Tiny utilities for the debian-installer
  provide the expected functionality and behave very much like their GNU
  counterparts.
  .
- busybox-cvs-udeb is used by the debian-installer, so unless you are working on
+ busybox-udeb is used by the debian-installer, so unless you are working on
  the debian-installer, this package is not for you. Installing this 
  on your Debian system is a very, very bad idea. You have been warned.
 
