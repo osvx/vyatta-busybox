@@ -1,4 +1,4 @@
-busybox (1:1.17.1-1) UNRELEASED; urgency=low
+busybox (1:1.17.1-1) experimental; urgency=low
 
   [ Aurelien Jarno ]
   * New upstream release.
@@ -27,7 +27,7 @@ busybox (1:1.17.1-1) UNRELEASED; urgency=low
     branch, and a few more to be merged soon (Closes: #323670).
   * scripts/gen_build_files.sh: skip .pc files from quilt.
 
- -- Aurelien Jarno <aurel32@debian.org>  Sun, 01 Aug 2010 23:57:28 +0200
+ -- Aurelien Jarno <aurel32@debian.org>  Tue, 03 Aug 2010 06:42:39 +0200
 
 busybox (1:1.15.3-1) unstable; urgency=low
 
