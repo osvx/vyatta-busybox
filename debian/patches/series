@@ -4,6 +4,7 @@ applets-fallback.patch
 version.patch
 init-console.patch
 strip.patch
+make_gen_build_files_skip_quilt.patch
 
 # The following patches have been merged upstream and will be in version 1.18
 readlink-use-xmalloc_realpath.patch
