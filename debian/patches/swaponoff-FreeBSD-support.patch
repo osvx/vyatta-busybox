@@ -109,7 +109,7 @@ index caef564..bcd6d18 100644
  # include <sys/mount.h>
 +# include <sys/swap.h>
  # define MS_NOSUID      MNT_NOSUID
- # define MS_NODEV       0
+ # define MS_NODEV       MNT_NODEV
  # define MS_NOEXEC      MNT_NOEXEC
 @@ -82,16 +84,18 @@
  #endif

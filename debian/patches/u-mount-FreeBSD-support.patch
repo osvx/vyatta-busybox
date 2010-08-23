@@ -207,7 +207,7 @@ new file mode 100644
 index 0000000..3f322b8
 --- /dev/null
 +++ b/util-linux/xmount.c
-@@ -0,0 +1,66 @@
+@@ -0,0 +1,70 @@
 +#include "libbb.h"
 +#include "xmount.h"
 +
@@ -258,7 +258,11 @@ index 0000000..3f322b8
 +
 +	build_iovec(&iov, &iovlen, "fstype", (void*)filesystemtype, (size_t)-1);
 +	build_iovec(&iov, &iovlen, "fspath", fspath, (size_t)-1);
-+	build_iovec(&iov, &iovlen, "from", from, (size_t)-1);
++	if (!strcmp(filesystemtype, "nullfs"))
++		/* nullfs uses a "target" instead of "from" */
++		build_iovec(&iov, &iovlen, "target", from, (size_t)-1);
++	else
++		build_iovec(&iov, &iovlen, "from", from, (size_t)-1);
 +
 +	ret = nmount(iov, iovlen, mountflags);
 +
@@ -339,7 +343,7 @@ index 0000000..caef564
 +#elif defined(__FreeBSD_kernel__)
 +# include <sys/mount.h>
 +# define MS_NOSUID      MNT_NOSUID
-+# define MS_NODEV       0
++# define MS_NODEV       MNT_NODEV
 +# define MS_NOEXEC      MNT_NOEXEC
 +# define MS_SYNCHRONOUS MNT_SYNCHRONOUS
 +# define MS_DIRSYNC     0
@@ -348,7 +352,7 @@ index 0000000..caef564
 +# define MS_MANDLOCK    0
 +# define MS_RELATIME    0
 +# define MS_SILENT      0
-+# define MS_UNION       0
++# define MS_UNION       MNT_UNION
 +# define MS_BIND        0
 +# define MS_MOVE        0
 +# define MS_SHARED      0
