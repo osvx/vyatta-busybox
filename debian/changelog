@@ -1,3 +1,9 @@
+busybox (1:1.17.1-5) UNRELEASED; urgency=low
+
+  * Never execute busybox applets when chrooting (closes: #599101).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 04 Oct 2010 17:31:41 +0100
+
 busybox (1:1.17.1-4) unstable; urgency=low
 
   * Update u-mount-FreeBSD-support.patch: 
