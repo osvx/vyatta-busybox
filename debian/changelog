@@ -1,6 +1,11 @@
 busybox (1:1.17.1-5) UNRELEASED; urgency=low
 
+  [ Colin Watson ]
   * Never execute busybox applets when chrooting (closes: #599101).
+
+  [ Otavio Salvador ]
+  * Fix initscript error messages in syslogd and klogd (closes:
+    #591436).
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 04 Oct 2010 17:31:41 +0100
 

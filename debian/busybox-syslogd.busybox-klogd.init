@@ -79,7 +79,7 @@ stop_server() {
 }
 
 running() {
-    cut -d ' ' -f 1-2 /proc/[0-9]*/stat | grep -F "($NAME)"
+    cut -d ' ' -f 1-2 /proc/[0-9]*/stat 2> /dev/null | grep -F "($NAME)"
 }
 
 case "$1" in
