@@ -27,3 +27,6 @@ update-scripts-kconfig-_shipped.patch
 # The following patches will likely be merged soon
 u-mount-FreeBSD-support.patch
 swaponoff-FreeBSD-support.patch
+
+# not sent upstream
+init-console-CRTSCTS.patch
