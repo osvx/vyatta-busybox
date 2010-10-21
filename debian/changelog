@@ -1,9 +1,9 @@
-busybox (1:1.17.1-6) UNRELEASED; urgency=low
+busybox (1:1.17.1-6) unstable; urgency=low
 
   * Apply patch from Samuel Thibault <sthibault@debian.org> to enable
     hardware flow control for serial console (closes: #528560).
 
- -- Otavio Salvador <otavio@ossystems.com.br>  Thu, 21 Oct 2010 15:38:27 -0200
+ -- Otavio Salvador <otavio@debian.org>  Thu, 21 Oct 2010 16:17:03 -0200
 
 busybox (1:1.17.1-5) unstable; urgency=low
 
