@@ -1,3 +1,10 @@
+busybox (1:1.17.1-7) UNRELEASED; urgency=low
+
+  * Backport blockdev applet from upstream, so that we can use it in
+    os-prober (closes: #418163).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 09 Nov 2010 10:28:20 +0000
+
 busybox (1:1.17.1-6) unstable; urgency=low
 
   * Apply patch from Samuel Thibault <sthibault@debian.org> to enable

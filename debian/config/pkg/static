@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.17.1
-# Sun Aug  1 09:18:32 2010
+# Tue Nov  9 10:36:06 2010
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -505,6 +505,7 @@ CONFIG_DEFAULT_DEPMOD_FILE=""
 #
 # Linux System Utilities
 #
+CONFIG_BLOCKDEV=y
 # CONFIG_REV is not set
 CONFIG_ACPID=y
 # CONFIG_FEATURE_ACPID_COMPAT is not set

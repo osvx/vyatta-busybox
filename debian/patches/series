@@ -23,6 +23,7 @@ cttyhack-serial-console-detection-is-Linux-specific.patch
 klogd-make-it-work-on-non-linux-systems.patch
 stty-sort-out-preprocessor-conditionals.patch
 update-scripts-kconfig-_shipped.patch
+blockdev.patch
 
 # The following patches will likely be merged soon
 u-mount-FreeBSD-support.patch
