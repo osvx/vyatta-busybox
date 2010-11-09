@@ -1,3 +1,13 @@
+Description: Backport blockdev applet from upstream
+ This allows os-prober to avoid replaying journals when mounting block
+ devices read-only.
+Origin: http://git.busybox.net/busybox/tree/util-linux/blockdev.c
+Bug-Debian: http://bugs.debian.org/418163
+Author: Sergey Naumov <sknaumov@gmail.com>
+Author: Denys Vlasenko <dvlasenk@redhat.com>
+Forwarded: not-needed
+Last-Update: 2010-11-09
+
 Index: b/util-linux/blockdev.c
 ===================================================================
 --- /dev/null
