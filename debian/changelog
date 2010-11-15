@@ -1,7 +1,7 @@
 busybox (1:1.17.1-8) UNRELEASED; urgency=low
 
   * Set udhcpc and udhcpd Section to net, to match overrides.
-  * Disable blockdev on Hurd.
+  * Disable blockdev on non-Linux architectures.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 15 Nov 2010 13:31:00 +0000
 
