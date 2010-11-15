@@ -93,6 +93,7 @@ Description: Provides syslogd and klogd using busybox
  scripts.
 
 Package: udhcpc
+Section: net
 Architecture: all
 Depends: busybox (>= ${source:Version}) | busybox-static (>= ${source:Version}), ${misc:Depends}
 Description: Provides the busybox DHCP client implementation
@@ -104,6 +105,7 @@ Description: Provides the busybox DHCP client implementation
  scripts.
 
 Package: udhcpd
+Section: net
 Architecture: all
 Depends: busybox (>= ${source:Version}) | busybox-static (>= ${source:Version}), ${misc:Depends}
 Provides: dhcpd
