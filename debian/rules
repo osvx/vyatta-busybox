@@ -151,7 +151,7 @@ TAR_ORIG_NAME = $(SOURCE)_$(VERSION).orig.tar.bz2
 TAR_ORIG = $(firstword $(wildcard ../$(TAR_ORIG_NAME)) $(wildcard ../orig/$(TAR_ORIG_NAME)))
 
 orig: $(DIR_ORIG)
-	rsync --delete --exclude debian --exclude .svk --exclude .svn --link-dest=$(DIR_ORIG)/ -a $(DIR_ORIG)/ .
+	rsync --delete --exclude debian --exclude .git --link-dest=$(DIR_ORIG)/ -a $(DIR_ORIG)/ .
 
 $(DIR_ORIG):
 ifeq ($(TAR_ORIG),)
