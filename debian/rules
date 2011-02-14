@@ -21,7 +21,7 @@ $(STAMPS_DIR)/patch:
 
 setup: $(STAMPS_DIR)/setup_deb $(STAMPS_DIR)/setup_static $(STAMPS_DIR)/setup_udeb
 
-$(STAMPS_DIR)/setup_%: SOURCE_FILES = $(filter-out debian, $(wildcard * .[^.]*))
+$(STAMPS_DIR)/setup_%: SOURCE_FILES = $(filter-out debian, $(wildcard *))
 $(STAMPS_DIR)/setup_%: DIR=$(BUILD_DIR)/build_$*
 $(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/patch
 	dh_testdir
