@@ -1,3 +1,10 @@
+busybox (1:1.17.1-10) UNRELEASED; urgency=low
+
+  * tiny build system changes: from main source to build directories:
+    don't copy .dotfiles, use ln instead of cp
+
+ -- Michael Tokarev <mjt@corpit.ru>  Mon, 14 Feb 2011 20:56:15 +0300
+
 busybox (1:1.17.1-9) unstable; urgency=low
 
   * Team upload
