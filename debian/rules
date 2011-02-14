@@ -27,7 +27,7 @@ $(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/patch
 	dh_testdir
 	rm -rf '$(DIR)'
 	mkdir -p '$(DIR)'
-	cp -a $(SOURCE_FILES) '$(DIR)'
+	cp -a -l $(SOURCE_FILES) '$(DIR)'
 	cat debian/config/os/$(DEB_HOST_ARCH_OS) debian/config/pkg/$* > '$(DIR)'/.config
 	$(MAKE) -C '$(DIR)' oldconfig
 	touch $@
