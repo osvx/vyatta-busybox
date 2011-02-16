@@ -7,7 +7,7 @@ DEB_BUILD_ARCH := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 SOURCE := $(shell dpkg-parsechangelog | sed -ne 's,^Source: *\(.*\)$$,\1,p')
 VERSION_DEBIAN := $(shell dpkg-parsechangelog | sed -ne 's,^Version: *\(.*\)$$,\1,p')
 VERSION := $(shell echo "$(VERSION_DEBIAN)" | sed -e 's,^[^:]*:,,' -e 's,-[^-]*$$,,')
- 
+
 BUILD_DIR = debian/build
 STAMPS_DIR = debian/stamps
 
@@ -21,13 +21,13 @@ $(STAMPS_DIR)/patch:
 
 setup: $(STAMPS_DIR)/setup_deb $(STAMPS_DIR)/setup_static $(STAMPS_DIR)/setup_udeb
 
-$(STAMPS_DIR)/setup_%: SOURCE_FILES = $(filter-out debian, $(wildcard * .[^.]*))
+$(STAMPS_DIR)/setup_%: SOURCE_FILES = $(filter-out debian, $(wildcard *))
 $(STAMPS_DIR)/setup_%: DIR=$(BUILD_DIR)/build_$*
 $(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/patch
 	dh_testdir
 	rm -rf '$(DIR)'
 	mkdir -p '$(DIR)'
-	cp -a $(SOURCE_FILES) '$(DIR)'
+	cp -a -l $(SOURCE_FILES) '$(DIR)'
 	cat debian/config/os/$(DEB_HOST_ARCH_OS) debian/config/pkg/$* > '$(DIR)'/.config
 	$(MAKE) -C '$(DIR)' oldconfig
 	touch $@
@@ -41,7 +41,7 @@ $(STAMPS_DIR)/build_%: $(STAMPS_DIR)/setup_%
 	touch $@
 
 $(STAMPS_DIR)/indepbuild_%: DIR=$(BUILD_DIR)/indepbuild_$*
-$(STAMPS_DIR)/indepbuild_%: 
+$(STAMPS_DIR)/indepbuild_%:
 	dh_testdir
 	touch $@
 
