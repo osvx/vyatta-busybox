@@ -1,7 +1,15 @@
 busybox (1:1.17.1-10) UNRELEASED; urgency=low
 
+  [ Michael Tokarev ]
   * tiny build system changes: from main source to build directories:
     don't copy .dotfiles, use ln instead of cp
+
+  [ Joey Hess ]
+  * Enable sha256sum in udeb, needed by debootstrap to handle Release
+    files w/o md5sums.
+  * Did not disable md5sum in udeb because eg anna still uses them to verify
+    md5sum fields from d-i Packages files. (Those fields are still present..
+    for now.)
 
  -- Michael Tokarev <mjt@corpit.ru>  Mon, 14 Feb 2011 20:56:15 +0300
 
