@@ -1,4 +1,4 @@
-busybox (1:1.17.1-10) UNRELEASED; urgency=low
+busybox (1:1.17.1-10) unstable; urgency=low
 
   [ Michael Tokarev ]
   * tiny build system changes: from main source to build directories:
@@ -11,7 +11,7 @@ busybox (1:1.17.1-10) UNRELEASED; urgency=low
     md5sum fields from d-i Packages files. (Those fields are still present..
     for now.)
 
- -- Michael Tokarev <mjt@corpit.ru>  Mon, 14 Feb 2011 20:56:15 +0300
+ -- Joey Hess <joeyh@debian.org>  Mon, 21 Feb 2011 20:32:15 -0400
 
 busybox (1:1.17.1-9) unstable; urgency=low
 
