@@ -34,7 +34,7 @@ build: $(STAMPS_DIR)/build_deb $(STAMPS_DIR)/build_static $(STAMPS_DIR)/build_ud
 $(STAMPS_DIR)/build_%: DIR=$(BUILD_DIR)/build_$*
 $(STAMPS_DIR)/build_%: $(STAMPS_DIR)/setup_%
 	dh_testdir
-	$(MAKE) -C '$(DIR)' install docs/busybox.1 BB_EXTRA_VERSION="$(VENDOR) $(VERSION_DEBIAN)"
+	$(MAKE) -C '$(DIR)' SKIP_STRIP=y install docs/busybox.1 BB_EXTRA_VERSION="$(VENDOR) $(VERSION_DEBIAN)"
 	touch $@
 
 $(STAMPS_DIR)/indepbuild_%: DIR=$(BUILD_DIR)/indepbuild_$*
