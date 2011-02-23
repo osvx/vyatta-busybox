@@ -12,18 +12,15 @@ VENDOR := $(shell dpkg-vendor --query vendor)
 BUILD_DIR = debian/build
 STAMPS_DIR = debian/stamps
 
-patch: $(STAMPS_DIR)/patch
-
-$(STAMPS_DIR)/patch:
-	dh_testdir
-	@mkdir -p $(STAMPS_DIR)
+$(STAMPS_DIR)/dir:
+	mkdir -p $(STAMPS_DIR)
 	touch $@
 
 setup: $(STAMPS_DIR)/setup_deb $(STAMPS_DIR)/setup_static $(STAMPS_DIR)/setup_udeb
 
 $(STAMPS_DIR)/setup_%: SOURCE_FILES = $(filter-out debian, $(wildcard *))
 $(STAMPS_DIR)/setup_%: DIR=$(BUILD_DIR)/build_$*
-$(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/patch
+$(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/dir
 	dh_testdir
 	rm -rf '$(DIR)'
 	mkdir -p '$(DIR)'
