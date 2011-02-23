@@ -1,4 +1,34 @@
-busybox (1:1.17.1-11) UNRELEASED; urgency=low
+busybox (1:1.18.3-1) UNRELEASED; urgency=low
+
+  [ Michael Tokarev ]
+  * new upstream version (1.18.3).  No config changes
+    (configs refreshed)
+
+  * patches:
+   - removed doc-man-name.patch (now upstream)
+   - removed init-console-CRTSCTS.patch (now upstream)
+   - removed all patches which are in 1.18 upstream:
+     readlink-use-xmalloc_realpath.patch
+     mark-Linux-specific-configuration-options.patch
+     init-loginutils-termios-portability-fixes.patch
+     init-halt-portability-improvements.patch
+     init-make-the-initial-TERM-value-configurable.patch
+     libbb.h-add-device-names-for-Hurd-and-FreeBSD.patch
+     mkdir-fix-p-on-FreeBSD.patch
+     libbb-conditionalize-AF_-usage-in-error-reporting.patch
+     tcpsvd-udpsvd-conditionalize-usage-of-SO_ORIGINAL_DS.patch
+     less-remove-misguided-dependency-on-PLATFORM_LINUX.patch
+     bootchartd-mounting-tmpfs-is-Linux-specific.patch
+     vlock-disable-linux-console-calls-on-other-systems.patch
+     cttyhack-serial-console-detection-is-Linux-specific.patch
+     klogd-make-it-work-on-non-linux-systems.patch
+     stty-sort-out-preprocessor-conditionals.patch
+     update-scripts-kconfig-_shipped.patch
+     blockdev.patch
+   - refreshed:
+     version.patch
+     make_gen_build_files_skip_quilt.patch
+     u-mount-FreeBSD-support.patch
 
   [ Cristian Greco ]
   * debian/control: add Vcs-* fields
