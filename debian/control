@@ -7,6 +7,7 @@ Build-Depends: debhelper (>> 7), lsb-release, quilt
 Standards-Version: 3.7.3
 Vcs-Git: git://git.debian.org/d-i/busybox.git
 Vcs-Browser: http://git.debian.org/?p=d-i/busybox.git
+Homepage: http://www.busybox.net
 
 Package: busybox
 Architecture: any
