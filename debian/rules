@@ -17,7 +17,6 @@ patch: $(STAMPS_DIR)/patch
 $(STAMPS_DIR)/patch:
 	dh_testdir
 	@mkdir -p $(STAMPS_DIR)
-	QUILT_PATCHES=$(CURDIR)/debian/patches quilt --quiltrc /dev/null push -a || test $$? = 2
 	touch $@
 
 setup: $(STAMPS_DIR)/setup_deb $(STAMPS_DIR)/setup_static $(STAMPS_DIR)/setup_udeb
