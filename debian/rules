@@ -46,7 +46,7 @@ $(BUILD_DIR) $(STAMPS_DIR):
 	@[ -d $@ ] || mkdir $@
 
 maintainerclean:
-	rm -rf $(filter-out .svn debian, $(wildcard * .[^.]*))
+	rm -rf $(filter-out .git debian, $(wildcard * .[^.]*))
 
 clean:
 	dh_testdir
@@ -63,7 +63,7 @@ binary-arch_busybox: $(STAMPS_DIR)/build_deb
 	dh_testdir
 	dh_testroot
 	dh_prep
-	dh_install -X.svn --sourcedir=$(DIR)
+	dh_install --sourcedir=$(DIR)
 	@$(MAKE) -f debian/rules binary-arch_all
 
 binary-arch_busybox-static: DIR = $(BUILD_DIR)/build_static
@@ -72,7 +72,7 @@ binary-arch_busybox-static: $(STAMPS_DIR)/build_static
 	dh_testdir
 	dh_testroot
 	dh_prep
-	dh_install -X.svn --sourcedir=$(DIR)
+	dh_install --sourcedir=$(DIR)
 	@$(MAKE) -f debian/rules binary-arch_all
 
 binary-arch_busybox-udeb: DIR = $(BUILD_DIR)/build_udeb
@@ -84,7 +84,7 @@ binary-arch_busybox-udeb: $(STAMPS_DIR)/build_udeb
 	# Remove init link, but init support is still compiled in to be
 	# used.
 	rm -f $(DIR)/_install/sbin/init
-	dh_install -X.svn --sourcedir=$(DIR)
+	dh_install --sourcedir=$(DIR)
 	@$(MAKE) -f debian/rules binary-arch_all
 
 binary-arch_all:
@@ -117,7 +117,7 @@ binary-indep_udhcpc:
 	dh_testroot
 	dh_prep
 	dh_link
-	dh_install -X.svn
+	dh_install
 	$(MAKE) -f debian/rules binary-indep_all
 
 binary-indep_udhcpd: export DH_OPTIONS = -pudhcpd
@@ -127,7 +127,7 @@ binary-indep_udhcpd:
 	dh_prep
 	dh_link
 	dh_installinit --onlyscripts
-	dh_install -X.svn
+	dh_install
 	$(MAKE) -f debian/rules binary-indep_all
 
 binary-indep_all:
