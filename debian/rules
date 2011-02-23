@@ -7,6 +7,7 @@ DEB_BUILD_ARCH := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 SOURCE := $(shell dpkg-parsechangelog | sed -ne 's,^Source: *\(.*\)$$,\1,p')
 VERSION_DEBIAN := $(shell dpkg-parsechangelog | sed -ne 's,^Version: *\(.*\)$$,\1,p')
 VERSION := $(shell echo "$(VERSION_DEBIAN)" | sed -e 's,^[^:]*:,,' -e 's,-[^-]*$$,,')
+VENDOR := $(shell dpkg-vendor --query vendor)
 
 BUILD_DIR = debian/build
 STAMPS_DIR = debian/stamps
@@ -37,7 +38,7 @@ build: $(STAMPS_DIR)/build_deb $(STAMPS_DIR)/build_static $(STAMPS_DIR)/build_ud
 $(STAMPS_DIR)/build_%: DIR=$(BUILD_DIR)/build_$*
 $(STAMPS_DIR)/build_%: $(STAMPS_DIR)/setup_%
 	dh_testdir
-	$(MAKE) -C '$(DIR)' install docs/busybox.1 BB_EXTRA_VERSION="$(shell lsb_release -is) $(VERSION_DEBIAN)"
+	$(MAKE) -C '$(DIR)' install docs/busybox.1 BB_EXTRA_VERSION="$(VENDOR) $(VERSION_DEBIAN)"
 	touch $@
 
 $(STAMPS_DIR)/indepbuild_%: DIR=$(BUILD_DIR)/indepbuild_$*
