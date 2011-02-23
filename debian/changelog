@@ -32,6 +32,9 @@ busybox (1:1.18.3-1) UNRELEASED; urgency=low
    - and refreshed all patches to be with sane options and w/o fuzz
    - removed strip.patch, use SKIP_STRIP instead
 
+  * config changes:
+   FEATURE_NON_POSIX_CP disabled for regular build to match all others
+
   [ Cristian Greco ]
   * debian/control: add Vcs-* fields
   * debian/control: add Homepage: field
