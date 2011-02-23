@@ -29,6 +29,7 @@ busybox (1:1.18.3-1) UNRELEASED; urgency=low
      version.patch
      make_gen_build_files_skip_quilt.patch
      u-mount-FreeBSD-support.patch
+   - and refreshed all patches to be with sane options and w/o fuzz
 
   [ Cristian Greco ]
   * debian/control: add Vcs-* fields

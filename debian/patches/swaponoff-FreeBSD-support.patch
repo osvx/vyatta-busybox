@@ -12,11 +12,9 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
  util-linux/xmount.h    |   16 ++++++++++------
  4 files changed, 24 insertions(+), 11 deletions(-)
 
-diff --git a/util-linux/Config.src b/util-linux/Config.src
-index 99a6fbe..cb4de95 100644
 --- a/util-linux/Config.src
 +++ b/util-linux/Config.src
-@@ -639,7 +639,6 @@ config SETARCH
+@@ -634,7 +634,6 @@ config SETARCH
  config SWAPONOFF
  	bool "swaponoff"
  	default y
@@ -24,7 +22,7 @@ index 99a6fbe..cb4de95 100644
  	help
  	  This option enables both the 'swapon' and the 'swapoff' utilities.
  	  Once you have created some swap space using 'mkswap', you also need
-@@ -651,7 +650,7 @@ config SWAPONOFF
+@@ -646,7 +645,7 @@ config SWAPONOFF
  config FEATURE_SWAPON_PRI
  	bool "Support priority option -p"
  	default y
@@ -33,8 +31,6 @@ index 99a6fbe..cb4de95 100644
  	help
  	  Enable support for setting swap device priority in swapon.
  
-diff --git a/util-linux/swaponoff.c b/util-linux/swaponoff.c
-index f2f52fb..d13c37e 100644
 --- a/util-linux/swaponoff.c
 +++ b/util-linux/swaponoff.c
 @@ -8,8 +8,8 @@
@@ -47,7 +43,7 @@ index f2f52fb..d13c37e 100644
  
  #if ENABLE_FEATURE_MOUNT_LABEL
  # include "volume_id.h"
-@@ -43,9 +43,9 @@ static int swap_enable_disable(char *device)
+@@ -43,9 +43,9 @@ static int swap_enable_disable(char *dev
  #endif
  
  	if (applet_name[5] == 'n')
@@ -59,11 +55,9 @@ index f2f52fb..d13c37e 100644
  
  	if (status != 0) {
  		bb_simple_perror_msg(device);
-diff --git a/util-linux/xmount.c b/util-linux/xmount.c
-index 3f322b8..16543f1 100644
 --- a/util-linux/xmount.c
 +++ b/util-linux/xmount.c
-@@ -63,4 +63,14 @@ int FAST_FUNC xumount(const char *target, int flags)
+@@ -67,4 +67,14 @@ int FAST_FUNC xumount(const char *target
  	return unmount(target, flags);
  }
  
@@ -78,8 +72,6 @@ index 3f322b8..16543f1 100644
 +}
 +
  #endif
-diff --git a/util-linux/xmount.h b/util-linux/xmount.h
-index caef564..bcd6d18 100644
 --- a/util-linux/xmount.h
 +++ b/util-linux/xmount.h
 @@ -5,9 +5,9 @@
@@ -133,6 +125,3 @@ index caef564..bcd6d18 100644
 +int xswapon(const char *path, int swapflags) FAST_FUNC;
 +int xswapoff(const char *path) FAST_FUNC;
  #endif
--- 
-1.7.1
-

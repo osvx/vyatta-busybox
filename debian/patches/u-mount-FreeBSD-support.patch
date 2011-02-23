@@ -26,11 +26,9 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
  create mode 100644 util-linux/xmount.c
  create mode 100644 util-linux/xmount.h
 
-Index: debian/util-linux/Config.src
-===================================================================
---- debian.orig/util-linux/Config.src	2011-02-14 21:55:52.490808920 +0300
-+++ debian/util-linux/Config.src	2011-02-14 22:30:53.909544009 +0300
-@@ -487,7 +487,6 @@
+--- a/util-linux/Config.src
++++ b/util-linux/Config.src
+@@ -487,7 +487,6 @@ config MORE
  config MOUNT
  	bool "mount"
  	default y
@@ -38,7 +36,7 @@ Index: debian/util-linux/Config.src
  	help
  	  All files and filesystems in Unix are arranged into one big directory
  	  tree. The 'mount' utility is used to graft a filesystem onto a
-@@ -674,7 +673,6 @@
+@@ -674,7 +673,6 @@ config SWITCH_ROOT
  config UMOUNT
  	bool "umount"
  	default y
@@ -46,7 +44,7 @@ Index: debian/util-linux/Config.src
  	help
  	  When you want to remove a mounted filesystem from its current mount
  	  point, for example when you are shutting down the system, the
-@@ -694,7 +692,7 @@
+@@ -694,7 +692,7 @@ comment "Common options for mount/umount
  config FEATURE_MOUNT_LOOP
  	bool "Support loopback mounts"
  	default y
@@ -55,11 +53,9 @@ Index: debian/util-linux/Config.src
  	help
  	  Enabling this feature allows automatic mounting of files (containing
  	  filesystem images) via the linux kernel's loopback devices.
-Index: debian/util-linux/Kbuild.src
-===================================================================
---- debian.orig/util-linux/Kbuild.src	2011-02-14 21:55:52.480803920 +0300
-+++ debian/util-linux/Kbuild.src	2011-02-14 21:56:24.970373920 +0300
-@@ -33,7 +33,7 @@
+--- a/util-linux/Kbuild.src
++++ b/util-linux/Kbuild.src
+@@ -33,7 +33,7 @@ lib-$(CONFIG_MKFS_REISER)       += mkfs_
  lib-$(CONFIG_MKFS_VFAT)         += mkfs_vfat.o
  lib-$(CONFIG_MKSWAP)            += mkswap.o
  lib-$(CONFIG_MORE)              += more.o
@@ -68,16 +64,14 @@ Index: debian/util-linux/Kbuild.src
  lib-$(CONFIG_PIVOT_ROOT)        += pivot_root.o
  lib-$(CONFIG_RDATE)             += rdate.o
  lib-$(CONFIG_RDEV)              += rdev.o
-@@ -44,4 +44,4 @@
+@@ -44,4 +44,4 @@ lib-$(CONFIG_SCRIPTREPLAY)      += scrip
  lib-$(CONFIG_SETARCH)           += setarch.o
  lib-$(CONFIG_SWAPONOFF)         += swaponoff.o
  lib-$(CONFIG_SWITCH_ROOT)       += switch_root.o
 -lib-$(CONFIG_UMOUNT)            += umount.o
 +lib-$(CONFIG_UMOUNT)            += umount.o xmount.o
-Index: debian/util-linux/mount.c
-===================================================================
---- debian.orig/util-linux/mount.c	2011-02-14 21:55:52.470798920 +0300
-+++ debian/util-linux/mount.c	2011-02-14 21:56:24.970373920 +0300
+--- a/util-linux/mount.c
++++ b/util-linux/mount.c
 @@ -18,44 +18,9 @@
  //
  #include <mntent.h>
@@ -124,7 +118,7 @@ Index: debian/util-linux/mount.c
  #if ENABLE_FEATURE_MOUNT_LABEL
  # include "volume_id.h"
  #else
-@@ -288,7 +253,7 @@
+@@ -288,7 +253,7 @@ static int verbose_mount(const char *sou
  	int rc;
  
  	errno = 0;
@@ -133,7 +127,7 @@ Index: debian/util-linux/mount.c
  	if (verbose >= 2)
  		bb_perror_msg("mount('%s','%s','%s',0x%08lx,'%s'):%d",
  			source, target, filesystemtype,
-@@ -296,7 +261,7 @@
+@@ -296,7 +261,7 @@ static int verbose_mount(const char *sou
  	return rc;
  }
  #else
@@ -142,10 +136,8 @@ Index: debian/util-linux/mount.c
  #endif
  
  // Append mount options to string
-Index: debian/util-linux/umount.c
-===================================================================
---- debian.orig/util-linux/umount.c	2011-02-14 21:55:52.474133920 +0300
-+++ debian/util-linux/umount.c	2011-02-14 22:31:39.595708838 +0300
+--- a/util-linux/umount.c
++++ b/util-linux/umount.c
 @@ -8,7 +8,7 @@
   * Licensed under GPLv2, see file LICENSE in this source tree.
   */
@@ -155,7 +147,7 @@ Index: debian/util-linux/umount.c
  #include "libbb.h"
  
  #if defined(__dietlibc__)
-@@ -119,11 +119,11 @@
+@@ -119,11 +119,11 @@ int umount_main(int argc UNUSED_PARAM, c
  		if (m) zapit = m->dir;
  
  		// Let's ask the thing nicely to unmount.
@@ -169,7 +161,7 @@ Index: debian/util-linux/umount.c
  
  		// If still can't umount, maybe remount read-only?
  		if (curstat) {
-@@ -131,7 +131,7 @@
+@@ -131,7 +131,7 @@ int umount_main(int argc UNUSED_PARAM, c
  				// Note! Even if we succeed here, later we should not
  				// free loop device or erase mtab entry!
  				const char *msg = "%s busy - remounted read-only";
@@ -178,10 +170,8 @@ Index: debian/util-linux/umount.c
  				if (curstat) {
  					msg = "can't remount %s read-only";
  					status = EXIT_FAILURE;
-Index: debian/util-linux/xmount.c
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ debian/util-linux/xmount.c	2011-02-14 22:30:53.902874009 +0300
+--- /dev/null
++++ b/util-linux/xmount.c
 @@ -0,0 +1,70 @@
 +#include "libbb.h"
 +#include "xmount.h"
@@ -253,10 +243,8 @@ Index: debian/util-linux/xmount.c
 +}
 +
 +#endif
-Index: debian/util-linux/xmount.h
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ debian/util-linux/xmount.h	2011-02-14 22:30:53.889534009 +0300
+--- /dev/null
++++ b/util-linux/xmount.h
 @@ -0,0 +1,97 @@
 +/* vi: set sw=4 ts=4: */
 +/*

@@ -1,8 +1,6 @@
-Index: debian/scripts/gen_build_files.sh
-===================================================================
---- debian.orig/scripts/gen_build_files.sh	2011-02-14 21:55:21.732103919 +0300
-+++ debian/scripts/gen_build_files.sh	2011-02-14 21:55:26.878008920 +0300
-@@ -59,7 +59,7 @@
+--- a/scripts/gen_build_files.sh
++++ b/scripts/gen_build_files.sh
+@@ -59,7 +59,7 @@ generate \
  	"${s}"
  
  # (Re)generate */Kbuild and */Config.in
