@@ -58,6 +58,7 @@ busybox (1:1.18.3-1) unstable; urgency=low
   * removed patching-related targets in debian/rules
     (not needed anymore for 3.0 (quilt) source format)
   * removed mentions of .svn from debian/rules since we moved to git
+  * removed unused DEB_{HOST,BUILD}_ARCH variables from debian/rules
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Thu, 10 Mar 2011 19:04:38 +0300
 
