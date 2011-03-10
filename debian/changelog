@@ -37,6 +37,7 @@ busybox (1:1.18.3-1) UNRELEASED; urgency=low
    TAR_NOPRESERVE_TIME (tar -m) added (static) (closes: #238235)
    MD5_SHA1_SUM_CHECK (md5sum -c) added (static, deb)
    MOUNT_LOOP_CREATE (+deb +static =udeb)
+   NC_SERVER (netcat server mode) (+deb +static =udeb)
 
   * config applets:
    MKSWAP (+deb =static =udeb)
