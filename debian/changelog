@@ -37,6 +37,9 @@ busybox (1:1.18.3-1) UNRELEASED; urgency=low
    FEATURE_TAR_NOPRESERVE_TIME (tar -m) added (static) (closes: #238235)
    FEATURE_MD5_SHA1_SUM_CHECK (md5sum -c) added (static, deb)
 
+  * config applets:
+   MKSWAP (+deb =static =udeb)
+
   [ Cristian Greco ]
   * debian/control: add Vcs-* fields
   * debian/control: add Homepage: field
