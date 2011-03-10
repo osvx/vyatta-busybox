@@ -39,7 +39,7 @@ busybox (1:1.18.3-1) UNRELEASED; urgency=low
    MOUNT_LOOP_CREATE (+deb +static =udeb)
    NC_SERVER & NC_EXTRA (netcat server mode) (+deb +static =udeb)
 
-  * config applets:
+  * config applets: (closes: #316847)
    MKSWAP (+deb =static =udeb)
    AR (+deb =static =udeb)
    FREERAMDISK (+deb =static =udeb)
