@@ -43,6 +43,7 @@ busybox (1:1.18.3-1) UNRELEASED; urgency=low
    MKSWAP (+deb =static =udeb)
    AR (+deb =static =udeb)
    FREERAMDISK (+deb =static =udeb)
+   PIVOT_ROOT (+deb =static =udeb)
 
   [ Cristian Greco ]
   * debian/control: add Vcs-* fields
