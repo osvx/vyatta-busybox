@@ -33,11 +33,11 @@ busybox (1:1.18.3-1) UNRELEASED; urgency=low
    - removed strip.patch, use SKIP_STRIP instead
 
   * config features changes:
-   NON_POSIX_CP disabled for regular build to match all others
-   TAR_NOPRESERVE_TIME (tar -m) added (static) (closes: #238235)
-   MD5_SHA1_SUM_CHECK (md5sum -c) added (static, deb)
+   NON_POSIX_CP (-deb =static =udeb)
+   TAR_NOPRESERVE_TIME (tar -m) (=deb +static =udeb) (closes: #238235)
+   MD5_SHA1_SUM_CHECK (md5sum&Co -c) (+de, +static =udeb)
    MOUNT_LOOP_CREATE (+deb +static =udeb)
-   NC_SERVER (netcat server mode) (+deb +static =udeb)
+   NC_SERVER & NC_EXTRA (netcat server mode) (+deb +static =udeb)
 
   * config applets:
    MKSWAP (+deb =static =udeb)
