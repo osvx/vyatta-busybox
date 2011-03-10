@@ -32,8 +32,10 @@ busybox (1:1.18.3-1) UNRELEASED; urgency=low
    - and refreshed all patches to be with sane options and w/o fuzz
    - removed strip.patch, use SKIP_STRIP instead
 
-  * config changes:
+  * config options changes:
    FEATURE_NON_POSIX_CP disabled for regular build to match all others
+   FEATURE_TAR_NOPRESERVE_TIME (tar -m) added (static) (closes: #238235)
+   FEATURE_MD5_SHA1_SUM_CHECK (md5sum -c) added (static, deb)
 
   [ Cristian Greco ]
   * debian/control: add Vcs-* fields
@@ -47,7 +49,6 @@ busybox (1:1.18.3-1) UNRELEASED; urgency=low
   * removed patching-related targets in debian/rules
     (not needed anymore for 3.0 (quilt) source format)
   * removed mentions of .svn from debian/rules since we moved to git
-  * enable CONFIG_FEATURE_TAR_NOPRESERVE_TIME (tar -m) (closes: #238235)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Thu, 10 Mar 2011 01:01:25 +0300
 
