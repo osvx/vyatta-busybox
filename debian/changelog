@@ -33,6 +33,7 @@ busybox (1:1.18.3-1) UNRELEASED; urgency=low
    - removed strip.patch, use SKIP_STRIP instead
 
   * config features changes:
+   LIBM (math functions in awk and dc) (-deb -static =udeb)
    NON_POSIX_CP (-deb =static =udeb)
    TAR_NOPRESERVE_TIME (tar -m) (=deb +static =udeb) (closes: #238235)
    MD5_SHA1_SUM_CHECK (md5sum&Co -c) (+de, +static =udeb)
