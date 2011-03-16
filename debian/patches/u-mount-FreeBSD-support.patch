@@ -138,15 +138,16 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
  // Append mount options to string
 --- a/util-linux/umount.c
 +++ b/util-linux/umount.c
-@@ -8,7 +8,7 @@
+@@ -8,8 +8,8 @@
   * Licensed under GPLv2, see file LICENSE in this source tree.
   */
  #include <mntent.h>
 -#include <sys/mount.h>
-+#include "xmount.h"
  #include "libbb.h"
++# include "xmount.h"
  
  #if defined(__dietlibc__)
+ // TODO: This does not belong here.
 @@ -119,11 +119,11 @@ int umount_main(int argc UNUSED_PARAM, c
  		if (m) zapit = m->dir;
  
