@@ -1,7 +1,7 @@
 busybox (1:1.18.3-2) unstable; urgency=low
 
   * refreshed debian/patches/u-mount-FreeBSD-support.patch
-    (fix build failure on kfreebsd)
+    (fix build failure on kfreebsd) (Closes: #618644)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 16 Mar 2011 17:22:35 +0300
 
