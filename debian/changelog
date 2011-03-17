@@ -5,6 +5,8 @@ busybox (1:1.18.4-1) UNRELEASED; urgency=low
     (fix build failure on kfreebsd) (Closes: #618644)
   * refreshed applets-fallback.patch (compensate for offsets)
   * added debian/udeb-sizes to track various options of udeb build
+  * config:
+   - enable sha1sum & sha512sum in udeb (Closes: #615926)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Thu, 17 Mar 2011 16:18:35 +0300
 
