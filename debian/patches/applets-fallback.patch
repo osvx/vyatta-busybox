@@ -168,7 +168,7 @@
  extern const char bb_PATH_root_path[]; /* "PATH=/sbin:/usr/sbin:/bin:/usr/bin" */
 --- a/Config.in
 +++ b/Config.in
-@@ -412,13 +412,10 @@ config FEATURE_PREFER_APPLETS
+@@ -411,13 +411,10 @@ config FEATURE_PREFER_APPLETS
  
  config BUSYBOX_EXEC_PATH
  	string "Path to BusyBox executable"
