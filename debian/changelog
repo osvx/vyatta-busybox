@@ -4,6 +4,7 @@ busybox (1:1.18.4-1) UNRELEASED; urgency=low
   * refreshed debian/patches/u-mount-FreeBSD-support.patch
     (fix build failure on kfreebsd) (Closes: #618644)
   * refreshed applets-fallback.patch (compensate for offsets)
+  * added debian/udeb-sizes to track various options of udeb build
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Thu, 17 Mar 2011 16:18:35 +0300
 
