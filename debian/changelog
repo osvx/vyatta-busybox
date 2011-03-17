@@ -1,4 +1,4 @@
-busybox (1:1.18.4-1) UNRELEASED; urgency=low
+busybox (1:1.18.4-1) unstable; urgency=low
 
   * new upstream bugfix release (1.18.4)
   * refreshed debian/patches/u-mount-FreeBSD-support.patch
