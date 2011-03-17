@@ -5,6 +5,7 @@ busybox (1:1.18.4-1) UNRELEASED; urgency=low
     (fix build failure on kfreebsd) (Closes: #618644)
   * refreshed applets-fallback.patch (compensate for offsets)
   * added debian/udeb-sizes to track various options of udeb build
+  * added dirname-basename-skip-doubledash.diff (Closes: #580492)
   * config:
    - enable sha1sum & sha512sum in udeb (Closes: #615926)
    - enable mktemp in udeb (Closes: #310440)

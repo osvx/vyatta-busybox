@@ -7,3 +7,6 @@ make_gen_build_files_skip_quilt.patch
 # The following patches will likely be merged soon
 u-mount-FreeBSD-support.patch
 swaponoff-FreeBSD-support.patch
+
+# #580492 bb#3463
+dirname-basename-skip-doubledash.diff
