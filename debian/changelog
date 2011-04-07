@@ -1,3 +1,11 @@
+busybox (1:1.18.4-1.1) unstable; urgency=low
+
+  * Remove all referneces to tryexec's applet_no in patch applets-fallback as
+    this param is not unused; this has the side effect of working around a
+    toolchain issue breaking busybox' exec on ARM; closes: #621137.
+
+ -- Loïc Minier <loic.minier@linaro.org>  Thu, 07 Apr 2011 02:44:33 +0200
+
 busybox (1:1.18.4-1) unstable; urgency=low
 
   * new upstream bugfix release (1.18.4)

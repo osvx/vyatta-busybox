@@ -1,11 +1,11 @@
 --- a/shell/ash.c
 +++ b/shell/ash.c
-@@ -7345,25 +7345,10 @@ static int builtinloc = -1;     /* index
+@@ -7345,25 +7345,10 @@
  
  
  static void
 -tryexec(IF_FEATURE_SH_STANDALONE(int applet_no,) char *cmd, char **argv, char **envp)
-+tryexec(IF_FEATURE_SH_STANDALONE(int applet_no UNUSED_PARAM,) char *cmd, char **argv, char **envp)
++tryexec(char *cmd, char **argv, char **envp)
  {
  	int repeated = 0;
  
@@ -27,7 +27,13 @@
   repeat:
  #ifdef SYSV
  	do {
-@@ -7413,14 +7398,14 @@ shellexec(char **argv, const char *path,
+@@ -7407,20 +7392,17 @@
+ 	int e;
+ 	char **envp;
+ 	int exerrno;
+-#if ENABLE_FEATURE_SH_STANDALONE
+-	int applet_no = -1;
+-#endif
  
  	clearredir(/*drop:*/ 1);
  	envp = listvars(VEXPORT, VUNSET, /*end:*/ NULL);
@@ -36,8 +42,9 @@
 -	 || (applet_no = find_applet_by_name(argv[0])) >= 0
 -#endif
 -	) {
+-		tryexec(IF_FEATURE_SH_STANDALONE(applet_no,) argv[0], argv, envp);
 +	if (strchr(argv[0], '/') != NULL) {
- 		tryexec(IF_FEATURE_SH_STANDALONE(applet_no,) argv[0], argv, envp);
++		tryexec(argv[0], argv, envp);
  		e = errno;
  	} else {
 +#if ENABLE_FEATURE_SH_STANDALONE
@@ -59,7 +66,7 @@
  /* check if path points to an executable file;
   * return 1 if found;
   * return 0 otherwise;
-@@ -68,12 +71,60 @@ int FAST_FUNC exists_execable(const char
+@@ -68,12 +71,60 @@
  }
  
  #if ENABLE_FEATURE_PREFER_APPLETS
@@ -124,7 +131,7 @@
  
 --- a/libbb/messages.c
 +++ b/libbb/messages.c
-@@ -36,6 +36,15 @@ const char bb_msg_standard_output[] ALIG
+@@ -36,6 +36,15 @@
  const char bb_hexdigits_upcase[] ALIGN1 = "0123456789ABCDEF";
  
  const char bb_busybox_exec_path[] ALIGN1 = CONFIG_BUSYBOX_EXEC_PATH;
@@ -142,7 +149,7 @@
   * but I want to save a few bytes here. Check libbb.h before changing! */
 --- a/include/libbb.h
 +++ b/include/libbb.h
-@@ -842,11 +842,11 @@ int exists_execable(const char *filename
+@@ -842,11 +842,11 @@
   * but it may exec busybox and call applet instead of searching PATH.
   */
  #if ENABLE_FEATURE_PREFER_APPLETS
@@ -158,7 +165,7 @@
  #else
  #define BB_EXECVP(prog,cmd)     execvp(prog,cmd)
  #define BB_EXECLP(prog,cmd,...) execlp(prog,cmd, __VA_ARGS__)
-@@ -1612,6 +1612,7 @@ extern const char bb_path_wtmp_file[];
+@@ -1612,6 +1612,7 @@
  
  #define bb_dev_null "/dev/null"
  extern const char bb_busybox_exec_path[];
@@ -168,7 +175,7 @@
  extern const char bb_PATH_root_path[]; /* "PATH=/sbin:/usr/sbin:/bin:/usr/bin" */
 --- a/Config.in
 +++ b/Config.in
-@@ -411,13 +411,10 @@ config FEATURE_PREFER_APPLETS
+@@ -411,13 +411,10 @@
  
  config BUSYBOX_EXEC_PATH
  	string "Path to BusyBox executable"
@@ -186,7 +193,7 @@
  
 --- a/coreutils/chroot.c
 +++ b/coreutils/chroot.c
-@@ -30,5 +30,7 @@ int chroot_main(int argc UNUSED_PARAM, c
+@@ -30,5 +30,7 @@
  		argv[1] = (char *) "-i";
  	}
  
