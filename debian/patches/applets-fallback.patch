@@ -27,7 +27,7 @@
   repeat:
  #ifdef SYSV
  	do {
-@@ -7407,20 +7392,17 @@
+@@ -7407,24 +7392,21 @@
  	int e;
  	char **envp;
  	int exerrno;
@@ -54,6 +54,11 @@
  		e = ENOENT;
  		while ((cmdname = path_advance(&path, argv[0])) != NULL) {
  			if (--idx < 0 && pathopt == NULL) {
+-				tryexec(IF_FEATURE_SH_STANDALONE(-1,) cmdname, argv, envp);
++				tryexec(cmdname, argv, envp);
+ 				if (errno != ENOENT && errno != ENOTDIR)
+ 					e = errno;
+ 			}
 --- a/libbb/execable.c
 +++ b/libbb/execable.c
 @@ -9,6 +9,9 @@
