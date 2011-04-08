@@ -1,4 +1,4 @@
-busybox (1:1.18.4-1.1) UNRELEASED; urgency=low
+busybox (1:1.18.4-2) unstable; urgency=low
 
   [ Loïc Minier ]
   * Remove all references to tryexec's applet_no in patch applets-fallback as
@@ -8,7 +8,7 @@ busybox (1:1.18.4-1.1) UNRELEASED; urgency=low
   * Add debian/README.source with some advice on git-buildpackage usage and
     direct builds from a git checkout.
 
- -- Joey Hess <joeyh@debian.org>  Thu, 07 Apr 2011 15:16:03 -0400
+ -- Joey Hess <joeyh@debian.org>  Thu, 07 Apr 2011 22:26:13 -0400
 
 busybox (1:1.18.4-1) unstable; urgency=low
 
