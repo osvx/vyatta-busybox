@@ -4,6 +4,9 @@ busybox (1:1.18.4-1.1) UNRELEASED; urgency=low
   * Remove all references to tryexec's applet_no in patch applets-fallback as
     this param is not used; this has the side effect of working around a
     toolchain issue breaking busybox's exec on ARM; closes: #621137.
+  * Add debian/gbp.conf to ease usage with git-buildpackage.
+  * Add debian/README.source with some advice on git-buildpackage usage and
+    direct builds from a git checkout.
 
  -- Joey Hess <joeyh@debian.org>  Thu, 07 Apr 2011 15:16:03 -0400
 
