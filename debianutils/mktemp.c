@@ -6,7 +6,7 @@
  * Copyright (C) 2000 by Daniel Jacobowitz
  * Written by Daniel Jacobowitz <dan@debian.org>
  *
- * Licensed under the GPL v2 or later, see the file LICENSE in this tarball.
+ * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
 
 /* Coreutils 6.12 man page says:
@@ -50,7 +50,7 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
 	opts = getopt32(argv, "dqtp:", &path);
 
 	chp = argv[optind] ? argv[optind] : xstrdup("tmp.XXXXXX");
-	if (chp[0] != '/' || (opts & 8))
+	if (!strchr(chp, '/') || (opts & 8))
 		chp = concat_path_file(path, chp);
 
 	if (opts & 1) { /* -d */

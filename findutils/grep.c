@@ -5,7 +5,7 @@
  * Copyright (C) 1999,2000,2001 by Lineo, inc. and Mark Whitley
  * Copyright (C) 1999,2000,2001 by Mark Whitley <markw@codepoet.org>
  *
- * Licensed under the GPL v2 or later, see the file LICENSE in this tarball.
+ * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
 /* BB_AUDIT SUSv3 defects - unsupported option -x "match whole line only". */
 /* BB_AUDIT GNU defects - always acts as -a.  */
@@ -461,15 +461,19 @@ static int grep_file(FILE *file)
 						if (found)
 							print_line(gl->pattern, strlen(gl->pattern), linenum, ':');
 					} else while (1) {
+						unsigned start = gl->matched_range.rm_so;
 						unsigned end = gl->matched_range.rm_eo;
+						unsigned len = end - start;
 						char old = line[end];
 						line[end] = '\0';
-						print_line(line + gl->matched_range.rm_so,
-								end - gl->matched_range.rm_so,
-								linenum, ':');
+						/* Empty match is not printed: try "echo test | grep -o ''" */
+						if (len != 0)
+							print_line(line + start, len, linenum, ':');
 						if (old == '\0')
 							break;
 						line[end] = old;
+						if (len == 0)
+							end++;
 #if !ENABLE_EXTRA_COMPAT
 						if (regexec(&gl->compiled_regex, line + end,
 								1, &gl->matched_range, REG_NOTBOL) != 0)
@@ -617,30 +621,33 @@ int grep_main(int argc UNUSED_PARAM, char **argv)
 
 	/* do normal option parsing */
 #if ENABLE_FEATURE_GREP_CONTEXT
-	int Copt;
+	int Copt, opts;
 
 	/* -H unsets -h; -C unsets -A,-B; -e,-f are lists;
 	 * -m,-A,-B,-C have numeric param */
 	opt_complementary = "H-h:C-AB:e::f::m+:A+:B+:C+";
-	getopt32(argv,
+	opts = getopt32(argv,
 		OPTSTR_GREP,
 		&pattern_head, &fopt, &max_matches,
 		&lines_after, &lines_before, &Copt);
 
-	if (option_mask32 & OPT_C) {
+	if (opts & OPT_C) {
 		/* -C unsets prev -A and -B, but following -A or -B
 		   may override it */
-		if (!(option_mask32 & OPT_A)) /* not overridden */
+		if (!(opts & OPT_A)) /* not overridden */
 			lines_after = Copt;
-		if (!(option_mask32 & OPT_B)) /* not overridden */
+		if (!(opts & OPT_B)) /* not overridden */
 			lines_before = Copt;
 	}
 	/* sanity checks */
-	if (option_mask32 & (OPT_c|OPT_q|OPT_l|OPT_L)) {
+	if (opts & (OPT_c|OPT_q|OPT_l|OPT_L)) {
 		option_mask32 &= ~OPT_n;
 		lines_before = 0;
 		lines_after = 0;
 	} else if (lines_before > 0) {
+		if (lines_before > INT_MAX / sizeof(long long))
+			lines_before = INT_MAX / sizeof(long long);
+		/* overflow in (lines_before * sizeof(x)) is prevented (above) */
 		before_buf = xzalloc(lines_before * sizeof(before_buf[0]));
 		IF_EXTRA_COMPAT(before_buf_size = xzalloc(lines_before * sizeof(before_buf_size[0]));)
 	}

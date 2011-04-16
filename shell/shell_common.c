@@ -14,7 +14,7 @@
  * Copyright (c) 2010 Denys Vlasenko
  * Split from ash.c
  *
- * Licensed under the GPL v2 or later, see the file LICENSE in this tarball.
+ * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
 #include "libbb.h"
 #include "shell_common.h"
@@ -422,15 +422,20 @@ shell_builtin_ulimit(char **argv)
 						else
 							val = bb_strtoull(val_str, NULL, 10);
 						if (errno) {
-							bb_error_msg("bad number");
+							bb_error_msg("invalid number '%s'", val_str);
 							return EXIT_FAILURE;
 						}
 						val <<= l->factor_shift;
 					}
 //bb_error_msg("opt %c val_str:'%s' val:%lld", opt_char, val_str, (long long)val);
+					/* from man bash: "If neither -H nor -S
+					 * is specified, both the soft and hard
+					 * limits are set. */
+					if (!opts)
+						opts = OPT_hard + OPT_soft;
 					if (opts & OPT_hard)
 						limit.rlim_max = val;
-					if ((opts & OPT_soft) || opts == 0)
+					if (opts & OPT_soft)
 						limit.rlim_cur = val;
 //bb_error_msg("setrlimit(%d, %lld, %lld)", l->cmd, (long long)limit.rlim_cur, (long long)limit.rlim_max);
 					if (setrlimit(l->cmd, &limit) < 0) {
