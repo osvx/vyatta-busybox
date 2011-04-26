@@ -1,8 +1,13 @@
 busybox (1:1.18.4-3) UNRELEASED; urgency=low
 
+  [ Loïc Minier ]
   * Drop debian/gbp.conf as git-buildpackage 0.5.22 doesn't need this anymore.
 
- -- Loïc Minier <lool@debian.org>  Mon, 11 Apr 2011 14:40:00 +0200
+  [ Michael Tokarev ]
+  * imported upstream sources into the git repository, and removed
+    debian/README.sources (the package can be built by gbp directly)
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Tue, 26 Apr 2011 23:55:00 +0400
 
 busybox (1:1.18.4-2) unstable; urgency=low
 
