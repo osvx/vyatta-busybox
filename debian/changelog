@@ -1,4 +1,6 @@
-busybox (1:1.18.4-3) UNRELEASED; urgency=low
+busybox (1:1.18.4-3~1.gbpd9be6a) UNRELEASED; urgency=low
+
+  ** SNAPSHOT build @d9be6ae8ad6b5024adab24ed07c97cd80aafeafe **
 
   [ Loïc Minier ]
   * Drop debian/gbp.conf as git-buildpackage 0.5.22 doesn't need this anymore.
@@ -6,8 +8,14 @@ busybox (1:1.18.4-3) UNRELEASED; urgency=low
   [ Michael Tokarev ]
   * imported upstream sources into the git repository, and removed
     debian/README.sources (the package can be built by gbp directly)
+  * enable switch_root applet (Closes: #572939)
+  * enable seq applet (Closes: #618927)
+  * enable float and fancy sleep (Closes: #341403)
+  * enable getopt (with long options) for udeb (Closes: #348314)
+  * enable standalone telnetd in static build (Closes: #621485)
+  * enable ps wide output (ps -w) (Closes: #519045)
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Tue, 26 Apr 2011 23:55:00 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 27 Apr 2011 01:04:03 +0400
 
 busybox (1:1.18.4-2) unstable; urgency=low
 
