@@ -14,8 +14,14 @@ busybox (1:1.18.4-3~1.gbpd9be6a) UNRELEASED; urgency=low
   * enable getopt (with long options) for udeb (Closes: #348314)
   * enable standalone telnetd in static build (Closes: #621485)
   * enable ps wide output (ps -w) (Closes: #519045)
+  * add debian/.gitignore to ignore generated files in debian/ directory
+  * enable cmp applet in udeb flavour
+  * enable diff applet in regular and static builds (Closes: #625774)
+  * enable missing compression applets in static build
+  * sync deb=>static config a bit more
+  * enable SEAMLESS_XZ decompression for static and regular builds
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 27 Apr 2011 01:04:03 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Fri, 06 May 2011 16:35:16 +0400
 
 busybox (1:1.18.4-2) unstable; urgency=low
 
