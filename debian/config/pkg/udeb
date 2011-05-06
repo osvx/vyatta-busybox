@@ -347,7 +347,7 @@ CONFIG_MKTEMP=y
 # CONFIG_PATCH is not set
 # CONFIG_AWK is not set
 # CONFIG_FEATURE_AWK_LIBM is not set
-# CONFIG_CMP is not set
+CONFIG_CMP=y
 # CONFIG_DIFF is not set
 # CONFIG_FEATURE_DIFF_LONG_OPTIONS is not set
 # CONFIG_FEATURE_DIFF_DIR is not set
