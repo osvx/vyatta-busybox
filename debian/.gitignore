@@ -1,0 +1,15 @@
+# debhelper files
+*.*.debhelper
+*.debhelper.log
+*.substvars
+files
+# build dirs
+build/
+stamps/
+# packages install dirs
+busybox/
+busybox-static/
+busybox-udeb/
+busybox-syslogd/
+udhcpc/
+udhcpd/
