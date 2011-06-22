@@ -1,6 +1,6 @@
-busybox (1:1.18.4-3~1.gbpd9be6a) UNRELEASED; urgency=low
+busybox (1:1.18.5-1~2.gbpefd926) UNRELEASED; urgency=low
 
-  ** SNAPSHOT build @d9be6ae8ad6b5024adab24ed07c97cd80aafeafe **
+  ** SNAPSHOT build @efd92643ca64ab55bcd0d4a9d615bf05954b8cea **
 
   [ Loïc Minier ]
   * Drop debian/gbp.conf as git-buildpackage 0.5.22 doesn't need this anymore.
@@ -21,8 +21,9 @@ busybox (1:1.18.4-3~1.gbpd9be6a) UNRELEASED; urgency=low
   * sync deb=>static config a bit more
   * enable SEAMLESS_XZ decompression for static and regular builds
   * udhcpc: emit "correct" secs field from upstream (Closes: #630000)
+  * new upstream (minor) release 0.18.5
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 22 Jun 2011 20:14:43 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 22 Jun 2011 20:29:58 +0400
 
 busybox (1:1.18.4-2) unstable; urgency=low
 
