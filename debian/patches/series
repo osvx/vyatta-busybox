@@ -10,3 +10,4 @@ swaponoff-FreeBSD-support.patch
 
 # #580492 bb#3463
 dirname-basename-skip-doubledash.diff
+udhcpc-emit-correct-secs-field.diff
