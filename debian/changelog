@@ -23,6 +23,10 @@ busybox (1:1.18.5-1~2.gbpefd926) UNRELEASED; urgency=low
   * udhcpc: emit "correct" secs field from upstream (Closes: #630000)
   * new upstream (minor) release 0.18.5
 
+  [ Colin Watson ]
+  * Fix udhcpc default.script to operate only on IPv4, to allow dual-stack
+    operation.
+
  -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 22 Jun 2011 20:29:58 +0400
 
 busybox (1:1.18.4-2) unstable; urgency=low
