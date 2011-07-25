@@ -1,6 +1,4 @@
-busybox (1:1.18.5-1~2.gbpefd926) UNRELEASED; urgency=low
-
-  ** SNAPSHOT build @efd92643ca64ab55bcd0d4a9d615bf05954b8cea **
+busybox (1:1.18.5-1) unstable; urgency=low
 
   [ Loïc Minier ]
   * Drop debian/gbp.conf as git-buildpackage 0.5.22 doesn't need this anymore.
@@ -30,7 +28,7 @@ busybox (1:1.18.5-1~2.gbpefd926) UNRELEASED; urgency=low
   * Enable vconfig for udeb, until such time as the ip applet can configure
     VLANs itself (closes: #591756).
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 22 Jun 2011 20:29:58 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Mon, 25 Jul 2011 13:08:04 +0400
 
 busybox (1:1.18.4-2) unstable; urgency=low
 
