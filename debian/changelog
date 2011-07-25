@@ -27,6 +27,8 @@ busybox (1:1.18.5-1~2.gbpefd926) UNRELEASED; urgency=low
   * Fix udhcpc default.script to operate only on IPv4, to allow dual-stack
     operation.
   * Enable remote logging in syslogd (closes: #605614).
+  * Enable vconfig for udeb, until such time as the ip applet can configure
+    VLANs itself (closes: #591756).
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 22 Jun 2011 20:29:58 +0400
 
