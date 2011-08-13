@@ -1,3 +1,10 @@
+busybox (1:1.18.5-2) UNRELEASED; urgency=low
+
+  [ Hector Oron ]
+  * enable cross compilation support (Closes: #572431)
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 13 Aug 2011 13:18:20 +0400
+
 busybox (1:1.18.5-1) unstable; urgency=low
 
   [ Loïc Minier ]
