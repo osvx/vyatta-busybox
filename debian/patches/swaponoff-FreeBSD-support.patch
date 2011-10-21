@@ -12,38 +12,22 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
  util-linux/xmount.h    |   16 ++++++++++------
  4 files changed, 24 insertions(+), 11 deletions(-)
 
---- a/util-linux/Config.src
-+++ b/util-linux/Config.src
-@@ -634,7 +634,6 @@ config SETARCH
- config SWAPONOFF
- 	bool "swaponoff"
- 	default y
--	depends on PLATFORM_LINUX
- 	help
- 	  This option enables both the 'swapon' and the 'swapoff' utilities.
- 	  Once you have created some swap space using 'mkswap', you also need
-@@ -646,7 +645,7 @@ config SWAPONOFF
- config FEATURE_SWAPON_PRI
- 	bool "Support priority option -p"
- 	default y
--	depends on SWAPONOFF
-+	depends on SWAPONOFF && PLATFORM_LINUX
- 	help
- 	  Enable support for setting swap device priority in swapon.
- 
 --- a/util-linux/swaponoff.c
 +++ b/util-linux/swaponoff.c
-@@ -8,8 +8,8 @@
-  */
+@@ -23,11 +23,8 @@
+ //usage:     "\n	-a	Stop swapping on all swap devices"
  
  #include "libbb.h"
 +#include "xmount.h"
  #include <mntent.h>
 -#include <sys/swap.h>
+-#ifndef __BIONIC__
+-# include <sys/swap.h>
+-#endif
  
  #if ENABLE_FEATURE_MOUNT_LABEL
  # include "volume_id.h"
-@@ -43,9 +43,9 @@ static int swap_enable_disable(char *dev
+@@ -65,9 +62,9 @@ static int swap_enable_disable(char *dev
  #endif
  
  	if (applet_name[5] == 'n')

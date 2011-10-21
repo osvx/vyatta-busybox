@@ -1,9 +1,17 @@
-busybox (1:1.18.5-2) UNRELEASED; urgency=low
+busybox (1:1.19.2-1) UNRELEASED; urgency=low
 
   [ Hector Oron ]
   * enable cross compilation support (Closes: #572431)
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 13 Aug 2011 13:18:20 +0400
+  [ Michael Tokarev ]
+  * new upstream release (1.19.2):
+   * refreshed all patches, except:
+     o applets-fallback: disabled, will try to get rid of it
+     o udhcpc-emit-correct-secs-field: applied upstream
+     o dirname-basename-skip-doubledash: different version applied upstream
+   * refreshed configs, not enabling most new applets
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 22 Oct 2011 01:59:09 +0400
 
 busybox (1:1.18.5-1) unstable; urgency=low
 

@@ -1,6 +1,6 @@
 --- a/scripts/gen_build_files.sh
 +++ b/scripts/gen_build_files.sh
-@@ -59,7 +59,7 @@ generate \
+@@ -67,7 +67,7 @@ generate \
  	"${s}"
  
  # (Re)generate */Kbuild and */Config.in
