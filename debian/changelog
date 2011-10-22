@@ -4,6 +4,7 @@ busybox (1:1.19.2-2) unstable; urgency=low
     thank you Stefan Lippers-Hollmann for the rediff.
     This restores the (broken) initramfs usage
     (Closes: #646284)
+  * s/XC-Package-Type/Package-Type/ in debian/control
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 23 Oct 2011 02:47:35 +0400
 

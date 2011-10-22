@@ -52,7 +52,7 @@ Description: Standalone rescue shell with tons of builtin utilities
  available builtin commands.
 
 Package: busybox-udeb
-XC-Package-Type: udeb
+Package-Type: udeb
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Section: debian-installer
