@@ -134,18 +134,3 @@ binary-indep_all:
 
 binary: binary-indep binary-arch
 
-DIR_ORIG = ../orig/$(SOURCE)-$(VERSION)
-TAR_ORIG_NAME = $(SOURCE)_$(VERSION).orig.tar.bz2
-TAR_ORIG = $(firstword $(wildcard ../$(TAR_ORIG_NAME)) $(wildcard ../orig/$(TAR_ORIG_NAME)))
-
-orig: $(DIR_ORIG)
-	rsync --delete --exclude debian --exclude .git --link-dest=$(DIR_ORIG)/ -a $(DIR_ORIG)/ .
-
-$(DIR_ORIG):
-ifeq ($(TAR_ORIG),)
-	$(error Cannot find orig tarball $(TAR_ORIG_NAME))
-else
-	mkdir -p ../orig
-	tar -C ../orig -xjf $(TAR_ORIG)
-endif
-
