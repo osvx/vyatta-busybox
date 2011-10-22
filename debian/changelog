@@ -10,6 +10,8 @@ busybox (1:1.19.2-1) UNRELEASED; urgency=low
      o udhcpc-emit-correct-secs-field: applied upstream
      o dirname-basename-skip-doubledash: different version applied upstream
    * refreshed configs, not enabling most new applets
+  * debian/rules:
+   o get rid of debian/stamps subdir and long dirnames in debian/build
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 22 Oct 2011 01:59:09 +0400
 

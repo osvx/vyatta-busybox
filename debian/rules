@@ -10,78 +10,65 @@ VERSION := $(shell echo "$(VERSION_DEBIAN)" | sed -e 's,^[^:]*:,,' -e 's,-[^-]*$
 VENDOR := $(shell dpkg-vendor --query vendor)
 
 BUILD_DIR = debian/build
-STAMPS_DIR = debian/stamps
 
 ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
 export CROSS_COMPILE = $(DEB_HOST_GNU_TYPE)-
 endif
 
-$(STAMPS_DIR)/dir:
-	mkdir -p $(STAMPS_DIR)
-	touch $@
+setup: $(BUILD_DIR)/deb/.setup $(BUILD_DIR)/static/.setup $(BUILD_DIR)/udeb/.setup
 
-setup: $(STAMPS_DIR)/setup_deb $(STAMPS_DIR)/setup_static $(STAMPS_DIR)/setup_udeb
-
-$(STAMPS_DIR)/setup_%: SOURCE_FILES = $(filter-out debian, $(wildcard *))
-$(STAMPS_DIR)/setup_%: DIR=$(BUILD_DIR)/build_$*
-$(STAMPS_DIR)/setup_%: $(STAMPS_DIR)/dir
+$(BUILD_DIR)/%/.setup: SOURCE_FILES = $(filter-out debian, $(wildcard *))
+$(BUILD_DIR)/%/.setup: DIR = $(BUILD_DIR)/$*
+$(BUILD_DIR)/%/.setup: debian/config/pkg/% debian/config/os/$(DEB_HOST_ARCH_OS)
 	dh_testdir
 	rm -rf '$(DIR)'
 	mkdir -p '$(DIR)'
 	cp -a -l $(SOURCE_FILES) '$(DIR)'
 	cat debian/config/os/$(DEB_HOST_ARCH_OS) debian/config/pkg/$* > '$(DIR)'/.config
 	$(MAKE) -C '$(DIR)' oldconfig
-	touch $@
+	ln -s .config $@
 
-build: $(STAMPS_DIR)/build_deb $(STAMPS_DIR)/build_static $(STAMPS_DIR)/build_udeb
+build: $(BUILD_DIR)/deb/.built $(BUILD_DIR)/static/.built $(BUILD_DIR)/udeb/.built
 
-$(STAMPS_DIR)/build_%: DIR=$(BUILD_DIR)/build_$*
-$(STAMPS_DIR)/build_%: $(STAMPS_DIR)/setup_%
+$(BUILD_DIR)/%/.built: DIR = $(BUILD_DIR)/$*
+$(BUILD_DIR)/%/.built: $(BUILD_DIR)/%/.setup
 	dh_testdir
 	$(MAKE) -C '$(DIR)' SKIP_STRIP=y install docs/busybox.1 BB_EXTRA_VERSION="$(VENDOR) $(VERSION_DEBIAN)"
 	touch $@
-
-$(STAMPS_DIR)/indepbuild_%: DIR=$(BUILD_DIR)/indepbuild_$*
-$(STAMPS_DIR)/indepbuild_%:
-	dh_testdir
-	touch $@
-
-$(BUILD_DIR) $(STAMPS_DIR):
-	@[ -d $@ ] || mkdir $@
 
 maintainerclean:
 	rm -rf $(filter-out .git debian, $(wildcard * .[^.]*))
 
 clean:
 	dh_testdir
-	rm -rf $(BUILD_DIR) $(STAMPS_DIR)
+	rm -rf $(BUILD_DIR)
 	dh_clean
 
 binary-indep: binary-indep_busybox-syslogd binary-indep_udhcpc binary-indep_udhcpd
 
 binary-arch: binary-arch_busybox binary-arch_busybox-static binary-arch_busybox-udeb
 
-binary-arch_busybox: DIR = $(BUILD_DIR)/build_deb
+binary-arch_busybox: DIR = $(BUILD_DIR)/deb
 binary-arch_busybox: export DH_OPTIONS = -pbusybox
-binary-arch_busybox: $(STAMPS_DIR)/build_deb
+binary-arch_busybox: $(BUILD_DIR)/deb/.built
 	dh_testdir
 	dh_testroot
 	dh_prep
 	dh_install --sourcedir=$(DIR)
 	@$(MAKE) -f debian/rules binary-arch_all
 
-binary-arch_busybox-static: DIR = $(BUILD_DIR)/build_static
+binary-arch_busybox-static: DIR = $(BUILD_DIR)/static
 binary-arch_busybox-static: export DH_OPTIONS = -pbusybox-static
-binary-arch_busybox-static: $(STAMPS_DIR)/build_static
+binary-arch_busybox-static: $(BUILD_DIR)/static/.built
 	dh_testdir
 	dh_testroot
 	dh_prep
 	dh_install --sourcedir=$(DIR)
 	@$(MAKE) -f debian/rules binary-arch_all
 
-binary-arch_busybox-udeb: DIR = $(BUILD_DIR)/build_udeb
+binary-arch_busybox-udeb: DIR = $(BUILD_DIR)/udeb
 binary-arch_busybox-udeb: export DH_OPTIONS = -pbusybox-udeb
-binary-arch_busybox-udeb: $(STAMPS_DIR)/build_udeb
+binary-arch_busybox-udeb: $(BUILD_DIR)/udeb/.built
 	dh_testdir
 	dh_testroot
 	dh_prep
