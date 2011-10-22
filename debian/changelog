@@ -4,7 +4,10 @@ busybox (1:1.19.2-2) unstable; urgency=low
     thank you Stefan Lippers-Hollmann for the rediff.
     This restores the (broken) initramfs usage
     (Closes: #646284)
-  * s/XC-Package-Type/Package-Type/ in debian/control
+  * s/XC-Package-Type/Package-Type/ in debian/control (lintian)
+  * add default build, build-arch and build-indep targets
+    to debian/rules (lintian), and remove old maintainerclean
+  * forgotten for 1.19: (Closes: #450895)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 23 Oct 2011 02:47:35 +0400
 
@@ -14,7 +17,7 @@ busybox (1:1.19.2-1) unstable; urgency=low
   * enable cross compilation support (Closes: #572431)
 
   [ Michael Tokarev ]
-  * new upstream release (1.19.2):
+  * new upstream release (1.19.2) (Closes: #450895):
    * refreshed all patches, except:
      o applets-fallback: disabled, will try to get rid of it
      o udhcpc-emit-correct-secs-field: applied upstream
