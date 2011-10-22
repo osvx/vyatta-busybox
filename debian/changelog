@@ -1,3 +1,12 @@
+busybox (1:1.19.2-2) unstable; urgency=low
+
+  * resurrect applets-fallback.patch for now,
+    thank you Stefan Lippers-Hollmann for the rediff.
+    This restores the (broken) initramfs usage
+    (Closes: #646284)
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 23 Oct 2011 02:47:35 +0400
+
 busybox (1:1.19.2-1) unstable; urgency=low
 
   [ Hector Oron ]
