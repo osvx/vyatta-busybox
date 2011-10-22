@@ -5,7 +5,6 @@
 files
 # build dirs
 build/
-stamps/
 # packages install dirs
 busybox/
 busybox-static/
