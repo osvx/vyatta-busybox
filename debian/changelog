@@ -3,6 +3,8 @@ busybox (1:1.19.2-3) unstable; urgency=low
   * disable all config options which selects PLATFORM_LINUX
     on non-linux platforms.  This should fix build problems
     on kfreebsd and hurd.
+  * add myself to Uploaders.
+  * bump Standards-Version to 3.9.2 (no changes needed)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Fri, 28 Oct 2011 20:42:07 +0400
 
