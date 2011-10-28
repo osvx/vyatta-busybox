@@ -1,3 +1,11 @@
+busybox (1:1.19.2-3) unstable; urgency=low
+
+  * disable all config options which selects PLATFORM_LINUX
+    on non-linux platforms.  This should fix build problems
+    on kfreebsd and hurd.
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Fri, 28 Oct 2011 20:42:07 +0400
+
 busybox (1:1.19.2-2) unstable; urgency=low
 
   * resurrect applets-fallback.patch for now,

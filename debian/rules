@@ -27,7 +27,16 @@ $(BUILD_DIR)/%/.setup: debian/config/pkg/% debian/config/os/$(DEB_HOST_ARCH_OS)
 	rm -rf '$(DIR)'
 	mkdir -p '$(DIR)'
 	cp -a -l $(SOURCE_FILES) '$(DIR)'
-	cat debian/config/os/$(DEB_HOST_ARCH_OS) debian/config/pkg/$* > '$(DIR)'/.config
+	rm -f $(DIR)/.config
+# disable all config symbols which select PLATFORM_LINUX
+	if [ linux != $(DEB_HOST_ARCH_OS) ]; then \
+	  find $(DIR) -name Config.in -or -name Config.src -exec \
+	    awk '$$1=="config" { conf = $$2 } \
+	         $$1 == "select" && $$2 == "PLATFORM_LINUX" \
+	         { print "CONFIG_" conf "=n"; }' \
+	   {} + | sort -u > $(DIR)/.config; \
+	fi
+	cat debian/config/os/$(DEB_HOST_ARCH_OS) debian/config/pkg/$* >> '$(DIR)'/.config
 	$(MAKE) -C '$(DIR)' oldconfig
 	ln -s .config $@
 
