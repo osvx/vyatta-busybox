@@ -8,3 +8,6 @@ make_gen_build_files_skip_quilt.patch
 # The following patches will likely be merged soon
 u-mount-FreeBSD-support.patch
 swaponoff-FreeBSD-support.patch
+
+# in upstream stable branch already
+busybox-1.19.2-syslogd.patch

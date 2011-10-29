@@ -2,6 +2,7 @@ busybox (1:1.19.2-4) unstable; urgency=low
 
   * update non-PLATFORM_LINUX cleanup to take config info
     stored in source files too (run gen_build_files first)
+  * busybox-1.19.2-syslog.patch from upstream (closes: #646984)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 29 Oct 2011 12:36:44 +0400
 
