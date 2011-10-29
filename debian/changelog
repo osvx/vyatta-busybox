@@ -1,3 +1,10 @@
+busybox (1:1.19.2-4) unstable; urgency=low
+
+  * update non-PLATFORM_LINUX cleanup to take config info
+    stored in source files too (run gen_build_files first)
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 29 Oct 2011 12:36:44 +0400
+
 busybox (1:1.19.2-3) unstable; urgency=low
 
   * disable all config options which selects PLATFORM_LINUX
