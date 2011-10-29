@@ -11,3 +11,7 @@ swaponoff-FreeBSD-support.patch
 
 # in upstream stable branch already
 busybox-1.19.2-syslogd.patch
+busybox-1.19.2-chpasswd.patch
+busybox-1.19.2-inetd.patch
+busybox-1.19.2-tail.patch
+busybox-1.19.2-tftp.patch
