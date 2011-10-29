@@ -58,3 +58,8 @@ ps -w option, very useful in d-i for debugging
 cmp utility, like "simpler diff", another one-of-the-basic shell
 programming primitives.
 
+20111022 mjt i386 UNXZ
+   text	   data	    bss	    dec	    hex	filename
+ 284644	   1506	   8684	 294834	  47fb2	busybox
+ 292927	   1506	   8688	 303121	  4a011	busybox+unxz
+unxz utility, to decompress xz-compressed files.
