@@ -11,6 +11,7 @@ swaponoff-FreeBSD-support.patch
 
 # sent upstream
 modinfo-select-platform-linux.patch
+getty-CBAUD-hurd.patch
 
 # in upstream stable branch already
 busybox-1.19.2-syslogd.patch

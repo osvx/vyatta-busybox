@@ -9,8 +9,11 @@ busybox (1:1.19.2-5) unstable; urgency=low
   * add another patch (sent upstream) to mark modinfo
     selecting CONFIG_LINUX as all other linux-specific
     options.  Another FTBFS on kfreebsd and hurd
+  * add a patch (and sent upstream) to use CBAUD definition
+    conditionally in (rewritten in 0.19) getty.c - hurd does
+    not have this #define.  FTBFS on hurd.
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 30 Oct 2011 21:14:16 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 30 Oct 2011 21:55:22 +0400
 
 busybox (1:1.19.2-4) unstable; urgency=low
 
