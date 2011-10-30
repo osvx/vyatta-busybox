@@ -39,9 +39,9 @@ $(BUILD_DIR)/%/.setup: debian/config/pkg/% debian/config/os/$(DEB_HOST_ARCH_OS)
 	         { print "CONFIG_" conf "=n"; }' \
 	     {} + \
           | sort -u > $(DIR)/.config; \
-	  echo CONFIG_PLATFORM_LINUX=n >> $(DIR)/.config; \
+	  cat debian/config/os/$(DEB_HOST_ARCH_OS) >> $(DIR)/.config; \
 	fi
-	cat debian/config/os/$(DEB_HOST_ARCH_OS) debian/config/pkg/$* >> $(DIR)/.config
+	cat debian/config/pkg/$* >> $(DIR)/.config
 	$(MAKE) -C $(DIR) oldconfig
 	ln -s .config $@
 
