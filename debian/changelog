@@ -14,6 +14,9 @@ busybox (1:1.19.3-1) unstable; urgency=low
     not have this #define.  FTBFS on hurd.
   * updated to upstream 1.19.3 (minor bugfix) release,
     removing all patches taken from upstream
+  * static-math-overflow-on-big-endian.patch (sent upstream),
+    to fix integer overflow in header on big-endian platform
+    (closes: #635370)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 30 Oct 2011 21:55:22 +0400
 

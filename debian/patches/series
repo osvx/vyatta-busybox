@@ -12,3 +12,4 @@ swaponoff-FreeBSD-support.patch
 # sent upstream
 modinfo-select-platform-linux.patch
 getty-CBAUD-hurd.patch
+static-math-overflow-on-big-endian.patch
