@@ -1,0 +1,17 @@
+Select PLATFORM_LINUX for modinfo too, since it now requires
+modutils.o which _is_ linux-specific.
+
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+
+Index: debian/modutils/modinfo.c
+===================================================================
+--- debian.orig/modutils/modinfo.c	2011-10-22 16:05:00.458508200 +0400
++++ debian/modutils/modinfo.c	2011-10-30 21:40:17.833071319 +0400
+@@ -13,6 +13,7 @@
+ //config:config MODINFO
+ //config:	bool "modinfo"
+ //config:	default y
++//config:	select PLATFORM_LINUX
+ //config:	help
+ //config:	  Show information about a Linux Kernel module
+ 

@@ -9,6 +9,9 @@ make_gen_build_files_skip_quilt.patch
 u-mount-FreeBSD-support.patch
 swaponoff-FreeBSD-support.patch
 
+# sent upstream
+modinfo-select-platform-linux.patch
+
 # in upstream stable branch already
 busybox-1.19.2-syslogd.patch
 busybox-1.19.2-chpasswd.patch
