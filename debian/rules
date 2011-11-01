@@ -27,22 +27,37 @@ $(BUILD_DIR)/%/.setup: debian/config/pkg/% debian/config/os/$(DEB_HOST_ARCH_OS)
 	rm -rf '$(DIR)'
 	mkdir -p '$(DIR)'
 	cp -a -l $(SOURCE_FILES) '$(DIR)'
-# disable all config symbols which select PLATFORM_LINUX
-# configuration information is stored in source files and in Config.src,
+
+# Generate the .config file. First variable assignment wins.
+# Several steps..
+
+# 1, rm it just in case
+	rm -f $(DIR)/.config
+
+# 2, put any arch-specific overrides so they will have higher precedence
+# should be empty for linux
+	cat debian/config/os/$(DEB_HOST_ARCH_OS) > $(DIR)/.config
+
+# 3, on non-linux platform, disable all config symbols
+# which select PLATFORM_LINUX.
+# Configuration information is stored in source files and in Config.src,
 # so we have to generate Config.in files first, -- done by gen_build_files.
 	$(MAKE) -C $(DIR) gen_build_files
-	rm -f $(DIR)/.config
 	if [ linux != $(DEB_HOST_ARCH_OS) ]; then \
 	  find $(DIR) -name Config.in -exec \
 	    awk '$$1 == "config" { conf = $$2 } \
 	         $$1 == "select" && $$2 == "PLATFORM_LINUX" \
 	         { print "CONFIG_" conf "=n"; }' \
 	     {} + \
-          | sort -u > $(DIR)/.config; \
-	  cat debian/config/os/$(DEB_HOST_ARCH_OS) >> $(DIR)/.config; \
+          | sort -u >> $(DIR)/.config; \
 	fi
+
+# 4, use the flavour-specific base config file.
 	cat debian/config/pkg/$* >> $(DIR)/.config
+
+# 5, sort out the resulting mess using oldconfig Kbuild machinery
 	$(MAKE) -C $(DIR) oldconfig
+
 	ln -s .config $@
 
 build-arch: $(BUILD_DIR)/deb/.built $(BUILD_DIR)/static/.built $(BUILD_DIR)/udeb/.built
