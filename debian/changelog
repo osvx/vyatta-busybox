@@ -4,6 +4,7 @@ busybox (1:1.19.3-2) unstable; urgency=low
     it is possible to have OS-specific config overrides again,
     which was broken with all this PLATFORM_LINUX mess
     (Closes: #647287)
+  * added support for unxz (CONFIG_UNXZ) to udeb (+8Kb on i386)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Tue, 01 Nov 2011 20:44:30 +0400
 
