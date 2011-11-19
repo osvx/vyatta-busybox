@@ -1,3 +1,10 @@
+busybox (1:1.19.3-3) UNRELEASED; urgency=low
+
+  * kfreebsd: use xterm terminal type instead of cons25. Thanks to
+    Robert Millan <rmh@debian.org> for the patch. Closes: #647672.
+
+ -- Otavio Salvador <otavio@debian.org>  Sat, 19 Nov 2011 16:59:49 -0200
+
 busybox (1:1.19.3-2) unstable; urgency=low
 
   * reorder PLATFORM_LINUX changes in debian/rules so that
