@@ -6,7 +6,9 @@ busybox (1:1.19.3-3) UNRELEASED; urgency=low
 
   [ Michael Tokarev ]
   * added /etc/insserv.conf.d/busybox-syslogd to tell insserv we're
-    providing syslog service.  Closes: 647942
+    providing syslog service.  Closes: #647942
+  * stop canonicalizing "source" argument of mount on FreeBSD, to
+    allow "nodev" filesystems to be mounted.  Closes: #637082
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 20 Nov 2011 14:57:36 +0400
 

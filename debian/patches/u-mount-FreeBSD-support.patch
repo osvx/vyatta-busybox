@@ -189,23 +189,23 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
 +{
 +	struct iovec *iov = NULL;
 +	int iovlen = 0;
-+	char *fspath, *from;
++	char *fspath /*, *from*/;
 +	int ret;
 +
 +	fspath = realpath(target, NULL);
-+	from = realpath(source, NULL);
++	/* from = realpath(source, NULL); -- think `nodev' here */
 +
 +	build_iovec(&iov, &iovlen, "fstype", (void*)filesystemtype, (size_t)-1);
 +	build_iovec(&iov, &iovlen, "fspath", fspath, (size_t)-1);
 +	if (!strcmp(filesystemtype, "nullfs"))
 +		/* nullfs uses a "target" instead of "from" */
-+		build_iovec(&iov, &iovlen, "target", from, (size_t)-1);
++		build_iovec(&iov, &iovlen, "target", source, (size_t)-1);
 +	else
-+		build_iovec(&iov, &iovlen, "from", from, (size_t)-1);
++		build_iovec(&iov, &iovlen, "from", source, (size_t)-1);
 +
 +	ret = nmount(iov, iovlen, mountflags);
 +
-+	free(from);
++	/*free(from);*/
 +	free(fspath);
 +
 +	return ret;
