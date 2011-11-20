@@ -1,9 +1,14 @@
 busybox (1:1.19.3-3) UNRELEASED; urgency=low
 
+  [ Otavio Salvador ]
   * kfreebsd: use xterm terminal type instead of cons25. Thanks to
     Robert Millan <rmh@debian.org> for the patch. Closes: #647672.
 
- -- Otavio Salvador <otavio@debian.org>  Sat, 19 Nov 2011 16:59:49 -0200
+  [ Michael Tokarev ]
+  * added /etc/insserv.conf.d/busybox-syslogd to tell insserv we're
+    providing syslog service.  Closes: 647942
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 20 Nov 2011 14:57:36 +0400
 
 busybox (1:1.19.3-2) unstable; urgency=low
 
