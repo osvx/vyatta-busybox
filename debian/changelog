@@ -16,8 +16,10 @@ busybox (1:1.19.3-3) UNRELEASED; urgency=low
     where it was long time ago.  It may conflict with the same conffile
     as was in udhcpc package back in lenny, but the scripts from that
     pkg should continue working still.  Closes: #619114
-  * enable taskset applet for regular and static builds (Closes: #624852)
-  * enable timeout applet for regular build
+  * config changes:
+    + taskset applet (deb & static) (Closes: #624852)
+    + timeout applet (deb)
+    + setsid applet (deb & static)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 20 Nov 2011 14:57:36 +0400
 
