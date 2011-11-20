@@ -19,7 +19,7 @@ busybox (1:1.19.3-3) UNRELEASED; urgency=low
   * config changes:
     + taskset applet (deb & static) (Closes: #624852)
     + timeout applet (deb)
-    + setsid applet (deb & static)
+    + setsid & cttyhack applets (deb & static) (Closes: #588324)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 20 Nov 2011 14:57:36 +0400
 
