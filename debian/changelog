@@ -11,6 +11,7 @@ busybox (1:1.19.3-3) UNRELEASED; urgency=low
     allow "nodev" filesystems to be mounted.  Closes: #637082
   * forcibly enable swapon/swapoff on kfreebsd even if these a marked
     as linux-specific.  Closes: #647287.
+  * revert static-math-overflow-on-big-endian (Reopens: #635370)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 20 Nov 2011 14:57:36 +0400
 
