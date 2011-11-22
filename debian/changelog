@@ -1,4 +1,4 @@
-busybox (1:1.19.3-3) UNRELEASED; urgency=low
+busybox (1:1.19.3-3) unstable; urgency=low
 
   [ Otavio Salvador ]
   * kfreebsd: use xterm terminal type instead of cons25. Thanks to
@@ -21,7 +21,7 @@ busybox (1:1.19.3-3) UNRELEASED; urgency=low
     + timeout applet (deb)
     + setsid & cttyhack applets (deb & static) (Closes: #588324)
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 20 Nov 2011 14:57:36 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 23 Nov 2011 01:13:39 +0400
 
 busybox (1:1.19.3-2) unstable; urgency=low
 
