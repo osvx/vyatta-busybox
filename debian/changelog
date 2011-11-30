@@ -1,3 +1,10 @@
+busybox (1:1.19.3-4) unstable; urgency=low
+
+  * move the forgotten udeb udhcpc script to /etc/udhcpc too
+    (Closes: #650400)
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 30 Nov 2011 23:28:02 +0400
+
 busybox (1:1.19.3-3) unstable; urgency=low
 
   [ Otavio Salvador ]
