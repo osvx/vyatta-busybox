@@ -1,3 +1,23 @@
+busybox (1:1.19.3-5) unstable; urgency=low
+
+  * enabled module-init-tools (for 2.6+ kernels, with depmod and modinfo)
+    in all 3 - regular, static and udeb - builds.  Size change on i386:
+
+      text    data     bss     dec     hex filename
+    525121    1779    8984  535884   82d4c busybox(deb)
+    532431    1779    8984  543194   849da busybox(deb)+mit+modinfo
+    534137    1779    8984  544900   85084 busybox(deb)+mit+modinfo+depmod
+    294309    1514    8688  304511   4a57f busybox(udeb)
+    298131    1514    8688  308333   4b46d busybox(udeb)+mit
+    299290    1514    8688  309492   4b8f4 busybox(udeb)+mit+modinfo
+    301397    1518    8688  311603   4c133 busybox(udeb)+mit+modinfo+depmod
+
+    which is about 7Kb (9Kb with depmod) difference for regular deb and
+    5Kb (7Kb with depmod) for udeb.  This is a long-awaited change.
+    (Closes: #288759, #298119, #250047)
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Fri, 16 Dec 2011 18:07:43 +0400
+
 busybox (1:1.19.3-4) unstable; urgency=low
 
   * move the forgotten udeb udhcpc script to /etc/udhcpc too

@@ -63,3 +63,13 @@ programming primitives.
  284644	   1506	   8684	 294834	  47fb2	busybox
  292927	   1506	   8688	 303121	  4a011	busybox+unxz
 unxz utility, to decompress xz-compressed files.
+
+20111216 mjt i386 module-init-tools
+   text	   data	    bss	    dec	    hex	filename
+ 294309    1514    8688  304511   4a57f busybox
+ 298131    1514    8688  308333   4b46d busybox+mit
+ 299290    1514    8688  309492   4b8f4 busybox+mit+modinfo
+ 301397    1518    8688  311603   4c133 busybox+mit+modinfo+depmod
+all of module-init-tools utils (insmod, rmmod, moprobe, lsmod, modinfo, depmod)
+depmod: 2Kb, used by d-i.  modinfo: 1Kb, useful utility.  Total size change
+is just 7Kb.
