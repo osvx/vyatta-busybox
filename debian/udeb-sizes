@@ -73,3 +73,9 @@ unxz utility, to decompress xz-compressed files.
 all of module-init-tools utils (insmod, rmmod, moprobe, lsmod, modinfo, depmod)
 depmod: 2Kb, used by d-i.  modinfo: 1Kb, useful utility.  Total size change
 is just 7Kb.
+
+20120405 mjt i386 hwclock
+   text    data     bss     dec     hex filename
+ 301380    1522    8688  311590   4c126 busybox
+ 303626    1546    8720  313892   4ca24 busybox+hwclock
+may be useful in d-i to set local clock
