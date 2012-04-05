@@ -1,33 +1,25 @@
 Based on patch described below, refreshed by mjt for 1.18.3
-with the following diffstat:
-
- util-linux/Config.src |    4 --
- util-linux/Kbuild.src |    4 +-
- util-linux/mount.c    |   41 +--------------------
- util-linux/umount.c   |    8 ++--
- util-linux/xmount.c   |   70 ++++++++++++++++++++++++++++++++++++
- util-linux/xmount.h   |   97 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 177 insertions(+), 47 deletions(-)
- create mode 100644 util-linux/xmount.c
- create mode 100644 util-linux/xmount.h
+and again for 1.19.3.
 
 Date: Thu, 29 Jul 2010 21:16:09 +0200
 Subject: [PATCH 18/19] (u)mount: FreeBSD support
 
 Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
 ---
- util-linux/Config.src |    4 +--
- util-linux/Kbuild.src |    4 +-
- util-linux/mount.c    |   41 ++-------------------
- util-linux/umount.c   |   41 +++------------------
- util-linux/xmount.c   |   66 +++++++++++++++++++++++++++++++++
- util-linux/xmount.h   |   97 +++++++++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 174 insertions(+), 79 deletions(-)
+ util-linux/Config.src |    3 -
+ util-linux/Kbuild.src |    4 -
+ util-linux/mount.c    |   41 +-------------------
+ util-linux/umount.c   |    8 +--
+ util-linux/xmount.c   |   70 ++++++++++++++++++++++++++++++++++
+ util-linux/xmount.h   |  101 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 181 insertions(+), 46 deletions(-)
  create mode 100644 util-linux/xmount.c
  create mode 100644 util-linux/xmount.h
 
---- a/util-linux/Kbuild.src
-+++ b/util-linux/Kbuild.src
+Index: b/util-linux/Kbuild.src
+===================================================================
+--- a/util-linux/Kbuild.src	2011-12-17 12:21:03.000000000 +0400
++++ b/util-linux/Kbuild.src	2012-04-05 14:56:27.417429336 +0400
 @@ -33,7 +33,7 @@ lib-$(CONFIG_MKFS_REISER)       += mkfs_
  lib-$(CONFIG_MKFS_VFAT)         += mkfs_vfat.o
  lib-$(CONFIG_MKSWAP)            += mkswap.o
@@ -43,8 +35,10 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
  lib-$(CONFIG_SWITCH_ROOT)       += switch_root.o
 -lib-$(CONFIG_UMOUNT)            += umount.o
 +lib-$(CONFIG_UMOUNT)            += umount.o xmount.o
---- a/util-linux/mount.c
-+++ b/util-linux/mount.c
+Index: b/util-linux/mount.c
+===================================================================
+--- a/util-linux/mount.c	2011-12-17 12:21:03.000000000 +0400
++++ b/util-linux/mount.c	2012-04-05 14:56:27.427434336 +0400
 @@ -77,44 +77,9 @@
  
  #include <mntent.h>
@@ -109,8 +103,10 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
  #endif
  
  // Append mount options to string
---- a/util-linux/umount.c
-+++ b/util-linux/umount.c
+Index: b/util-linux/umount.c
+===================================================================
+--- a/util-linux/umount.c	2011-12-17 12:21:03.000000000 +0400
++++ b/util-linux/umount.c	2012-04-05 14:56:27.437439336 +0400
 @@ -29,8 +29,8 @@
  //usage:       "$ umount /dev/hdc1\n"
  
@@ -144,8 +140,10 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
  				if (curstat) {
  					msg = "can't remount %s read-only";
  					status = EXIT_FAILURE;
---- /dev/null
-+++ b/util-linux/xmount.c
+Index: b/util-linux/xmount.c
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ b/util-linux/xmount.c	2012-04-05 14:56:27.437439336 +0400
 @@ -0,0 +1,70 @@
 +#include "libbb.h"
 +#include "xmount.h"
@@ -217,9 +215,11 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
 +}
 +
 +#endif
---- /dev/null
-+++ b/util-linux/xmount.h
-@@ -0,0 +1,97 @@
+Index: b/util-linux/xmount.h
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ b/util-linux/xmount.h	2012-04-05 14:58:23.398721293 +0400
+@@ -0,0 +1,101 @@
 +/* vi: set sw=4 ts=4: */
 +/*
 + * System-specific definitions for mount.
@@ -279,7 +279,11 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
 +#elif defined(__FreeBSD_kernel__)
 +# include <sys/mount.h>
 +# define MS_NOSUID      MNT_NOSUID
-+# define MS_NODEV       MNT_NODEV
++# ifdef MNT_NODEV
++#  define MS_NODEV	MNT_NODEV
++# else
++#  define MS_NODEV	0
++# endif
 +# define MS_NOEXEC      MNT_NOEXEC
 +# define MS_SYNCHRONOUS MNT_SYNCHRONOUS
 +# define MS_DIRSYNC     0
@@ -317,8 +321,10 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
 +		unsigned long mountflags, const void *data) FAST_FUNC;
 +int xumount(const char *target, int flags) FAST_FUNC;
 +#endif
---- a/util-linux/Config.src
-+++ b/util-linux/Config.src
+Index: b/util-linux/Config.src
+===================================================================
+--- a/util-linux/Config.src	2011-12-17 12:21:03.000000000 +0400
++++ b/util-linux/Config.src	2012-04-05 14:56:27.444109335 +0400
 @@ -495,7 +495,6 @@ config MORE
  config MOUNT
  	bool "mount"
