@@ -13,6 +13,8 @@ busybox (1:1.19.3-6) UNRELEASED; urgency=low
   * enable hwclock applet for regular & udeb builds, and
     disable FHS adjtime for static build (to make the
     location consistent with util-linux)
+  * enable login&getty applets in regular build (the same as for static)
+    (Closes: #523034)
   * kFreeBSD does not define MNT_NODEV anymore, work around it
     (Closes: #667530)
 
