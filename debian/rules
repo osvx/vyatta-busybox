@@ -73,9 +73,12 @@ clean:
 	rm -rf $(BUILD_DIR)
 	dh_clean
 
-binary-indep: binary-indep_busybox-syslogd binary-indep_udhcpc binary-indep_udhcpd
+binary-indep: binary-indep_busybox-syslogd
 
 binary-arch: binary-arch_busybox binary-arch_busybox-static binary-arch_busybox-udeb
+ifeq (linux,$(DEB_HOST_ARCH_OS))
+binary-arch: binary-arch_udhcpc binary-arch_udhcpd
+endif
 
 binary-arch_busybox: DIR = $(BUILD_DIR)/deb
 binary-arch_busybox: export DH_OPTIONS = -pbusybox
@@ -131,8 +134,8 @@ binary-indep_busybox-syslogd:
 	dh_installinit -u"defaults 11 89" --name=busybox-klogd
 	$(MAKE) -f debian/rules binary-indep_all
 
-binary-indep_udhcpc: export DH_OPTIONS = -pudhcpc
-binary-indep_udhcpc:
+binary-arch_udhcpc: export DH_OPTIONS = -pudhcpc
+binary-arch_udhcpc:
 	dh_testdir
 	dh_testroot
 	dh_prep
@@ -140,8 +143,8 @@ binary-indep_udhcpc:
 	dh_install
 	$(MAKE) -f debian/rules binary-indep_all
 
-binary-indep_udhcpd: export DH_OPTIONS = -pudhcpd
-binary-indep_udhcpd:
+binary-arch_udhcpd: export DH_OPTIONS = -pudhcpd
+binary-arch_udhcpd:
 	dh_testdir
 	dh_testroot
 	dh_prep

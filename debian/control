@@ -97,7 +97,7 @@ Description: Provides syslogd and klogd using busybox
 
 Package: udhcpc
 Section: net
-Architecture: all
+Architecture: linux-any
 Depends: busybox (>= ${source:Version}) | busybox-static (>= ${source:Version}), ${misc:Depends}
 Description: Provides the busybox DHCP client implementation
  Busybox contains a very small yet fully function RFC compliant DHCP
@@ -109,7 +109,7 @@ Description: Provides the busybox DHCP client implementation
 
 Package: udhcpd
 Section: net
-Architecture: all
+Architecture: linux-any
 Depends: busybox (>= ${source:Version}) | busybox-static (>= ${source:Version}), ${misc:Depends}
 Provides: dhcpd
 Description: Provides the busybox DHCP server implementation
