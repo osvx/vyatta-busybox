@@ -43,14 +43,14 @@ $(BUILD_DIR)/%/.setup: debian/config/pkg/% debian/config/os/$(DEB_HOST_ARCH_OS)
 # Configuration information is stored in source files and in Config.src,
 # so we have to generate Config.in files first, -- done by gen_build_files.
 	$(MAKE) -C $(DIR) gen_build_files
-	if [ linux != $(DEB_HOST_ARCH_OS) ]; then \
-	  find $(DIR) -name Config.in -exec \
-	    awk '$$1 == "config" { conf = $$2 } \
-	         $$1 == "select" && $$2 == "PLATFORM_LINUX" \
-	         { print "CONFIG_" conf "=n"; }' \
-	     {} + \
-          | sort -u >> $(DIR)/.config; \
-	fi
+ifneq (linux,$(DEB_HOST_ARCH_OS))
+	find $(DIR) -name Config.in -exec \
+	  awk '$$1 == "config" { conf = $$2 } \
+	       $$1 == "select" && $$2 == "PLATFORM_LINUX" \
+	       { print "CONFIG_" conf "=n"; }' \
+	   {} + \
+        | sort -u >> $(DIR)/.config
+endif
 
 # 4, use the flavour-specific base config file.
 	cat debian/config/pkg/$* >> $(DIR)/.config
