@@ -79,3 +79,10 @@ is just 7Kb.
  301380    1522    8688  311590   4c126 busybox
  303626    1546    8720  313892   4ca24 busybox+hwclock
 may be useful in d-i to set local clock
+
+20120423 mjt i386 mount -t nfs
+   text	   data	    bss	    dec	    hex	filename
+ 303510	   1546	   8720	 313776	  4c9b0	busybox
+ 310013	   1606	   8720	 320339	  4e353	busybox+nfs
+Very small NFS mount client, supporting NFSv2 and v3 only (no v4).
+Can be used for nfsroot, or accessing installation media over nfs.
