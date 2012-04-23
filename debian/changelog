@@ -6,6 +6,7 @@ busybox (1:1.19.3-7) UNRELEASED; urgency=low
   * enabled a few options for top and ps applets in deb, taken from static
   * enabled NFS mount (Note: only NFSv2 and NFSv3, not NFSv4)
     (Closes: #573056, #348664)
+  * enabled microcom for deb build, taken from static
   * relaxed the "links" subpackages version dependencies from source:Version
     to source:Upstream-Version
 
