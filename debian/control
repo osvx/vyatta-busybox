@@ -72,7 +72,7 @@ Description: Tiny utilities for the debian-installer
 
 Package: busybox-syslogd
 Architecture: all
-Depends: busybox (> ${source:Upstream-Version}) | busybox-static (> ${source:Upstream-Version}), ${misc:Depends}
+Depends: busybox (>> ${source:Upstream-Version}) | busybox-static (>> ${source:Upstream-Version}), ${misc:Depends}
 Provides: linux-kernel-log-daemon, system-log-daemon, klogd, syslogd
 Replaces: sysklogd, klogd, inetutils-syslogd
 Conflicts: klogd, syslogd, sysklogd, linux-kernel-log-daemon, system-log-daemon
@@ -98,7 +98,7 @@ Description: Provides syslogd and klogd using busybox
 Package: udhcpc
 Section: net
 Architecture: linux-any
-Depends: busybox (> ${source:Upstream-Version}) | busybox-static (> ${source:Upstream-Version}), ${misc:Depends}
+Depends: busybox (>> ${source:Upstream-Version}) | busybox-static (>> ${source:Upstream-Version}), ${misc:Depends}
 Description: Provides the busybox DHCP client implementation
  Busybox contains a very small yet fully function RFC compliant DHCP
  client formerly known as udhcpc.
@@ -110,7 +110,7 @@ Description: Provides the busybox DHCP client implementation
 Package: udhcpd
 Section: net
 Architecture: linux-any
-Depends: busybox (> ${source:Upstream-Version}) | busybox-static (> ${source:Upstream-Version}), ${misc:Depends}
+Depends: busybox (>> ${source:Upstream-Version}) | busybox-static (>> ${source:Upstream-Version}), ${misc:Depends}
 Provides: dhcpd
 Description: Provides the busybox DHCP server implementation
  Busybox contains a very small yet fully function RFC compliant DHCP
