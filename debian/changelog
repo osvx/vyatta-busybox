@@ -1,4 +1,4 @@
-busybox (1:1.19.3-7) UNRELEASED; urgency=low
+busybox (1:1.19.3-7) unstable; urgency=low
 
   * enable stat applet for deb & static
   * enable less applet for deb ("more" does not quite work)
@@ -12,7 +12,7 @@ busybox (1:1.19.3-7) UNRELEASED; urgency=low
   * DISabled some questionable applets from static build,
     to match regular build:
    - acpid
-   - fbset
+   - fbset (Closes: #310128) -- removing non-functional fbset
    - adduser, deluser, addgroup, delgroup
    - fsck_minix, mkfs_minix
    - eject
