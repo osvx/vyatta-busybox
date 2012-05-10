@@ -96,6 +96,8 @@ binary-arch_busybox: $(BUILD_DIR)/deb/.built
 	dh_testroot
 	dh_prep
 	dh_install --sourcedir=$(DIR)
+	dh_installdocs docs/syslog.conf.txt docs/mdev.txt
+	dh_installexamples examples/mdev* examples/udhcp
 	@$(MAKE) -f debian/rules binary-arch_all
 
 binary-arch_busybox-static: DIR = $(BUILD_DIR)/static
@@ -105,6 +107,8 @@ binary-arch_busybox-static: $(BUILD_DIR)/static/.built
 	dh_testroot
 	dh_prep
 	dh_install --sourcedir=$(DIR)
+	dh_installdocs docs/syslog.conf.txt docs/mdev.txt
+	dh_installexamples examples/mdev* examples/udhcp
 	@$(MAKE) -f debian/rules binary-arch_all
 
 binary-arch_busybox-udeb: DIR = $(BUILD_DIR)/udeb
