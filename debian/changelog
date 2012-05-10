@@ -3,6 +3,8 @@ busybox (1:1.19.3-8) UNRELEASED; urgency=low
   * enabled many httpd options (AUTH_MD5, RANGES, SETUID, CGI, GZIP, ENCODE)
     for static and regular build, which results in ~5Kb binary size difference
     on x86 but enables features users are asking (Closes: #548999, #626820)
+  * enabled dpkg-buildflags usage (filtering out -Werror=format-security from
+    CFLAGS) (Closes: #670993)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Fri, 27 Apr 2012 14:13:55 +0400
 
