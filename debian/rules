@@ -75,7 +75,7 @@ build-arch: $(BUILD_DIR)/deb/.built $(BUILD_DIR)/static/.built $(BUILD_DIR)/udeb
 $(BUILD_DIR)/%/.built: DIR = $(BUILD_DIR)/$*
 $(BUILD_DIR)/%/.built: $(BUILD_DIR)/%/.setup
 	dh_testdir
-	$(MAKE) -C '$(DIR)' busybox docs/busybox.1 \
+	$(MAKE) -C '$(DIR)' install docs/busybox.1 \
 	  SKIP_STRIP=y \
 	  BB_EXTRA_VERSION="$(VENDOR) $(VERSION_DEBIAN)" \
 	  CONFIG_EXTRA_CFLAGS='$(EXTRA_CFLAGS) $(EXTRA_CPPFLAGS)' \
