@@ -13,3 +13,4 @@ upstream/busybox-1.20.0-buildsys.patch
 upstream/busybox-1.20.0-getty.patch
 upstream/busybox-1.20.0-lineedit.patch
 upstream/busybox-1.20.0-sed.patch
+reenable-ps-options-for-DESKTOP-case.patch
