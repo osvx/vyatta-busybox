@@ -18,6 +18,8 @@ busybox (1:1.20.0-1) UNRELEASED; urgency=low
   * ship some docs and examples in static and regular builds (Closes: #671832)
   * enable expand/unexpand and ar-long-options in deb build, - small changes
     to reduce difference from static config.
+  * added reenable-ps-options-for-DESKTOP-case.patch
+  * DEP-3 headers for init-console.patch
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Fri, 27 Apr 2012 14:13:55 +0400
 
