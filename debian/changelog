@@ -1,5 +1,13 @@
-busybox (1:1.19.3-8) UNRELEASED; urgency=low
+busybox (1:1.20.0-1) UNRELEASED; urgency=low
 
+  * new upstream (mostly bugfix) release
+  * got rid of the long-standing debian-specific applets-fallback.patch, once
+    upstream added commit 83f103b30e41ab038e "ash: in standalone mode, search
+    in $PATH if /proc/self/exe doesn't exist".  I still carry the patch itself,
+    but it isn't referenced in the series file anymore.
+  * removed patches which were applied upstream, and added a few patches
+    from upstream 1.20 stable branch
+  * refreshed swaponoff-FreeBSD-support.patch and u-mount-FreeBSD-support.patch
   * enabled many httpd options (AUTH_MD5, RANGES, SETUID, CGI, GZIP, ENCODE)
     for static and regular build, which results in ~5Kb binary size difference
     on x86 but enables features users are asking
