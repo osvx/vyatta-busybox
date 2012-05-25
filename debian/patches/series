@@ -13,3 +13,4 @@ swaponoff-FreeBSD-support.patch
 modinfo-select-platform-linux.patch
 getty-CBAUD-hurd.patch
 fix-test-!-segfault.patch
+mdev:-tell-kernel-that-we-didnt-find-the-firmware.patch
