@@ -1,6 +1,6 @@
-busybox (1:1.20.1-1) UNRELEASED; urgency=low
+busybox (1:1.20.0-2) experimental; urgency=low
 
-  * new upstream bugfix release (as a patch, debian/patches/1.20.1.patch),
+  * new 1.20.1 upstream bugfix release (debian/patches/1.20.1.patch),
     all patches in upstream/ merged
   * removed reenable-ps-options-for-DESKTOP-case.patch, it was wrong
     (see https://bugs.busybox.net/show_bug.cgi?id=5216)
