@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.20.0
-# Wed May 16 13:10:47 2012
+# Wed May 30 12:14:52 2012
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -911,8 +911,8 @@ CONFIG_PIDOF=y
 # CONFIG_FEATURE_PIDOF_OMIT is not set
 # CONFIG_PKILL is not set
 CONFIG_PS=y
-CONFIG_FEATURE_PS_WIDE=y
-CONFIG_FEATURE_PS_LONG=y
+# CONFIG_FEATURE_PS_WIDE is not set
+# CONFIG_FEATURE_PS_LONG is not set
 # CONFIG_FEATURE_PS_TIME is not set
 CONFIG_FEATURE_PS_ADDITIONAL_COLUMNS=y
 # CONFIG_FEATURE_PS_UNUSUAL_SYSTEMS is not set
