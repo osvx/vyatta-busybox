@@ -1,3 +1,17 @@
+busybox (1:1.20.0-3) UNRELEASED; urgency=low
+
+  * 1.20 had a few fixes which I forgot to mention:
+    - integer overflow in expression on big endian (Closes: #635370)
+      (I dislike the fix since it makes use of 64bit integers
+      instead of using unsigned 32bit, but this is how upstream
+      fixed it)
+    - CVE-2011-2716 udhcpc insufficient checking of DHCP options (Closes: #635548)
+      busybox dhcpd now replaces values of HOST_NAME, DOMAIN_NAME,
+      NIS_DOMAIN, TFTP_SERVER_NAME with the literal string "bad"
+      if these contains any bad characters.
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 02 Jun 2012 14:54:04 +0400
+
 busybox (1:1.20.0-2) experimental; urgency=low
 
   * new 1.20.1 upstream bugfix release (debian/patches/1.20.1.patch),
