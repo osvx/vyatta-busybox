@@ -1,5 +1,38 @@
-busybox (1:1.19.3-8) UNRELEASED; urgency=low
+busybox (1:1.20.0-3) UNRELEASED; urgency=low
 
+  * 1.20 had a few fixes which I forgot to mention:
+    - integer overflow in expression on big endian (Closes: #635370)
+      (I dislike the fix since it makes use of 64bit integers
+      instead of using unsigned 32bit, but this is how upstream
+      fixed it)
+    - CVE-2011-2716 udhcpc insufficient checking of DHCP options (Closes: #635548)
+      busybox dhcpd now replaces values of HOST_NAME, DOMAIN_NAME,
+      NIS_DOMAIN, TFTP_SERVER_NAME with the literal string "bad"
+      if these contains any bad characters.
+  * applied stable patches from upstream (ash, man, ifupdown, tar)
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 02 Jun 2012 14:54:04 +0400
+
+busybox (1:1.20.0-2) experimental; urgency=low
+
+  * new 1.20.1 upstream bugfix release (debian/patches/1.20.1.patch),
+    all patches in upstream/ merged
+  * removed reenable-ps-options-for-DESKTOP-case.patch, it was wrong
+    (see https://bugs.busybox.net/show_bug.cgi?id=5216)
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 30 May 2012 12:10:47 +0400
+
+busybox (1:1.20.0-1) experimental; urgency=low
+
+  * new upstream (mostly bugfix) release
+  * got rid of the long-standing debian-specific applets-fallback.patch, once
+    upstream added commit 83f103b30e41ab038e "ash: in standalone mode, search
+    in $PATH if /proc/self/exe doesn't exist".  I still carry the patch itself,
+    but it isn't referenced in the series file anymore.
+  * removed patches which were applied upstream, and added a few patches
+    from upstream 1.20 stable branch
+  * refreshed swaponoff-FreeBSD-support.patch and u-mount-FreeBSD-support.patch
+  * refreshed configs for 1.20
   * enabled many httpd options (AUTH_MD5, RANGES, SETUID, CGI, GZIP, ENCODE)
     for static and regular build, which results in ~5Kb binary size difference
     on x86 but enables features users are asking
@@ -9,10 +42,12 @@ busybox (1:1.19.3-8) UNRELEASED; urgency=low
   * ship some docs and examples in static and regular builds (Closes: #671832)
   * enable expand/unexpand and ar-long-options in deb build, - small changes
     to reduce difference from static config.
-  * mdev:-tell-kernel-that-we-didnt-find-the-firmware.patch from upstream git
-    to let mdev handle non-existing firmware gracefully
+  * added reenable-ps-options-for-DESKTOP-case.patch
+  * DEP-3 headers for init-console.patch
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Fri, 27 Apr 2012 14:13:55 +0400
+  * releasing to experimental due to applets-fallback.patch removal
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 16 May 2012 13:47:42 +0400
 
 busybox (1:1.19.3-7) unstable; urgency=low
 

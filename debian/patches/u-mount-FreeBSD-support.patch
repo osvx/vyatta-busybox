@@ -16,11 +16,9 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
  create mode 100644 util-linux/xmount.c
  create mode 100644 util-linux/xmount.h
 
-Index: b/util-linux/Kbuild.src
-===================================================================
---- a/util-linux/Kbuild.src	2011-12-17 12:21:03.000000000 +0400
-+++ b/util-linux/Kbuild.src	2012-04-05 14:56:27.417429336 +0400
-@@ -33,7 +33,7 @@ lib-$(CONFIG_MKFS_REISER)       += mkfs_
+--- a/util-linux/Kbuild.src
++++ b/util-linux/Kbuild.src
+@@ -32,7 +32,7 @@ lib-$(CONFIG_MKFS_REISER)       += mkfs_
  lib-$(CONFIG_MKFS_VFAT)         += mkfs_vfat.o
  lib-$(CONFIG_MKSWAP)            += mkswap.o
  lib-$(CONFIG_MORE)              += more.o
@@ -29,16 +27,14 @@ Index: b/util-linux/Kbuild.src
  lib-$(CONFIG_PIVOT_ROOT)        += pivot_root.o
  lib-$(CONFIG_RDATE)             += rdate.o
  lib-$(CONFIG_RDEV)              += rdev.o
-@@ -44,4 +44,4 @@ lib-$(CONFIG_SCRIPTREPLAY)      += scrip
+@@ -43,4 +43,4 @@ lib-$(CONFIG_SCRIPTREPLAY)      += scrip
  lib-$(CONFIG_SETARCH)           += setarch.o
  lib-$(CONFIG_SWAPONOFF)         += swaponoff.o
  lib-$(CONFIG_SWITCH_ROOT)       += switch_root.o
 -lib-$(CONFIG_UMOUNT)            += umount.o
 +lib-$(CONFIG_UMOUNT)            += umount.o xmount.o
-Index: b/util-linux/mount.c
-===================================================================
---- a/util-linux/mount.c	2011-12-17 12:21:03.000000000 +0400
-+++ b/util-linux/mount.c	2012-04-05 14:56:27.427434336 +0400
+--- a/util-linux/mount.c
++++ b/util-linux/mount.c
 @@ -77,44 +77,9 @@
  
  #include <mntent.h>
@@ -85,7 +81,7 @@ Index: b/util-linux/mount.c
  #if ENABLE_FEATURE_MOUNT_LABEL
  # include "volume_id.h"
  #else
-@@ -404,7 +369,7 @@ static int verbose_mount(const char *sou
+@@ -405,7 +370,7 @@ static int verbose_mount(const char *sou
  	int rc;
  
  	errno = 0;
@@ -94,7 +90,7 @@ Index: b/util-linux/mount.c
  	if (verbose >= 2)
  		bb_perror_msg("mount('%s','%s','%s',0x%08lx,'%s'):%d",
  			source, target, filesystemtype,
-@@ -412,7 +377,7 @@ static int verbose_mount(const char *sou
+@@ -413,7 +378,7 @@ static int verbose_mount(const char *sou
  	return rc;
  }
  #else
@@ -103,10 +99,8 @@ Index: b/util-linux/mount.c
  #endif
  
  // Append mount options to string
-Index: b/util-linux/umount.c
-===================================================================
---- a/util-linux/umount.c	2011-12-17 12:21:03.000000000 +0400
-+++ b/util-linux/umount.c	2012-04-05 14:56:27.437439336 +0400
+--- a/util-linux/umount.c
++++ b/util-linux/umount.c
 @@ -29,8 +29,8 @@
  //usage:       "$ umount /dev/hdc1\n"
  
@@ -117,7 +111,7 @@ Index: b/util-linux/umount.c
  
  #if defined(__dietlibc__)
  // TODO: This does not belong here.
-@@ -140,11 +140,11 @@ int umount_main(int argc UNUSED_PARAM, c
+@@ -148,11 +148,11 @@ int umount_main(int argc UNUSED_PARAM, c
  		if (m) zapit = m->dir;
  
  		// Let's ask the thing nicely to unmount.
@@ -131,7 +125,7 @@ Index: b/util-linux/umount.c
  
  		// If still can't umount, maybe remount read-only?
  		if (curstat) {
-@@ -152,7 +152,7 @@ int umount_main(int argc UNUSED_PARAM, c
+@@ -160,7 +160,7 @@ int umount_main(int argc UNUSED_PARAM, c
  				// Note! Even if we succeed here, later we should not
  				// free loop device or erase mtab entry!
  				const char *msg = "%s busy - remounted read-only";
@@ -140,10 +134,8 @@ Index: b/util-linux/umount.c
  				if (curstat) {
  					msg = "can't remount %s read-only";
  					status = EXIT_FAILURE;
-Index: b/util-linux/xmount.c
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ b/util-linux/xmount.c	2012-04-05 14:56:27.437439336 +0400
+--- /dev/null
++++ b/util-linux/xmount.c
 @@ -0,0 +1,70 @@
 +#include "libbb.h"
 +#include "xmount.h"
@@ -215,10 +207,8 @@ Index: b/util-linux/xmount.c
 +}
 +
 +#endif
-Index: b/util-linux/xmount.h
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ b/util-linux/xmount.h	2012-04-05 14:58:23.398721293 +0400
+--- /dev/null
++++ b/util-linux/xmount.h
 @@ -0,0 +1,101 @@
 +/* vi: set sw=4 ts=4: */
 +/*
@@ -321,11 +311,9 @@ Index: b/util-linux/xmount.h
 +		unsigned long mountflags, const void *data) FAST_FUNC;
 +int xumount(const char *target, int flags) FAST_FUNC;
 +#endif
-Index: b/util-linux/Config.src
-===================================================================
---- a/util-linux/Config.src	2011-12-17 12:21:03.000000000 +0400
-+++ b/util-linux/Config.src	2012-04-05 14:56:27.444109335 +0400
-@@ -495,7 +495,6 @@ config MORE
+--- a/util-linux/Config.src
++++ b/util-linux/Config.src
+@@ -437,7 +437,6 @@ config MORE
  config MOUNT
  	bool "mount"
  	default y
@@ -333,7 +321,7 @@ Index: b/util-linux/Config.src
  	help
  	  All files and filesystems in Unix are arranged into one big directory
  	  tree. The 'mount' utility is used to graft a filesystem onto a
-@@ -682,7 +681,6 @@ config SWITCH_ROOT
+@@ -629,7 +628,6 @@ config SWITCH_ROOT
  config UMOUNT
  	bool "umount"
  	default y
@@ -341,7 +329,7 @@ Index: b/util-linux/Config.src
  	help
  	  When you want to remove a mounted filesystem from its current mount
  	  point, for example when you are shutting down the system, the
-@@ -703,6 +701,7 @@ config FEATURE_MOUNT_LOOP
+@@ -650,6 +648,7 @@ config FEATURE_MOUNT_LOOP
  	bool "Support loopback mounts"
  	default y
  	depends on MOUNT || UMOUNT

@@ -11,24 +11,21 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
  util-linux/xmount.h    |   16 ++++++++++------
  3 files changed, 23 insertions(+), 12 deletions(-)
 
-Index: b/util-linux/swaponoff.c
-===================================================================
---- a/util-linux/swaponoff.c	2011-12-17 12:21:03.000000000 +0400
-+++ b/util-linux/swaponoff.c	2012-04-05 15:00:58.446202226 +0400
-@@ -23,11 +23,8 @@
+--- a/util-linux/swaponoff.c
++++ b/util-linux/swaponoff.c
+@@ -23,10 +23,8 @@
  //usage:     "\n	-a	Stop swapping on all swap devices"
  
  #include "libbb.h"
 +#include "xmount.h"
  #include <mntent.h>
--#include <sys/swap.h>
 -#ifndef __BIONIC__
 -# include <sys/swap.h>
 -#endif
  
  #if ENABLE_FEATURE_MOUNT_LABEL
  # include "volume_id.h"
-@@ -65,9 +62,9 @@ static int swap_enable_disable(char *dev
+@@ -65,9 +63,9 @@ static int swap_enable_disable(char *dev
  #endif
  
  	if (applet_name[5] == 'n')
@@ -40,10 +37,8 @@ Index: b/util-linux/swaponoff.c
  
  	if (status != 0) {
  		bb_simple_perror_msg(device);
-Index: b/util-linux/xmount.c
-===================================================================
---- a/util-linux/xmount.c	2012-04-05 14:56:27.437439336 +0400
-+++ b/util-linux/xmount.c	2012-04-05 15:00:58.446202226 +0400
+--- a/util-linux/xmount.c
++++ b/util-linux/xmount.c
 @@ -67,4 +67,14 @@ int FAST_FUNC xumount(const char *target
  	return unmount(target, flags);
  }
@@ -59,10 +54,8 @@ Index: b/util-linux/xmount.c
 +}
 +
  #endif
-Index: b/util-linux/xmount.h
-===================================================================
---- a/util-linux/xmount.h	2012-04-05 14:58:23.398721293 +0400
-+++ b/util-linux/xmount.h	2012-04-05 15:00:58.446202226 +0400
+--- a/util-linux/xmount.h
++++ b/util-linux/xmount.h
 @@ -5,9 +5,9 @@
   * Copyright (C) 2010 by Jeremie Koenig <jk@jk.fr.eu.org>
   * Copyright (C) 2010 by Luca Favatella <slackydeb@gmail.com>

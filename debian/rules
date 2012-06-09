@@ -20,9 +20,10 @@ endif
 #  bb_error_msg_and_die(bb_msg_memory_exhausted);
 # in many places, and for these, gcc with -Werror=format-security
 # will complain, since bb_msg_memory_exhausted is an extern.
-export CFLAGS = $(filter-out -Werror=format-security, $(shell dpkg-buildflags --get CFLAGS))
-export LDFLAGS = $(shell dpkg-buildflags --get LDFLAGS)
-export CPPFLAGS = $(shell dpkg-buildflags --get CPPFLAGS)
+EXTRA_CFLAGS = \
+ $(filter-out -Werror=format-security, $(shell dpkg-buildflags --get CFLAGS))
+EXTRA_LDFLAGS = $(shell dpkg-buildflags --get LDFLAGS)
+EXTRA_CPPFLAGS = $(shell dpkg-buildflags --get CPPFLAGS)
 
 build: build-arch build-indep
 build-indep:
@@ -74,7 +75,11 @@ build-arch: $(BUILD_DIR)/deb/.built $(BUILD_DIR)/static/.built $(BUILD_DIR)/udeb
 $(BUILD_DIR)/%/.built: DIR = $(BUILD_DIR)/$*
 $(BUILD_DIR)/%/.built: $(BUILD_DIR)/%/.setup
 	dh_testdir
-	$(MAKE) -C '$(DIR)' SKIP_STRIP=y install docs/busybox.1 BB_EXTRA_VERSION="$(VENDOR) $(VERSION_DEBIAN)"
+	$(MAKE) -C '$(DIR)' install docs/busybox.1 \
+	  SKIP_STRIP=y \
+	  BB_EXTRA_VERSION="$(VENDOR) $(VERSION_DEBIAN)" \
+	  CONFIG_EXTRA_CFLAGS='$(EXTRA_CFLAGS) $(EXTRA_CPPFLAGS)' \
+	  CONFIG_EXTRA_LDFLAGS='$(EXTRA_LDFLAGS)'
 	touch $@
 
 clean:
