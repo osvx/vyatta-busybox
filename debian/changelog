@@ -9,6 +9,7 @@ busybox (1:1.20.0-3) UNRELEASED; urgency=low
       busybox dhcpd now replaces values of HOST_NAME, DOMAIN_NAME,
       NIS_DOMAIN, TFTP_SERVER_NAME with the literal string "bad"
       if these contains any bad characters.
+  * applied stable patches from upstream (ash, man, ifupdown, tar)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 02 Jun 2012 14:54:04 +0400
 

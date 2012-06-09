@@ -10,3 +10,8 @@ init-console.patch
 u-mount-FreeBSD-support.patch
 swaponoff-FreeBSD-support.patch
 
+# upstream stable patches
+busybox-1.20.1-ash.patch
+busybox-1.20.1-ifupdown.patch
+busybox-1.20.1-man.patch
+busybox-1.20.1-tar.patch
