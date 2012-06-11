@@ -1,4 +1,4 @@
-busybox (1:1.20.0-3) UNRELEASED; urgency=low
+busybox (1:1.20.0-3) unstable; urgency=low
 
   * 1.20 had a few fixes which I forgot to mention:
     - integer overflow in expression on big endian (Closes: #635370)
