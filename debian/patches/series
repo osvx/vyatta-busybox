@@ -10,6 +10,9 @@ init-console.patch
 u-mount-FreeBSD-support.patch
 swaponoff-FreeBSD-support.patch
 
+# FTBFS on non-linux
+ps-get-uptime.patch
+
 # upstream stable patches
 busybox-1.20.1-ash.patch
 busybox-1.20.1-ifupdown.patch

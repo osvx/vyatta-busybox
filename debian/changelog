@@ -1,3 +1,10 @@
+busybox (1:1.20.0-4) UNRELEASED; urgency=low
+
+  * ps-get-uptime.patch: make procps/ps.c compilable on non-linux again
+    (Closes: #677254)
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Tue, 12 Jun 2012 21:17:52 +0400
+
 busybox (1:1.20.0-3) unstable; urgency=low
 
   * 1.20 had a few fixes which I forgot to mention:
