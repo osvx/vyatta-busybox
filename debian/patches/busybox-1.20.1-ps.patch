@@ -1,15 +1,5 @@
-Subject: use separate get_uptime() and make it work on non-linux too
-From: Michael Tokarev <mjt@tls.msk.ru>
-Forwarded: yes, https://bugs.busybox.net/show_bug.cgi?id=5300
-
-Create get_uptime() function in procps/ps.c, and use it rather than
-relying on linux-specific sysinfo() inline.
-
-Signed-Off-By: Michael Tokarev <mjt@tls.msk.ru>
-
-index 4727b21..3a5af7c 100644
---- a/procps/ps.c
-+++ b/procps/ps.c
+--- busybox-1.20.1/procps/ps.c
++++ busybox-1.20.1-ps/procps/ps.c
 @@ -69,6 +69,31 @@
  /* Absolute maximum on output line length */
  enum { MAX_WIDTH = 2*1024 };
@@ -42,7 +32,7 @@ index 4727b21..3a5af7c 100644
  #if ENABLE_DESKTOP
  
  #include <sys/times.h> /* for times() */
-@@ -197,8 +222,6 @@ static inline unsigned get_HZ_by_waiting(void)
+@@ -197,8 +222,6 @@ static inline unsigned get_HZ_by_waiting
  
  static unsigned get_kernel_HZ(void)
  {
@@ -65,7 +55,7 @@ index 4727b21..3a5af7c 100644
  
  	return kernel_HZ;
  }
-@@ -635,7 +653,7 @@ int ps_main(int argc UNUSED_PARAM, char **argv UNUSED_PARAM)
+@@ -635,7 +653,7 @@ int ps_main(int argc UNUSED_PARAM, char 
  	};
  #if ENABLE_FEATURE_PS_LONG
  	time_t now = now;
@@ -74,7 +64,7 @@ index 4727b21..3a5af7c 100644
  #endif
  	int opts = 0;
  	/* If we support any options, parse argv */
-@@ -695,7 +713,7 @@ int ps_main(int argc UNUSED_PARAM, char **argv UNUSED_PARAM)
+@@ -695,7 +713,7 @@ int ps_main(int argc UNUSED_PARAM, char 
  		puts("S   UID   PID  PPID   VSZ   RSS TTY   STIME TIME     CMD");
  #if ENABLE_FEATURE_PS_LONG
  		now = time(NULL);
@@ -83,7 +73,7 @@ index 4727b21..3a5af7c 100644
  #endif
  	}
  	else {
-@@ -727,7 +745,7 @@ int ps_main(int argc UNUSED_PARAM, char **argv UNUSED_PARAM)
+@@ -727,7 +745,7 @@ int ps_main(int argc UNUSED_PARAM, char 
  				char tty[2 * sizeof(int)*3 + 2];
  				char *endp;
  				unsigned sut = (p->stime + p->utime) / 100;

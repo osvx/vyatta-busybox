@@ -4,6 +4,9 @@ busybox (1:1.20.0-5) UNRELEASED; urgency=low
     as POSIX requires (notable quotes and backslash processing).
     Also enable -0 option, apparently forgotten at the time (it
     complements find -print0 which is enabled).  (Closes: #680342)
+  * replace my ps-get-uptime.patch with busybox-1.20.1-ps.patch
+    (it is the same patch, just file formatting changed and it
+    is now obvios the patch is applied upstream)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Thu, 05 Jul 2012 11:07:40 +0400
 
