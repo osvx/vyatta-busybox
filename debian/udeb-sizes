@@ -86,3 +86,11 @@ may be useful in d-i to set local clock
  310013	   1606	   8720	 320339	  4e353	busybox+nfs
 Very small NFS mount client, supporting NFSv2 and v3 only (no v4).
 Can be used for nfsroot, or accessing installation media over nfs.
+
+20120706 mjt i386 ping
+   text	   data	    bss	    dec	    hex	filename
+ 312015	   1638	   8712	 322365	  4eb3d	busybox
+ 312628	   1638	   8712	 322978	  4eda2	busybox+ping
+ping applet, useful for basic network debugging/testing, +613 bytes.
+Enable it.
+
