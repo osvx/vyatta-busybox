@@ -17,3 +17,4 @@ busybox-1.20.1-man.patch
 busybox-1.20.1-tar.patch
 busybox-1.20.1-ps.patch
 busybox-1.20.1-mke2fs.patch
+busybox-1.20.1-1.20.2.patch
