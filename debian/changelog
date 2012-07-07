@@ -1,4 +1,4 @@
-busybox (1:1.20.0-5) UNRELEASED; urgency=low
+busybox (1:1.20.0-5) unstable; urgency=low
 
   * enable various xargs features for all flavours, to make it work
     as POSIX requires (notable quotes and backslash processing).
@@ -18,7 +18,7 @@ busybox (1:1.20.0-5) UNRELEASED; urgency=low
     default PATH variable definition, making it writable.  Full
     description is within the patch comments. (Closes: #679377)
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Thu, 05 Jul 2012 11:07:40 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 08 Jul 2012 01:37:18 +0400
 
 busybox (1:1.20.0-4) unstable; urgency=low
 
