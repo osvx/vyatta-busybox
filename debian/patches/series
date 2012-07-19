@@ -9,6 +9,9 @@ busybox-1.20.1-ps.patch
 busybox-1.20.1-mke2fs.patch
 busybox-1.20.1-1.20.2.patch
 
+# #681760 http://lists.busybox.net/pipermail/busybox/2012-July/078155.html
+libbb.h-declare-messages-with-ALIGN1.patch
+
 shell-ash-export-HOME.patch
 # we need to get rid of this one:
 #applets-fallback.patch
