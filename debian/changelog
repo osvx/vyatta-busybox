@@ -3,6 +3,9 @@ busybox (1:1.20.0-6) UNRELEASED; urgency=low
   * reorder patches in debian/patches/series: all upstream first,
     debian-specific next.  cmp(1) shows no changes in the resulting
     sources (after applying patches both ways)
+  * dont-force-no-alignment-for-s390.patch: do not use ALIGN* macros
+    on s390 and s390x because gcc generates wrong code (for wrong
+    declarations) (Closes: 681760)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Thu, 19 Jul 2012 12:45:34 +0400
 
