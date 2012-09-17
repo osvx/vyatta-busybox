@@ -94,3 +94,8 @@ Can be used for nfsroot, or accessing installation media over nfs.
 ping applet, useful for basic network debugging/testing, +613 bytes.
 Enable it.
 
+20120917 mjt i386 increase FEATURE_COPYBUF_KB from 4 to 64
+   text    data     bss     dec     hex filename
+ 312716    1669    8712  323097   4ee19 busybox+
+ 312953    1677    8712  323342   4ef0e busybox+buf64k
+Icreases copy (cp, wget, ...) speed dramatically.
