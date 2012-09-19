@@ -19,9 +19,7 @@ init-console.patch
 u-mount-FreeBSD-support.patch
 swaponoff-FreeBSD-support.patch
 
-linux-version.patch
 modprobe-read-modules-builtin.patch
 
 # http://bugs.debian.org/681760
 dont-force-no-alignment-for-s390.patch
-
