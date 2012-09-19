@@ -2,7 +2,7 @@ busybox (1:1.20.0-7) UNRELEASED; urgency=low
 
   * set CONFIG_FEATURE_COPYBUF_KB from 4 to 64 for all flavours.  This
     increases speed of various applets *dramatically*.  For example, wget
-    applet downlad time for certain file increased from 3.8sec to 0.6sec.
+    applet downlad time for certain file decreased from 3.8sec to 0.6sec.
   * modprobe-read-modules-builtin.patch: stop modprobe from complaining
     when asked to load a "module" which is built-in.  Thank you
     Ben Hutchings for the patch. (Closes: #652672)
