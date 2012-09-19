@@ -8,6 +8,11 @@ busybox (1:1.20.0-7) UNRELEASED; urgency=low
   * modprobe-read-modules-builtin.patch: stop modprobe from complaining
     when asked to load a "module" which is built-in.  Thank you
     Ben Hutchings for the patch. (Closes: #652672)
+  * udeb: enable ping6 applet and FEATURE_FANCY_PING - more featureful
+    ping(6) variant with statistics et al.  This makes ping6 available in
+    d-i (initial network debugging), and makes ping there not only more
+    useful but also using a more tested code, as used in other variants.
+    4Kb file size increase on i386.
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 11 Aug 2012 23:15:51 +0400
 

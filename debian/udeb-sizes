@@ -99,3 +99,12 @@ Enable it.
  312716    1669    8712  323097   4ee19 busybox+
  312953    1677    8712  323342   4ef0e busybox+buf64k
 Icreases copy (cp, wget, ...) speed dramatically.
+
+20120920 mjt i386 PING6 and FEATURE_FANCY_PING
+   text    data     bss     dec     hex filename
+ 312953    1677    8712  323342   4ef0e busybox+
+ 315380    1681    8712  325773   4f88d busybox+fancyping
+ 313441    1677    8712  323830   4f0f6 busybox+ping6
+ 317005    1685    8712  327402   4feea busybox+fancyping+ping6
+4Kb code and 8b data increase for more useful ping and ping6,
+both useful for initial network debugging, especially ping6.
