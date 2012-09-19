@@ -11,6 +11,12 @@ busybox (1:1.20.0-7) UNRELEASED; urgency=low
     d-i (initial network debugging), and makes ping there not only more
     useful but also using a more tested code, as used in other variants.
     4Kb file size increase on i386.
+  * stop-checking-ancient-kernel-version.patch: a rather trivial patch
+    to disable compatibility code for kernels <2.2.18 in nfs mount.
+    This was the only place in debian busybox which used
+    get_linux_version_code() function which was buggy on kernels with
+    less than 3 components version number.  So instead of fixing that
+    function, we got rid of the last user of it.  (Closes: #684611)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 11 Aug 2012 23:15:51 +0400
 

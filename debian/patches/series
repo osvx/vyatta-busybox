@@ -23,3 +23,5 @@ modprobe-read-modules-builtin.patch
 
 # http://bugs.debian.org/681760
 dont-force-no-alignment-for-s390.patch
+
+stop-checking-ancient-kernel-version.patch
