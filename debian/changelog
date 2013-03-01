@@ -1,3 +1,10 @@
+busybox (1:1.20.0-8) UNRELEASED; urgency=low
+
+  * grep-fix-grep--Fw-not-respecting-the--w-option.patch - implement
+    fgrep -w correctly (Closes: #695862)
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Fri, 01 Mar 2013 11:22:02 +0400
+
 busybox (1:1.20.0-7) unstable; urgency=low
 
   * set CONFIG_FEATURE_COPYBUF_KB from 4 to 64 for all flavours.  This
