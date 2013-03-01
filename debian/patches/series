@@ -12,6 +12,7 @@ busybox-1.20.1-1.20.2.patch
 # more fixes from upstream
 grep-fix-grep--Fw-not-respecting-the--w-option.patch
 xz-support-concatenated-xz-streams.patch
+lineedit-initialize-delptr.patch
 
 shell-ash-export-HOME.patch
 # we need to get rid of this one:
