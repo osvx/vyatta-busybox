@@ -5,6 +5,8 @@ busybox (1:1.20.0-8) UNRELEASED; urgency=low
   * xz-support-concatenated-xz-streams.patch (Closes: #686502)
   * lineedit-initialize-delptr.patch - fix segfault in line editing
     facility (Closes: #701959)
+  * mdev-fix-mode-of-dir1-in-=dir1-dir2-file-rule.patch - make intermediate
+    dirs in /dev to be of mode 0755 not 0777 (Closes: #701965)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Fri, 01 Mar 2013 11:22:02 +0400
 

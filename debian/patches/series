@@ -13,6 +13,7 @@ busybox-1.20.1-1.20.2.patch
 grep-fix-grep--Fw-not-respecting-the--w-option.patch
 xz-support-concatenated-xz-streams.patch
 lineedit-initialize-delptr.patch
+mdev-fix-mode-of-dir1-in-=dir1-dir2-file-rule.patch
 
 shell-ash-export-HOME.patch
 # we need to get rid of this one:
