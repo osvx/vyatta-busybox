@@ -7,6 +7,9 @@ busybox (1:1.20.0-8) UNRELEASED; urgency=low
     facility (Closes: #701959)
   * mdev-fix-mode-of-dir1-in-=dir1-dir2-file-rule.patch - make intermediate
     dirs in /dev to be of mode 0755 not 0777 (Closes: #701965)
+  * fix unaligned access macros (Closes: #701968)
+    - fix-move_to_unaligned16.patch
+    - xz-fix-put_unaligned_e32.patch
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Fri, 01 Mar 2013 11:22:02 +0400
 
