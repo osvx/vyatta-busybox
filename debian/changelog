@@ -2,6 +2,7 @@ busybox (1:1.20.0-9) UNRELEASED; urgency=low
 
   * Bump debhelper compat level to 9.
   * Set Vcs-* to canonical format.
+  * Cherrypick missing includes from 1.21, to fix FTBFS with gcc4.8.
 
  -- Dmitrijs Ledkovs <xnox@debian.org>  Sat, 08 Jun 2013 11:43:57 +0100
 

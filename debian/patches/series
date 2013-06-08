@@ -33,3 +33,4 @@ modprobe-read-modules-builtin.patch
 dont-force-no-alignment-for-s390.patch
 
 stop-checking-ancient-kernel-version.patch
+cherrypick-include-fix-ftbfs-gcc4.8.patch
