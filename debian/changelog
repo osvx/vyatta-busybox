@@ -1,4 +1,6 @@
-busybox (1:1.20.0-9) UNRELEASED; urgency=low
+busybox (1:1.20.0-9) unstable; urgency=low
+
+  * Team upload
 
   [ Dmitrijs Ledkovs ]
   * Bump debhelper compat level to 9.
@@ -8,7 +10,7 @@ busybox (1:1.20.0-9) UNRELEASED; urgency=low
   [ Christian Perrier ]
   * Update Standards to 3.9.4 (checked)
 
- -- Dmitrijs Ledkovs <xnox@debian.org>  Sat, 08 Jun 2013 11:43:57 +0100
+ -- Christian Perrier <bubulle@debian.org>  Sat, 24 Aug 2013 08:37:40 +0200
 
 busybox (1:1.20.0-8) unstable; urgency=low
 
