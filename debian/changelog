@@ -16,6 +16,10 @@ busybox (1:1.21.0-1) UNRELEASED; urgency=low
     - xz-support-concatenated-xz-streams.patch
     - fix-move_to_unaligned16.patch
     - xz-fix-put_unaligned_e32.patch
+  * removed applets-fallback.patch.  It hasn't been applied since 1.20
+    (including wheezy), just get rid of it finally.  Please note that
+    this wasn't intentional, I didn't plan to stop applying it for
+    wheezy, especially silently.
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 10 Nov 2013 16:39:11 +0400
 

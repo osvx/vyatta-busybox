@@ -5,8 +5,6 @@
 lineedit-initialize-delptr.patch
 
 shell-ash-export-HOME.patch
-# we need to get rid of this one:
-#applets-fallback.patch
 version.patch
 init-console.patch
 
