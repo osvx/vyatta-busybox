@@ -1,3 +1,18 @@
+busybox (1:1.21.0-1) UNRELEASED; urgency=low
+
+  * new upstream release (1.21)
+  * removed all 1.20.* patches from upstream, plus a few other
+    which are also applied now:
+    - dont-force-no-alignment-for-s390.patch
+    - grep-fix-grep--Fw-not-respecting-the--w-option.patch
+    - mdev-fix-mode-of-dir1-in-=dir1-dir2-file-rule.patch
+    - cherrypick-include-fix-ftbfs-gcc4.8.patch
+  * refreshed patches:
+    = shell-ash-export-HOME.patch
+    = u-mount-FreeBSD-support.patch
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 10 Nov 2013 16:39:11 +0400
+
 busybox (1:1.20.0-9) unstable; urgency=low
 
   * Team upload
