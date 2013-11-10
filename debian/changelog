@@ -1,4 +1,4 @@
-busybox (1:1.21.0-1) UNRELEASED; urgency=low
+busybox (1:1.21.0-1) unstable; urgency=low
 
   * new upstream release (1.21)
   * removed all 1.20.* patches from upstream, plus a few other
@@ -21,7 +21,7 @@ busybox (1:1.21.0-1) UNRELEASED; urgency=low
     this wasn't intentional, I didn't plan to stop applying it for
     wheezy, especially silently.
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 10 Nov 2013 16:39:11 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 10 Nov 2013 18:34:21 +0400
 
 busybox (1:1.20.0-9) unstable; urgency=low
 
