@@ -10,6 +10,7 @@ busybox (1:1.21.0-1) UNRELEASED; urgency=low
   * refreshed patches:
     = shell-ash-export-HOME.patch
     = u-mount-FreeBSD-support.patch
+  * refreshed configs
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 10 Nov 2013 16:39:11 +0400
 
