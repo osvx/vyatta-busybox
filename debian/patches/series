@@ -1,10 +1,8 @@
 # upstream stable patches
+1.21.1.diff
 
 # more fixes from upstream
-xz-support-concatenated-xz-streams.patch
 lineedit-initialize-delptr.patch
-fix-move_to_unaligned16.patch
-xz-fix-put_unaligned_e32.patch
 
 shell-ash-export-HOME.patch
 # we need to get rid of this one:

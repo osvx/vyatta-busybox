@@ -11,6 +11,11 @@ busybox (1:1.21.0-1) UNRELEASED; urgency=low
     = shell-ash-export-HOME.patch
     = u-mount-FreeBSD-support.patch
   * refreshed configs
+  * applied 1.21.1 (stable) patch from upstream, and removed more
+    patches which are now included in 1.21.1:
+    - xz-support-concatenated-xz-streams.patch
+    - fix-move_to_unaligned16.patch
+    - xz-fix-put_unaligned_e32.patch
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 10 Nov 2013 16:39:11 +0400
 
