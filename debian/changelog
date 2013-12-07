@@ -15,6 +15,8 @@ busybox (1:1.21.0-2) UNRELEASED; urgency=low
   * apply testsuite-bashisms.patch, to enable running of testsuite with dash.
   * run testsuite during build
   * rewamp/simplify debian/rules
+  * use busybox versions of ifconfig and route in udhcpc script
+    (Closes: #684596)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 07 Dec 2013 18:25:11 +0400
 
