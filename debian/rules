@@ -6,7 +6,7 @@ DEB_HOST_GNU_TYPE := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 PKGVERSION := $(shell dpkg-parsechangelog | sed -ne 's,^Version: *\(.*\)$$,\1,p')
 VENDOR := $(shell dpkg-vendor --query vendor)
-RUN_TESTSUITE = y
+RUN_TESTSUITE = n
 TESTSUITE_ENV = SKIP_KNOWN_BUGS=y
 #TESTSUITE_ENV += SKIP_INTERNET_TESTS=y
 

@@ -13,7 +13,7 @@ busybox (1:1.21.0-2) UNRELEASED; urgency=low
     fix this, we'll create applet links to busybox binary in /bin&Co.
   * add initramfs hook to install busybox properly in initramfs
   * apply testsuite-bashisms.patch, to enable running of testsuite with dash.
-  * run testsuite during build
+  * add ability to run testsuite (disabled for now, unicode tests fail on sid)
   * rewamp/simplify debian/rules
   * use busybox versions of ifconfig and route in udhcpc script
     (Closes: #684596)
