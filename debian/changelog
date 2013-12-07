@@ -11,6 +11,7 @@ busybox (1:1.21.0-2) UNRELEASED; urgency=low
     were introduced, in an attempt to fix #472653.  Without this change,
     busybox was useless in the very beginning of initramfs.  In order to
     fix this, we'll create applet links to busybox binary in /bin&Co.
+  * add initramfs hook to install busybox properly in initramfs
   * rewamp/simplify debian/rules
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 07 Dec 2013 18:25:11 +0400
