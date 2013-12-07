@@ -8,6 +8,9 @@ SOURCE := $(shell dpkg-parsechangelog | sed -ne 's,^Source: *\(.*\)$$,\1,p')
 VERSION_DEBIAN := $(shell dpkg-parsechangelog | sed -ne 's,^Version: *\(.*\)$$,\1,p')
 VERSION := $(shell echo "$(VERSION_DEBIAN)" | sed -e 's,^[^:]*:,,' -e 's,-[^-]*$$,,')
 VENDOR := $(shell dpkg-vendor --query vendor)
+RUN_TESTSUITE = y
+TESTSUITE_ENV = SKIP_KNOWN_BUGS=y
+#TESTSUITE_ENV += SKIP_INTERNET_TESTS=y
 
 # build directory
 b = debian/build
@@ -71,8 +74,15 @@ endif
 
 	ln -s .config $@
 
+ifeq (y,${RUN_TESTSUITE})
+# we run testsuite only for main flavour
+test-dep := ${b}/deb/.stamp-test
+else
+test-dep :=
+endif
+
 build-arch: ${b}/stamp-build
-${b}/stamp-build: $(patsubst %,${b}/%/.stamp-build, ${flavours})
+${b}/stamp-build: $(patsubst %,${b}/%/.stamp-build, ${flavours}) ${test-dep}
 	touch $@
 
 ${b}/%/.stamp-build: DIR = ${b}/$*
@@ -83,6 +93,17 @@ ${b}/%/.stamp-build: ${b}/%/.stamp-setup
 	  BB_EXTRA_VERSION="$(VENDOR) $(VERSION_DEBIAN)" \
 	  CONFIG_EXTRA_CFLAGS='$(EXTRA_CFLAGS) $(EXTRA_CPPFLAGS)' \
 	  CONFIG_EXTRA_LDFLAGS='$(EXTRA_LDFLAGS)'
+	touch $@
+
+test: ${b}/stamp-test
+${b}/stamp-test: $(patsubst %,${b}/%/.stamp-test, ${flavours})
+	touch $@
+${b}/%/.stamp-test: DIR = ${b}/$*
+${b}/%/.stamp-test: ${b}/%/.stamp-build
+	@echo ======== running testsuite in ${DIR} ========
+# mdev testsuite requires chroot which does not work as non-root user
+	rm -f ${DIR}/testsuite/mdev.tests
+	cd ${DIR}/testsuite && ${TESTSUITE_ENV} ./runtest -v
 	touch $@
 
 clean:
