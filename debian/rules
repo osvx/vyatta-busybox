@@ -103,7 +103,9 @@ ${b}/%/.stamp-test: ${b}/%/.stamp-build
 	@echo ======== running testsuite in ${DIR} ========
 # mdev testsuite requires chroot which does not work as non-root user
 	rm -f ${DIR}/testsuite/mdev.tests
-	cd ${DIR}/testsuite && ${TESTSUITE_ENV} ./runtest -v
+	cd ${DIR}/testsuite && ${TESTSUITE_ENV} ./runtest -v || \
+		{ echo ======= running testsuite in ${DIR} in verbose mode =======; \
+		  ${TESTSUITE_ENV} VERBOSE=y ./runtest -v; }
 	touch $@
 
 clean:
