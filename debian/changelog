@@ -1,4 +1,4 @@
-busybox (1:1.21.0-2) UNRELEASED; urgency=low
+busybox (1:1.21.0-2exp) experimental; urgency=low
 
   * set CONFIG_BUSYBOX_EXEC_PATH=/proc/self/exe on linux and kfreebsd,
     and set it to /bin/busybox on hurd since it does not have /proc/self/exe
@@ -18,7 +18,7 @@ busybox (1:1.21.0-2) UNRELEASED; urgency=low
   * use busybox versions of ifconfig and route in udhcpc script
     (Closes: #684596)
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 07 Dec 2013 18:25:11 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 07 Dec 2013 19:47:27 +0400
 
 busybox (1:1.21.0-1) unstable; urgency=low
 
