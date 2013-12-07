@@ -4,9 +4,7 @@ SHELL := sh -e
 DEB_HOST_ARCH_OS := $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 DEB_HOST_GNU_TYPE := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
-SOURCE := $(shell dpkg-parsechangelog | sed -ne 's,^Source: *\(.*\)$$,\1,p')
-VERSION_DEBIAN := $(shell dpkg-parsechangelog | sed -ne 's,^Version: *\(.*\)$$,\1,p')
-VERSION := $(shell echo "$(VERSION_DEBIAN)" | sed -e 's,^[^:]*:,,' -e 's,-[^-]*$$,,')
+PKGVERSION := $(shell dpkg-parsechangelog | sed -ne 's,^Version: *\(.*\)$$,\1,p')
 VENDOR := $(shell dpkg-vendor --query vendor)
 RUN_TESTSUITE = y
 TESTSUITE_ENV = SKIP_KNOWN_BUGS=y
@@ -18,8 +16,8 @@ b = debian/build
 # which flavours to build
 flavours = deb static udeb
 
-ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
-export CROSS_COMPILE = $(DEB_HOST_GNU_TYPE)-
+ifneq (${DEB_HOST_GNU_TYPE},${DEB_BUILD_GNU_TYPE})
+export CROSS_COMPILE = ${DEB_HOST_GNU_TYPE}-
 endif
 
 # we filter out -Werror=format-security from CFLAGS, because
@@ -36,41 +34,41 @@ build: build-arch build-indep
 build-indep:
 
 ${b}/%/.stamp-setup: DIR = ${b}/$*
-${b}/%/.stamp-setup: debian/config/pkg/% debian/config/os/$(DEB_HOST_ARCH_OS)
+${b}/%/.stamp-setup: debian/config/pkg/% debian/config/os/${DEB_HOST_ARCH_OS}
 	dh_testdir
-	rm -rf '$(DIR)'
-	mkdir -p '$(DIR)'
-	cp -a -l $(filter-out debian, $(wildcard *)) '$(DIR)'
+	rm -rf ${DIR}
+	mkdir -p ${DIR}
+	cp -a -l $(filter-out debian, $(wildcard *)) ${DIR}
 
 # Generate the .config file. First variable assignment wins.
 # Several steps..
 
 # 1, rm it just in case
-	rm -f $(DIR)/.config
+	rm -f ${DIR}/.config
 
 # 2, put any arch-specific overrides so they will have higher precedence
 # should be empty for linux
-	cat debian/config/os/$(DEB_HOST_ARCH_OS) > $(DIR)/.config
+	cat debian/config/os/${DEB_HOST_ARCH_OS} > ${DIR}/.config
 
 # 3, on non-linux platform, disable all config symbols
 # which select PLATFORM_LINUX.
 # Configuration information is stored in source files and in Config.src,
 # so we have to generate Config.in files first, -- done by gen_build_files.
-	$(MAKE) -C $(DIR) gen_build_files
-ifneq (linux,$(DEB_HOST_ARCH_OS))
-	find $(DIR) -name Config.in -exec \
+	${MAKE} -C ${DIR} gen_build_files
+ifneq (linux,${DEB_HOST_ARCH_OS})
+	find ${DIR} -name Config.in -exec \
 	  awk '$$1 == "config" { conf = $$2 } \
 	       $$1 == "select" && $$2 == "PLATFORM_LINUX" \
 	       { print "CONFIG_" conf "=n"; }' \
 	   {} + \
-        | sort -u >> $(DIR)/.config
+        | sort -u >> ${DIR}/.config
 endif
 
 # 4, use the flavour-specific base config file.
-	cat debian/config/pkg/$* >> $(DIR)/.config
+	cat debian/config/pkg/$* >> ${DIR}/.config
 
 # 5, sort out the resulting mess using oldconfig Kbuild machinery
-	$(MAKE) -C $(DIR) oldconfig
+	${MAKE} -C ${DIR} oldconfig
 
 	ln -s .config $@
 
@@ -88,12 +86,12 @@ ${b}/stamp-build: $(patsubst %,${b}/%/.stamp-build, ${flavours}) ${test-dep}
 ${b}/%/.stamp-build: DIR = ${b}/$*
 ${b}/%/.stamp-build: ${b}/%/.stamp-setup
 	dh_testdir
-	$(MAKE) -C '$(DIR)' install docs/busybox.1 \
+	$(MAKE) -C ${DIR} install docs/busybox.1 \
 	  SKIP_STRIP=y \
-	  BB_EXTRA_VERSION="$(VENDOR) $(VERSION_DEBIAN)" \
-	  CONFIG_EXTRA_CFLAGS='$(EXTRA_CFLAGS) $(EXTRA_CPPFLAGS)' \
-	  CONFIG_EXTRA_LDFLAGS='$(EXTRA_LDFLAGS)'
-	touch $@
+	  BB_EXTRA_VERSION="${VENDOR} ${PKGVERSION}" \
+	  CONFIG_EXTRA_CFLAGS='${EXTRA_CFLAGS} ${EXTRA_CPPFLAGS}' \
+	  CONFIG_EXTRA_LDFLAGS='${EXTRA_LDFLAGS}'
+	ln -sf busybox $@
 
 test: ${b}/stamp-test
 ${b}/stamp-test: $(patsubst %,${b}/%/.stamp-test, ${flavours})
