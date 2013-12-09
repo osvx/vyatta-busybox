@@ -1,3 +1,9 @@
+busybox (1:1.21.0-3exp) UNRELEASED; urgency=low
+
+  * enable running the testsuite but do not fail the build if testsuite fails
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Mon, 09 Dec 2013 14:35:57 +0400
+
 busybox (1:1.21.0-2exp) experimental; urgency=low
 
   * set CONFIG_BUSYBOX_EXEC_PATH=/proc/self/exe on linux and kfreebsd,

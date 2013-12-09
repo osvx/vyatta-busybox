@@ -6,7 +6,7 @@ DEB_HOST_GNU_TYPE := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 PKGVERSION := $(shell dpkg-parsechangelog | sed -ne 's,^Version: *\(.*\)$$,\1,p')
 VENDOR := $(shell dpkg-vendor --query vendor)
-RUN_TESTSUITE = n
+RUN_TESTSUITE = u
 TESTSUITE_ENV = SKIP_KNOWN_BUGS=y
 #TESTSUITE_ENV += SKIP_INTERNET_TESTS=y
 
@@ -103,7 +103,7 @@ ${b}/%/.stamp-test: ${b}/%/.stamp-build
 	rm -f ${DIR}/testsuite/mdev.tests
 	cd ${DIR}/testsuite && ${TESTSUITE_ENV} ./runtest -v || \
 		{ echo ======= running testsuite in ${DIR} in verbose mode =======; \
-		  ${TESTSUITE_ENV} VERBOSE=y ./runtest -v; }
+		  ${TESTSUITE_ENV} VERBOSE=y ./runtest -v; } || true
 	touch $@
 
 clean:
