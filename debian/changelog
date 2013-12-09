@@ -1,4 +1,4 @@
-busybox (1:1.21.0-5exp) UNRELEASED; urgency=low
+busybox (1:1.21.0-5exp) experimental; urgency=low
 
   * build-depend on zip so that the testsuite can be run
   * update Standards-Version to 3.9.5 (no changes needed)
@@ -9,7 +9,7 @@ busybox (1:1.21.0-5exp) UNRELEASED; urgency=low
     (debian/testsuite-*.diff files)
   * taskset is linux-specific, disable it for kfreebsd and hurd
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Mon, 09 Dec 2013 15:15:58 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Mon, 09 Dec 2013 21:59:25 +0400
 
 busybox (1:1.21.0-4exp) experimental; urgency=low
 
