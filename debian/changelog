@@ -1,3 +1,9 @@
+busybox (1:1.21.0-5exp) UNRELEASED; urgency=low
+
+  * build-depend on zip so that the testsuite can be run
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Mon, 09 Dec 2013 15:15:58 +0400
+
 busybox (1:1.21.0-4exp) experimental; urgency=low
 
   * actually enable running the testsuite
