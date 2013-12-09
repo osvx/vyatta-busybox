@@ -171,3 +171,6 @@ binary: binary-indep binary-arch
 .PHONY: binary binary-arch binary-indep \
 	build build-arch build-indep \
 	clean setup
+
+.PRECIOUS: ${b}/%/.stamp-setup ${b}/%/.stamp-build ${b}/%/.stamp-test \
+	${b}/stamp-%
