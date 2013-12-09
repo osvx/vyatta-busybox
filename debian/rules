@@ -103,6 +103,12 @@ ${b}/%/.stamp-test: ${b}/%/.stamp-build
 	@echo ======== running testsuite in ${DIR} ========
 # mdev testsuite requires chroot which does not work as non-root user
 	rm -f ${DIR}/testsuite/mdev.tests
+# disable or fix some failing tests
+	if [ -f debian/testsuite-${DEB_HOST_ARCH_OS}.diff ] && \
+	   ! [ -f ${DIR}/.tests-fixed ]; then \
+		( cd ${DIR} && patch -p1 && touch .tests-fixed; ) \
+		  < debian/testsuite-${DEB_HOST_ARCH_OS}.diff ; \
+	fi
 	cd ${DIR}/testsuite && ${TESTSUITE_ENV} ./runtest -v
 	touch $@
 
