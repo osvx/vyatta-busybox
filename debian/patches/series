@@ -17,3 +17,4 @@ modprobe-read-modules-builtin.patch
 stop-checking-ancient-kernel-version.patch
 
 testsuite-bashisms.patch
+readlink-MAXSYMLINKS-hurd.patch

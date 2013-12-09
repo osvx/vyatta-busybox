@@ -1,6 +1,7 @@
 busybox (1:1.21.0-3exp) UNRELEASED; urgency=low
 
   * enable running the testsuite but do not fail the build if testsuite fails
+  * readlink-MAXSYMLINKS-hurd.patch to stop busybox from ftbfs'ing on hurd
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Mon, 09 Dec 2013 14:35:57 +0400
 
