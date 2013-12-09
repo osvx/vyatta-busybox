@@ -8,6 +8,8 @@ PKGVERSION := $(shell dpkg-parsechangelog | sed -ne 's,^Version: *\(.*\)$$,\1,p'
 VENDOR := $(shell dpkg-vendor --query vendor)
 RUN_TESTSUITE = y
 TESTSUITE_ENV = SKIP_KNOWN_BUGS=y VERBOSE=y
+# always run tests in UTF8 mode to verify unicode support
+TESTSUITE_ENV += LANG=C.UTF8
 #TESTSUITE_ENV += SKIP_INTERNET_TESTS=y
 
 # build directory
@@ -101,8 +103,7 @@ ${b}/%/.stamp-test: ${b}/%/.stamp-build
 	@echo ======== running testsuite in ${DIR} ========
 # mdev testsuite requires chroot which does not work as non-root user
 	rm -f ${DIR}/testsuite/mdev.tests
-# || true for now because currently (1.21 on jessie) all unicode tests fail
-	cd ${DIR}/testsuite && ${TESTSUITE_ENV} ./runtest -v || true
+	cd ${DIR}/testsuite && ${TESTSUITE_ENV} ./runtest -v
 	touch $@
 
 clean:
