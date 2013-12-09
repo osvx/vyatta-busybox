@@ -5,6 +5,7 @@ busybox (1:1.21.0-5exp) UNRELEASED; urgency=low
   * always run testsuite in verbose mode
   * run testsuite with C.UTF8 locale to enable unicode tests
   * fail if the testsuite fails (when RUN_TESTSUITE=y)
+  * taskset is linux-specific, disable it for kfreebsd and hurd
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Mon, 09 Dec 2013 15:15:58 +0400
 
