@@ -2,7 +2,7 @@ busybox (1:1.21.0-6exp) UNRELEASED; urgency=low
 
   * increase syslog buffer size from 256 to 1024 bytes,
     hopefully this (Closes: #519356)
-  * mention closing of #681940 by 1.21
+  * mention closing of #681940, #716808 by 1.21
   * document static_lease in udhcpd.conf.5 (Jonathan David Amery)
     (Closes: #699229)
 
@@ -58,7 +58,7 @@ busybox (1:1.21.0-2exp) experimental; urgency=low
 
 busybox (1:1.21.0-1) unstable; urgency=low
 
-  * new upstream release (1.21) (Closes: #681940)
+  * new upstream release (1.21) (Closes: #681940, #716808)
   * removed all 1.20.* patches from upstream, plus a few other
     which are also applied now:
     - dont-force-no-alignment-for-s390.patch
