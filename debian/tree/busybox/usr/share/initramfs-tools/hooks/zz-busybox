@@ -34,7 +34,7 @@ for alias in $($BB_BIN --list-long); do
   alias="${alias#/}"
   case "$alias" in
     # strip leading /usr, we don't use it
-    usr/) alias="${alias#usr/}" ;;
+    usr/*) alias="${alias#usr/}" ;;
     */*) ;;
     *) alias="bin/$alias" ;;  # make it into /bin
   esac
