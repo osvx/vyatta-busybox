@@ -8,6 +8,7 @@ busybox (1:1.21.0-6exp) UNRELEASED; urgency=low
   * fix busybox initramfs hook to actually _run_ (make it executable)
     and actually strip leading /usr from applet paths.  Stupid.
     (Closes: #732256)
+  * move build directory from debian/build to build
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Tue, 10 Dec 2013 02:20:54 +0400
 

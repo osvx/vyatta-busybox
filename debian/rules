@@ -13,7 +13,7 @@ TESTSUITE_ENV += LANG=C.UTF8
 #TESTSUITE_ENV += SKIP_INTERNET_TESTS=y
 
 # build directory
-b = debian/build
+b = build
 
 # which flavours to build
 flavours = deb static udeb
@@ -40,7 +40,7 @@ ${b}/%/.stamp-setup: debian/config/pkg/% debian/config/os/${DEB_HOST_ARCH_OS}
 	dh_testdir
 	rm -rf ${DIR}
 	mkdir -p ${DIR}
-	cp -a -l $(filter-out debian, $(wildcard *)) ${DIR}
+	cp -a -l $(filter-out debian ${b}, $(wildcard *)) ${DIR}
 
 # Generate the .config file. First variable assignment wins.
 # Several steps..
