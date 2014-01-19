@@ -63,7 +63,7 @@ index 63ceb9f..1b3ac66 100644
 +++ b/testsuite/which/which-uses-default-path
 @@ -1,4 +1,4 @@
 -BUSYBOX=$(type -p busybox)
-+BUSYBOX=$(command -pv busybox)
++BUSYBOX=$(command -v busybox)
  SAVED_PATH=$PATH
  unset PATH
  $BUSYBOX which ls
