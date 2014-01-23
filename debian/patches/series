@@ -1,8 +1,4 @@
 # upstream stable patches
-1.21.1.diff
-
-# more fixes from upstream
-lineedit-initialize-delptr.patch
 
 shell-ash-export-HOME.patch
 version.patch
@@ -15,6 +11,3 @@ swaponoff-FreeBSD-support.patch
 modprobe-read-modules-builtin.patch
 
 stop-checking-ancient-kernel-version.patch
-
-testsuite-bashisms.patch
-readlink-MAXSYMLINKS-hurd.patch

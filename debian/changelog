@@ -1,5 +1,8 @@
-busybox (1:1.21.0-7) UNRELEASED; urgency=low
+busybox (1:1.22.0-1) UNRELEASED; urgency=low
 
+  * new upstream release (1.22.0), removed patches which were upstreamed.
+    This version actually fixes #686502 (concatenated xz streams)
+    which were closed in debian but the patch has been dropped meanwhile.
   * fix testsuite-bashisms.patch to use `command -v' instead of `command -pv'
     (Closes: #733502)
 
