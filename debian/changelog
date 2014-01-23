@@ -1,4 +1,4 @@
-busybox (1:1.22.0-1) UNRELEASED; urgency=low
+busybox (1:1.22.0-1) unstable; urgency=low
 
   * new upstream release (1.22.0), removed patches which were upstreamed.
     This version actually fixes #686502 (concatenated xz streams)
@@ -11,7 +11,7 @@ busybox (1:1.22.0-1) UNRELEASED; urgency=low
     use `command -v' instead of `command -pv' (Closes: #733502)
   * added description to version.patch
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 18 Jan 2014 18:12:58 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Thu, 23 Jan 2014 18:39:42 +0400
 
 busybox (1:1.21.0-6exp) experimental; urgency=low
 
