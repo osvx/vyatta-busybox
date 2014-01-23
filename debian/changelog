@@ -3,6 +3,8 @@ busybox (1:1.22.0-1) UNRELEASED; urgency=low
   * new upstream release (1.22.0), removed patches which were upstreamed.
     This version actually fixes #686502 (concatenated xz streams)
     which were closed in debian but the patch has been dropped meanwhile.
+  * update configs.  In particular, enable new fstrim applet
+    for regular build
   * fix testsuite-bashisms.patch to use `command -v' instead of `command -pv'
     (Closes: #733502)
 
