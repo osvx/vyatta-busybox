@@ -1,5 +1,7 @@
 # upstream stable patches
 1.22.1.diff
+ash-in-bash-compat-mode-always-export-SHLVL.diff
+libbb-fix-parsing-of-10101010-datetime-form.diff
 testsuite-fix-last-which-change.diff
 
 shell-ash-export-HOME.patch

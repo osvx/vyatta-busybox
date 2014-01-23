@@ -6,6 +6,7 @@ busybox (1:1.22.0-1) UNRELEASED; urgency=low
   * update configs.  In particular, enable new fstrim applet
     for regular build
   * update to 1.22.1 (1.22.1.diff)
+  * include stable changes from upstream up to 2014-01-23
   * testsuite-fix-last-which-change.diff (applied upstream):
     use `command -v' instead of `command -pv' (Closes: #733502)
 
