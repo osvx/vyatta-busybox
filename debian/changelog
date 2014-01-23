@@ -5,8 +5,8 @@ busybox (1:1.22.0-1) UNRELEASED; urgency=low
     which were closed in debian but the patch has been dropped meanwhile.
   * update configs.  In particular, enable new fstrim applet
     for regular build
-  * fix testsuite-bashisms.patch to use `command -v' instead of `command -pv'
-    (Closes: #733502)
+  * testsuite-fix-last-which-change.diff (applied upstream):
+    use `command -v' instead of `command -pv' (Closes: #733502)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sat, 18 Jan 2014 18:12:58 +0400
 

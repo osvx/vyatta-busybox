@@ -1,4 +1,5 @@
 # upstream stable patches
+testsuite-fix-last-which-change.diff
 
 shell-ash-export-HOME.patch
 version.patch
