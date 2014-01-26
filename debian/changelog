@@ -2,6 +2,7 @@ busybox (1:1.22.0-3) UNRELEASED; urgency=low
 
   * mention closing of #685361 by 1.22
   * enable devmem applet for regular and static builds (Closes: #696704)
+  * enable acpid applet for regular and static builds (Closes: #704815)
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 26 Jan 2014 21:55:34 +0400
 
