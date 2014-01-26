@@ -1,3 +1,10 @@
+busybox (1:1.22.0-2) unstable; urgency=low
+
+  * use the same initramfs hook for busybox-static as
+    for busybox (Closes: #736521)
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 26 Jan 2014 19:47:07 +0400
+
 busybox (1:1.22.0-1) unstable; urgency=low
 
   * new upstream release (1.22.0), removed patches which were upstreamed.
