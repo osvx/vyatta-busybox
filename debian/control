@@ -36,6 +36,7 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts: busybox
 Replaces: busybox
+Provides: busybox
 Priority: extra
 Section: shells
 Description: Standalone rescue shell with tons of builtin utilities
