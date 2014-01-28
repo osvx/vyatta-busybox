@@ -5,6 +5,9 @@ busybox (1:1.22.0-3) UNRELEASED; urgency=low
   * enable acpid applet for regular and static builds (Closes: #704815)
   * enable mount -f (MOUNT_FAKE) for all builds (Closes: #484799)
   * let busybox-static to provide busybox (Closes: #375568)
+  * added two fixes from upstream (Closes: #736872)
+    libarchive-open_zipped-does-not-need-to-check-extensions.diff
+    libbb-open_zipped-should-not-fail-on-non-compressed-files.diff
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 26 Jan 2014 21:55:34 +0400
 
