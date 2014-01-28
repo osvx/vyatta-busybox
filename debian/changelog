@@ -1,4 +1,4 @@
-busybox (1:1.22.0-3) UNRELEASED; urgency=low
+busybox (1:1.22.0-3) unstable; urgency=low
 
   * mention closing of #685361 by 1.22
   * enable devmem applet for regular and static builds (Closes: #696704)
@@ -9,7 +9,7 @@ busybox (1:1.22.0-3) UNRELEASED; urgency=low
     libarchive-open_zipped-does-not-need-to-check-extensions.diff
     libbb-open_zipped-should-not-fail-on-non-compressed-files.diff
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Sun, 26 Jan 2014 21:55:34 +0400
+ -- Michael Tokarev <mjt@tls.msk.ru>  Tue, 28 Jan 2014 14:27:50 +0400
 
 busybox (1:1.22.0-2) unstable; urgency=low
 
