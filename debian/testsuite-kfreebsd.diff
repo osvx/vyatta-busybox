@@ -11,29 +11,6 @@ index 4cd441a..cef9bfc 100755
  
  rm -rf cpio.testdir cpio.testdir2 2>/dev/null
  
-diff --git a/testsuite/du/du-k-works b/testsuite/du/du-k-works
-index 36dcaa8..ab55688 100644
---- a/testsuite/du/du-k-works
-+++ b/testsuite/du/du-k-works
-@@ -3,5 +3,6 @@ cd du.testdir
- dd if=/dev/zero of=file1 bs=1k count=64 2>/dev/null
- dd if=/dev/zero of=file2 bs=1k count=16 2>/dev/null
- test x"`busybox du -k .`" = x"80	." \
-+  -o x"`busybox du -k .`" = x"82	." \
-   -o x"`busybox du -k .`" = x"84	." \
-   -o x"`busybox du -k .`" = x"88	."
-diff --git a/testsuite/du/du-l-works b/testsuite/du/du-l-works
-index 426ee89..af87345 100644
---- a/testsuite/du/du-l-works
-+++ b/testsuite/du/du-l-works
-@@ -6,6 +6,7 @@ dd if=/dev/zero of=file1 bs=1k count=64 2>/dev/null
- ln file1 file1.1
- dd if=/dev/zero of=file2 bs=1k count=16 2>/dev/null
- test x"`busybox du -l .`" = x"144	." \
-+  -o x"`busybox du -l .`" = x"146	." \
-   -o x"`busybox du -l .`" = x"148	." \
-   -o x"`busybox du -l .`" = x"152	." \
-   -o x"`busybox du -l .`" = x"156	."
 diff --git a/testsuite/pidof.tests b/testsuite/pidof.tests
 index 2a06d2b..405c14f 100755
 --- a/testsuite/pidof.tests
@@ -50,7 +27,7 @@ diff --git a/testsuite/tar.tests b/testsuite/tar.tests
 index 7927020..d6dceba 100755
 --- a/testsuite/tar.tests
 +++ b/testsuite/tar.tests
-@@ -82,6 +82,7 @@ Ok: 0
+@@ -120,6 +120,7 @@ Ok: 0
  SKIP=
  
  optional FEATURE_TAR_CREATE FEATURE_LS_SORTFILES

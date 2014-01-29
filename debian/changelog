@@ -1,3 +1,11 @@
+busybox (1:1.22.0-4) UNRELEASED; urgency=low
+
+  * new: do-not-fail-on-missing-SIGPWR.patch: fix FTBFS on !linux,
+    refresh: testsuite-kfreebsd.diff: fix testsuite on kFreebsd
+    Thanks to Steven Chamberlain for this (Closes: #736975).
+
+ -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 29 Jan 2014 12:36:05 +0400
+
 busybox (1:1.22.0-3) unstable; urgency=low
 
   * mention closing of #685361 by 1.22
