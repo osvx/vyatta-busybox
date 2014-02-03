@@ -5,6 +5,7 @@ libbb-fix-parsing-of-10101010-datetime-form.diff
 testsuite-fix-last-which-change.diff
 libarchive-open_zipped-does-not-need-to-check-extensions.diff
 libbb-open_zipped-should-not-fail-on-non-compressed-files.diff
+zcat:-complain-if-input-is-not-compressed.diff
 
 # submitted fixes
 do-not-fail-on-missing-SIGPWR.patch

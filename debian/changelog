@@ -3,6 +3,9 @@ busybox (1:1.22.0-4) UNRELEASED; urgency=low
   * new: do-not-fail-on-missing-SIGPWR.patch: fix FTBFS on !linux,
     refresh: testsuite-kfreebsd.diff: fix testsuite on kFreebsd
     Thanks to Steven Chamberlain for this (Closes: #736975).
+  * new: zcat:-complain-if-input-is-not-compressed.diff patch from
+    upstream, to fix zcat allowing uncompressing input after
+    previous fixes for #736872
 
  -- Michael Tokarev <mjt@tls.msk.ru>  Wed, 29 Jan 2014 12:36:05 +0400
 
