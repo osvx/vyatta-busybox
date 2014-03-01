@@ -12,6 +12,12 @@ TESTSUITE_ENV = SKIP_KNOWN_BUGS=y VERBOSE=y
 TESTSUITE_ENV += LANG=C.UTF8
 #TESTSUITE_ENV += SKIP_INTERNET_TESTS=y
 
+# support parallel build using DEB_BUILD_OPTIONS=parallel=N
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+  MAKEFLAGS += \
+    -j$(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+endif
+
 # build directory
 b = build
 
