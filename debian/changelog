@@ -1,11 +1,14 @@
-busybox (1:1.22.0-5) UNRELEASED; urgency=low
+busybox (1:1.22.0-5) unstable; urgency=low
 
+  * Team upload
+
+  [ Michael Tokarev ]
   * enable (apparently forgotten) lzop applet for regular and static builds
   * support DEB_BUILD_OPTIONS=parallel=N (Closes: #740397)
   * support DEB_BUILD_OPTIONS=nocheck to skip testsuite run
   * enable date applet for udeb flavour too (Closes: #702093)
 
- -- Michael Tokarev <mjt@tls.msk.ru>  Tue, 11 Feb 2014 15:51:17 +0400
+ -- Christian Perrier <bubulle@debian.org>  Sat, 22 Mar 2014 20:06:42 +0100
 
 busybox (1:1.22.0-4) unstable; urgency=low
 
