@@ -104,7 +104,7 @@ Section: net
 Architecture: linux-any
 Depends: busybox (>> ${source:Upstream-Version}) | busybox-static (>> ${source:Upstream-Version}), ${misc:Depends}
 Description: Provides the busybox DHCP client implementation
- Busybox contains a very small yet fully function RFC compliant DHCP
+ Busybox contains a very small yet fully functional RFC compliant DHCP
  client formerly known as udhcpc.
  .
  This package contains the glue to use the busybox udhcpc as DHCP
