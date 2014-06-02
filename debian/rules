@@ -158,11 +158,11 @@ binary-arch: ${b}/stamp-build
 #	dh_installinit -pvyatta-busybox-syslogd -u"defaults 10 90"
 #	dh_installinit -pvyatta-busybox-syslogd -u"defaults 11 89" --name=busybox-klogd
 
-ifeq (linux,$(DEB_HOST_ARCH_OS))
+#ifeq (linux,$(DEB_HOST_ARCH_OS))
 # udhcpc
 # udhcpd
-	dh_installinit -pudhcpd --onlyscripts
-endif
+#	dh_installinit -pudhcpd --onlyscripts
+#endif
 
 # common actions
 
