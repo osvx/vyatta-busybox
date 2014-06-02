@@ -184,6 +184,7 @@ Signed-off-by: Jeremie Koenig <jk@jk.fr.eu.org>
 +{
 +	struct iovec *iov = NULL;
 +	int iovlen = 0;
++	char *fspath /*, *from*/;
 +	int ret;
 +
 +	fspath = realpath(target, NULL);
