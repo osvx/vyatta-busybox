@@ -9,7 +9,7 @@
  * Licensed under GPLv2, see file LICENSE in this source tree.
  */
 
-//applet:IF_POWERTOP(APPLET(powertop, _BB_DIR_BIN, _BB_SUID_DROP))
+//applet:IF_POWERTOP(APPLET(powertop, BB_DIR_USR_SBIN, BB_SUID_DROP))
 
 //kbuild:lib-$(CONFIG_POWERTOP) += powertop.o
 
@@ -393,11 +393,9 @@ static NOINLINE int process_timer_stats(void)
 	char buf[128];
 	char line[15 + 3 + 128];
 	int n;
-	ullong totalticks;
 	FILE *fp;
 
 	buf[0] = '\0';
-	totalticks = 0;
 
 	n = 0;
 	fp = NULL;
@@ -495,7 +493,7 @@ static NOINLINE int process_timer_stats(void)
  * Get information about CPU using CPUID opcode.
  */
 static void cpuid(unsigned int *eax, unsigned int *ebx, unsigned int *ecx,
-				  unsigned int *edx)
+				unsigned int *edx)
 {
 	/* EAX value specifies what information to return */
 	__asm__(
@@ -629,7 +627,6 @@ static void show_timerstats(void)
 		int i, n = 0;
 		char strbuf6[6];
 
-		strbuf6[5] = '\0';
 		puts("\nTop causes for wakeups:");
 		for (i = 0; i < G.lines_cnt; i++) {
 			if ((G.lines[i].count > 0 /*|| G.lines[i].disk_count > 0*/)
@@ -641,7 +638,7 @@ static void show_timerstats(void)
 				/*char c = ' ';
 				if (G.lines[i].disk_count)
 					c = 'D';*/
-				smart_ulltoa5(G.lines[i].count, strbuf6, " KMGTPEZY");
+				smart_ulltoa5(G.lines[i].count, strbuf6, " KMGTPEZY")[0] = '\0';
 				printf(/*" %5.1f%% (%s)%c  %s\n"*/
 					" %5.1f%% (%s)   %s\n",
 					G.lines[i].count * 100.0 / G.lines_cumulative_count,
@@ -652,7 +649,7 @@ static void show_timerstats(void)
 	} else {
 		bb_putchar('\n');
 		bb_error_msg("no stats available; run as root or"
-				" enable the cpufreq_stats module");
+				" enable the timer_stats module");
 	}
 }
 

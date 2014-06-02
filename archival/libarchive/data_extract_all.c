@@ -4,7 +4,7 @@
  */
 
 #include "libbb.h"
-#include "archive.h"
+#include "bb_archive.h"
 
 void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
 {
@@ -13,13 +13,13 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
 	int res;
 
 #if ENABLE_FEATURE_TAR_SELINUX
-	char *sctx = archive_handle->tar__next_file_sctx;
+	char *sctx = archive_handle->tar__sctx[PAX_NEXT_FILE];
 	if (!sctx)
-		sctx = archive_handle->tar__global_sctx;
+		sctx = archive_handle->tar__sctx[PAX_GLOBAL];
 	if (sctx) { /* setfscreatecon is 4 syscalls, avoid if possible */
 		setfscreatecon(sctx);
-		free(archive_handle->tar__next_file_sctx);
-		archive_handle->tar__next_file_sctx = NULL;
+		free(archive_handle->tar__sctx[PAX_NEXT_FILE]);
+		archive_handle->tar__sctx[PAX_NEXT_FILE] = NULL;
 	}
 #endif
 
@@ -106,15 +106,28 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
 	switch (file_header->mode & S_IFMT) {
 	case S_IFREG: {
 		/* Regular file */
+		char *dst_name;
 		int flags = O_WRONLY | O_CREAT | O_EXCL;
 		if (archive_handle->ah_flags & ARCHIVE_O_TRUNC)
 			flags = O_WRONLY | O_CREAT | O_TRUNC;
-		dst_fd = xopen3(file_header->name,
+		dst_name = file_header->name;
+#ifdef ARCHIVE_REPLACE_VIA_RENAME
+		if (archive_handle->ah_flags & ARCHIVE_REPLACE_VIA_RENAME)
+			/* rpm-style temp file name */
+			dst_name = xasprintf("%s;%x", dst_name, (int)getpid());
+#endif
+		dst_fd = xopen3(dst_name,
 			flags,
 			file_header->mode
 			);
 		bb_copyfd_exact_size(archive_handle->src_fd, dst_fd, file_header->size);
 		close(dst_fd);
+#ifdef ARCHIVE_REPLACE_VIA_RENAME
+		if (archive_handle->ah_flags & ARCHIVE_REPLACE_VIA_RENAME) {
+			xrename(dst_name, file_header->name);
+			free(dst_name);
+		}
+#endif
 		break;
 	}
 	case S_IFDIR:

@@ -8,6 +8,15 @@
  *
  * Licensed under GPLv2, see file LICENSE in this source tree.
  */
+
+//usage:#define dmesg_trivial_usage
+//usage:       "[-c] [-n LEVEL] [-s SIZE]"
+//usage:#define dmesg_full_usage "\n\n"
+//usage:       "Print or control the kernel ring buffer\n"
+//usage:     "\n	-c		Clear ring buffer after printing"
+//usage:     "\n	-n LEVEL	Set console logging level"
+//usage:     "\n	-s SIZE		Buffer size"
+
 #include <sys/klog.h>
 #include "libbb.h"
 
@@ -50,16 +59,15 @@ int dmesg_main(int argc UNUSED_PARAM, char **argv)
 		int last = '\n';
 		int in = 0;
 
-		/* Skip <#> at the start of lines */
+		/* Skip <[0-9]+> at the start of lines */
 		while (1) {
 			if (last == '\n' && buf[in] == '<') {
-				in += 3;
-				if (in >= len)
-					break;
+				while (buf[in++] != '>' && in < len)
+					;
+			} else {
+				last = buf[in++];
+				putchar(last);
 			}
-			last = buf[in];
-			putchar(last);
-			in++;
 			if (in >= len)
 				break;
 		}

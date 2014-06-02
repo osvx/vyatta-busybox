@@ -30,14 +30,23 @@ char* FAST_FUNC bb_ask(const int fd, int timeout, const char *prompt)
 	struct sigaction sa, oldsa;
 	struct termios tio, oldtio;
 
-	tcgetattr(fd, &oldtio);
+	fputs(prompt, stdout);
+	fflush_all();
 	tcflush(fd, TCIFLUSH);
+
+	tcgetattr(fd, &oldtio);
 	tio = oldtio;
-#ifndef IUCLC
-# define IUCLC 0
-#endif
+#if 0
+	/* Switch off UPPERCASE->lowercase conversion (never used since 198x)
+	 * and XON/XOFF (why we want to mess with this??)
+	 */
+# ifndef IUCLC
+#  define IUCLC 0
+# endif
 	tio.c_iflag &= ~(IUCLC|IXON|IXOFF|IXANY);
-	tio.c_lflag &= ~(ECHO|ECHOE|ECHOK|ECHONL|TOSTOP);
+#endif
+	/* Switch off echo */
+	tio.c_lflag &= ~(ECHO|ECHOE|ECHOK|ECHONL);
 	tcsetattr(fd, TCSANOW, &tio);
 
 	memset(&sa, 0, sizeof(sa));
@@ -50,16 +59,15 @@ char* FAST_FUNC bb_ask(const int fd, int timeout, const char *prompt)
 		alarm(timeout);
 	}
 
-	fputs(prompt, stdout);
-	fflush_all();
-
 	if (!passwd)
 		passwd = xmalloc(sizeof_passwd);
 	ret = passwd;
 	i = 0;
 	while (1) {
 		int r = read(fd, &ret[i], 1);
-		if (r < 0) {
+		if ((i == 0 && r == 0) /* EOF (^D) with no password */
+		 || r < 0
+		) {
 			/* read is interrupted by timeout or ^C */
 			ret = NULL;
 			break;

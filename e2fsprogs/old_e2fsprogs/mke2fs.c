@@ -239,7 +239,7 @@ static void test_disk(ext2_filsys fs, badblocks_list *bb_list)
 	errcode_t	retval;
 	char		buf[1024];
 
-	sprintf(buf, "badblocks -b %d %s%s%s %d", fs->blocksize,
+	sprintf(buf, "badblocks -b %u %s%s%s %d", fs->blocksize,
 		quiet ? "" : "-s ", (cflag > 1) ? "-w " : "",
 		fs->device_name, fs->super->s_blocks_count);
 	mke2fs_verbose("Running command: %s\n", buf);
@@ -385,7 +385,7 @@ static errcode_t zero_blocks(ext2_filsys fs, blk_t blk, int num,
 			     struct progress_struct *progress,
 			     blk_t *ret_blk, int *ret_count)
 {
-	int		j, count, next_update, next_update_incr;
+	int		j, count, next_update;
 	static char	*buf;
 	errcode_t	retval;
 
@@ -403,9 +403,7 @@ static errcode_t zero_blocks(ext2_filsys fs, blk_t blk, int num,
 	}
 	/* OK, do the write loop */
 	next_update = 0;
-	next_update_incr = num / 100;
-	if (next_update_incr < 1)
-		next_update_incr = 1;
+
 	for (j=0; j < num; j += STRIDE_LENGTH, blk += STRIDE_LENGTH) {
 		count = num - j;
 		if (count > STRIDE_LENGTH)
@@ -757,7 +755,7 @@ static void parse_extended_opts(struct ext2_super_block *sb_param,
 
 			if (rsv_gdb > 0) {
 				sb_param->s_feature_compat |=
-					EXT2_FEATURE_COMPAT_RESIZE_INODE;
+					EXT2_FEATURE_COMPAT_RESIZE_INO;
 
 				sb_param->s_reserved_gdt_blocks = rsv_gdb;
 			}
@@ -778,7 +776,7 @@ static void parse_extended_opts(struct ext2_super_block *sb_param,
 
 static __u32 ok_features[3] = {
 	EXT3_FEATURE_COMPAT_HAS_JOURNAL |
-		EXT2_FEATURE_COMPAT_RESIZE_INODE |
+		EXT2_FEATURE_COMPAT_RESIZE_INO |
 		EXT2_FEATURE_COMPAT_DIR_INDEX,  /* Compat */
 	EXT2_FEATURE_INCOMPAT_FILETYPE|         /* Incompat */
 		EXT3_FEATURE_INCOMPAT_JOURNAL_DEV|
@@ -1123,7 +1121,7 @@ static int PRS(int argc, char **argv)
 	/* Since sparse_super is the default, we would only have a problem
 	 * here if it was explicitly disabled.
 	 */
-	if ((param.s_feature_compat & EXT2_FEATURE_COMPAT_RESIZE_INODE) &&
+	if ((param.s_feature_compat & EXT2_FEATURE_COMPAT_RESIZE_INO) &&
 	    !(param.s_feature_ro_compat&EXT2_FEATURE_RO_COMPAT_SPARSE_SUPER)) {
 		bb_error_msg_and_die("reserved online resize blocks not supported "
 			  "on non-sparse filesystem");
@@ -1312,7 +1310,7 @@ int mke2fs_main (int argc, char **argv)
 		reserve_inodes(fs);
 		create_bad_block_inode(fs, bb_list);
 		if (fs->super->s_feature_compat &
-		    EXT2_FEATURE_COMPAT_RESIZE_INODE) {
+		    EXT2_FEATURE_COMPAT_RESIZE_INO) {
 			retval = ext2fs_create_resize_inode(fs);
 			mke2fs_error_msg_and_die(retval, "reserve blocks for online resize");
 		}

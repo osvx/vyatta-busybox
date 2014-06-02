@@ -162,6 +162,8 @@ static NOINLINE int print_linkinfo(const struct nlmsghdr *n)
 		printf("master %s ", ll_idx_n2a(*(int*)RTA_DATA(tb[IFLA_MASTER]), b1));
 	}
 #endif
+/* IFLA_OPERSTATE was added to kernel with the same commit as IFF_DORMANT */
+#ifdef IFF_DORMANT
 	if (tb[IFLA_OPERSTATE]) {
 		static const char operstate_labels[] ALIGN1 =
 			"UNKNOWN\0""NOTPRESENT\0""DOWN\0""LOWERLAYERDOWN\0"
@@ -169,6 +171,7 @@ static NOINLINE int print_linkinfo(const struct nlmsghdr *n)
 		printf("state %s ", nth_string(operstate_labels,
 					*(uint8_t *)RTA_DATA(tb[IFLA_OPERSTATE])));
 	}
+#endif
 	if (G_filter.showqueue)
 		print_queuelen((char*)RTA_DATA(tb[IFLA_IFNAME]));
 
@@ -311,14 +314,16 @@ static int FAST_FUNC print_addrinfo(const struct sockaddr_nl *who UNUSED_PARAM,
 	if (rta_tb[IFA_BROADCAST]) {
 		printf("brd %s ",
 			rt_addr_n2a(ifa->ifa_family,
-				    RTA_DATA(rta_tb[IFA_BROADCAST]),
-				    abuf, sizeof(abuf)));
+					RTA_DATA(rta_tb[IFA_BROADCAST]),
+					abuf, sizeof(abuf))
+		);
 	}
 	if (rta_tb[IFA_ANYCAST]) {
 		printf("any %s ",
 			rt_addr_n2a(ifa->ifa_family,
-				    RTA_DATA(rta_tb[IFA_ANYCAST]),
-				    abuf, sizeof(abuf)));
+					RTA_DATA(rta_tb[IFA_ANYCAST]),
+					abuf, sizeof(abuf))
+		);
 	}
 	printf("scope %s ", rtnl_rtscope_n2a(ifa->ifa_scope, b1));
 	if (ifa->ifa_flags & IFA_F_SECONDARY) {
@@ -622,10 +627,12 @@ static int ipaddr_modify(int cmd, char **argv)
 	req.ifa.ifa_family = preferred_family;
 
 	while (*argv) {
-		const smalluint arg = index_in_strings(option, *argv);
-		if (arg <= 1) { /* peer, remote */
+		unsigned arg = index_in_strings(option, *argv);
+		/* if search fails, "local" is assumed */
+		if ((int)arg >= 0)
 			NEXT_ARG();
 
+		if (arg <= 1) { /* peer, remote */
 			if (peer_len) {
 				duparg("peer", *argv);
 			}
@@ -638,7 +645,6 @@ static int ipaddr_modify(int cmd, char **argv)
 			req.ifa.ifa_prefixlen = peer.bitlen;
 		} else if (arg <= 3) { /* broadcast, brd */
 			inet_prefix addr;
-			NEXT_ARG();
 			if (brd_len) {
 				duparg("broadcast", *argv);
 			}
@@ -655,7 +661,6 @@ static int ipaddr_modify(int cmd, char **argv)
 			}
 		} else if (arg == 4) { /* anycast */
 			inet_prefix addr;
-			NEXT_ARG();
 			if (any_len) {
 				duparg("anycast", *argv);
 			}
@@ -667,22 +672,18 @@ static int ipaddr_modify(int cmd, char **argv)
 			any_len = addr.bytelen;
 		} else if (arg == 5) { /* scope */
 			uint32_t scope = 0;
-			NEXT_ARG();
 			if (rtnl_rtscope_a2n(&scope, *argv)) {
 				invarg(*argv, "scope");
 			}
 			req.ifa.ifa_scope = scope;
 			scoped = 1;
 		} else if (arg == 6) { /* dev */
-			NEXT_ARG();
 			d = *argv;
 		} else if (arg == 7) { /* label */
-			NEXT_ARG();
 			l = *argv;
 			addattr_l(&req.n, sizeof(req), IFA_LABEL, l, strlen(l) + 1);
 		} else {
-			if (arg == 8) /* local */
-				NEXT_ARG();
+			/* local (specified or assumed) */
 			if (local_len) {
 				duparg2("local", *argv);
 			}
@@ -719,7 +720,7 @@ static int ipaddr_modify(int cmd, char **argv)
 		}
 		brd = peer;
 		if (brd.bitlen <= 30) {
-			for (i=31; i>=brd.bitlen; i--) {
+			for (i = 31; i >= brd.bitlen; i--) {
 				if (brd_len == -1)
 					brd.data[0] |= htonl(1<<(31-i));
 				else
@@ -749,11 +750,11 @@ int FAST_FUNC do_ipaddr(char **argv)
 {
 	static const char commands[] ALIGN1 =
 		"add\0""delete\0""list\0""show\0""lst\0""flush\0";
-	smalluint cmd = 2;
+	int cmd = 2;
 	if (*argv) {
 		cmd = index_in_substrings(commands, *argv);
-		if (cmd > 5)
-			bb_error_msg_and_die(bb_msg_invalid_arg, *argv, applet_name);
+		if (cmd < 0)
+			invarg(*argv, applet_name);
 		argv++;
 		if (cmd <= 1)
 			return ipaddr_modify((cmd == 0) ? RTM_NEWADDR : RTM_DELADDR, argv);

@@ -9,6 +9,23 @@
 
 /* BB_AUDIT SUSv3 N/A -- Matches GNU behavior. */
 
+//usage:#define mknod_trivial_usage
+//usage:       "[-m MODE] " IF_SELINUX("[-Z] ") "NAME TYPE MAJOR MINOR"
+//usage:#define mknod_full_usage "\n\n"
+//usage:       "Create a special file (block, character, or pipe)\n"
+//usage:     "\n	-m MODE	Creation mode (default a=rw)"
+//usage:	IF_SELINUX(
+//usage:     "\n	-Z	Set security context"
+//usage:	)
+//usage:     "\nTYPE:"
+//usage:     "\n	b	Block device"
+//usage:     "\n	c or u	Character device"
+//usage:     "\n	p	Named pipe (MAJOR and MINOR are ignored)"
+//usage:
+//usage:#define mknod_example_usage
+//usage:       "$ mknod /dev/fd0 b 2 0\n"
+//usage:       "$ mknod -m 644 /tmp/pipe p\n"
+
 #include <sys/sysmacros.h>  // For makedev
 
 #include "libbb.h"
@@ -42,7 +59,7 @@ int mknod_main(int argc, char **argv)
 					/* Autodetect what the system supports; these macros should
 					 * optimize out to two constants. */
 					dev = makedev(xatoul_range(argv[2], 0, major(UINT_MAX)),
-					              xatoul_range(argv[3], 0, minor(UINT_MAX)));
+							xatoul_range(argv[3], 0, minor(UINT_MAX)));
 				}
 			}
 

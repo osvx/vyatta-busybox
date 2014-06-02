@@ -7,10 +7,35 @@
  * about bzip2 library code.
  */
 
-#include "libbb.h"
-#include "archive.h"
+//config:config BZIP2
+//config:	bool "bzip2"
+//config:	default y
+//config:	help
+//config:	  bzip2 is a compression utility using the Burrows-Wheeler block
+//config:	  sorting text compression algorithm, and Huffman coding. Compression
+//config:	  is generally considerably better than that achieved by more
+//config:	  conventional LZ77/LZ78-based compressors, and approaches the
+//config:	  performance of the PPM family of statistical compressors.
+//config:
+//config:	  Unless you have a specific application which requires bzip2, you
+//config:	  should probably say N here.
 
-#define CONFIG_BZIP2_FEATURE_SPEED 1
+//applet:IF_BZIP2(APPLET(bzip2, BB_DIR_USR_BIN, BB_SUID_DROP))
+//kbuild:lib-$(CONFIG_BZIP2) += bzip2.o
+
+//usage:#define bzip2_trivial_usage
+//usage:       "[OPTIONS] [FILE]..."
+//usage:#define bzip2_full_usage "\n\n"
+//usage:       "Compress FILEs (or stdin) with bzip2 algorithm\n"
+//usage:     "\n	-1..9	Compression level"
+//usage:     "\n	-d	Decompress"
+//usage:     "\n	-c	Write to stdout"
+//usage:     "\n	-f	Force"
+
+#include "libbb.h"
+#include "bb_archive.h"
+
+#define CONFIG_BZIP2_FAST 1
 
 /* Speed test:
  * Compiled with gcc 4.2.1, run on Athlon 64 1800 MHz (512K L2 cache).
@@ -18,7 +43,7 @@
  * (time to compress gcc-4.2.1.tar is 126.4% compared to bbox).
  * At SPEED 5 difference is 32.7%.
  *
- * Test run of all CONFIG_BZIP2_FEATURE_SPEED values on a 11Mb text file:
+ * Test run of all CONFIG_BZIP2_FAST values on a 11Mb text file:
  *     Size   Time (3 runs)
  * 0:  10828  4.145 4.146 4.148
  * 1:  11097  3.845 3.860 3.861
@@ -102,7 +127,7 @@ IF_DESKTOP(long long) int bz_write(bz_stream *strm, void* rbuf, ssize_t rlen, vo
 }
 
 static
-IF_DESKTOP(long long) int FAST_FUNC compressStream(unpack_info_t *info UNUSED_PARAM)
+IF_DESKTOP(long long) int FAST_FUNC compressStream(transformer_aux_data_t *aux UNUSED_PARAM)
 {
 	IF_DESKTOP(long long) int total;
 	ssize_t count;
@@ -128,10 +153,12 @@ IF_DESKTOP(long long) int FAST_FUNC compressStream(unpack_info_t *info UNUSED_PA
 			break;
 	}
 
-#if ENABLE_FEATURE_CLEAN_UP
+	/* Can't be conditional on ENABLE_FEATURE_CLEAN_UP -
+	 * we are called repeatedly
+	 */
 	BZ2_bzCompressEnd(strm);
 	free(iobuf);
-#endif
+
 	return total;
 }
 

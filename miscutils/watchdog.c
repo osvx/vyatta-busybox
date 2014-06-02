@@ -9,6 +9,16 @@
  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
 
+//usage:#define watchdog_trivial_usage
+//usage:       "[-t N[ms]] [-T N[ms]] [-F] DEV"
+//usage:#define watchdog_full_usage "\n\n"
+//usage:       "Periodically write to watchdog device DEV\n"
+//usage:     "\n	-T N	Reboot after N seconds if not reset (default 60)"
+//usage:     "\n	-t N	Reset every N seconds (default 30)"
+//usage:     "\n	-F	Run in foreground"
+//usage:     "\n"
+//usage:     "\nUse 500ms to specify period in milliseconds"
+
 #include "libbb.h"
 #include "linux/types.h" /* for __u32 */
 #include "linux/watchdog.h"
@@ -21,6 +31,7 @@ static void watchdog_shutdown(int sig UNUSED_PARAM)
 {
 	static const char V = 'V';
 
+	remove_pidfile(CONFIG_PID_FILE_PATH "/watchdog.pid");
 	write(3, &V, 1);  /* Magic, see watchdog-api.txt in kernel */
 	if (ENABLE_FEATURE_CLEAN_UP)
 		close(3);
@@ -84,6 +95,8 @@ int watchdog_main(int argc, char **argv)
 	printf("watchdog: SW timer is %dms, HW timer is %ds\n",
 		stimer_duration, htimer_duration * 1000);
 #endif
+
+	write_pidfile(CONFIG_PID_FILE_PATH "/watchdog.pid");
 
 	while (1) {
 		/*

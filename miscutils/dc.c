@@ -11,11 +11,11 @@
 //usage:
 //usage:#define dc_full_usage "\n\n"
 //usage:       "Tiny RPN calculator. Operations:\n"
-//usage:       "+, add, -, sub, *, mul, /, div, %, mod, **, exp, and, or, not, eor,\n"
+//usage:       "+, add, -, sub, *, mul, /, div, %, mod, "IF_FEATURE_DC_LIBM("**, exp, ")"and, or, not, xor,\n"
 //usage:       "p - print top of the stack (without popping),\n"
 //usage:       "f - print entire stack,\n"
 //usage:       "o - pop the value and set output radix (must be 10, 16, 8 or 2).\n"
-//usage:       "Examples: 'dc 2 2 add' -> 4, 'dc 8 8 * 2 2 + /' -> 16"
+//usage:       "Examples: 'dc 2 2 add p' -> 4, 'dc 8 8 mul 2 2 + / p' -> 16"
 //usage:
 //usage:#define dc_example_usage
 //usage:       "$ dc 2 2 + p\n"
@@ -219,43 +219,30 @@ static const struct op operators[] = {
 	{"p", print_no_pop},
 	{"f", print_stack_no_pop},
 	{"o", set_output_base},
-	{ "", NULL }
 };
 
 static void stack_machine(const char *argument)
 {
-	char *endPointer;
+	char *end;
 	double d;
-	const struct op *o = operators;
+	const struct op *o;
 
-	d = strtod(argument, &endPointer);
-
-	if (endPointer != argument && *endPointer == '\0') {
+	d = strtod(argument, &end);
+	if (end != argument && *end == '\0') {
 		push(d);
 		return;
 	}
 
-	while (o->function) {
+	o = operators;
+	do {
 		if (strcmp(o->name, argument) == 0) {
 			o->function();
 			return;
 		}
 		o++;
-	}
-	bb_error_msg_and_die("syntax error at '%s'", argument);
-}
+	} while (o != operators + ARRAY_SIZE(operators));
 
-/* return pointer to next token in buffer and set *buffer to one char
- * past the end of the above mentioned token
- */
-static char *get_token(char **buffer)
-{
-	char *current = skip_whitespace(*buffer);
-	if (*current != '\0') {
-		*buffer = skip_non_whitespace(current);
-		return current;
-	}
-	return NULL;
+	bb_error_msg_and_die("syntax error at '%s'", argument);
 }
 
 int dc_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
@@ -272,16 +259,18 @@ int dc_main(int argc UNUSED_PARAM, char **argv)
 		while ((line = xmalloc_fgetline(stdin)) != NULL) {
 			cursor = line;
 			while (1) {
-				token = get_token(&cursor);
-				if (!token)
+				token = skip_whitespace(cursor);
+				if (*token == '\0')
 					break;
-				*cursor++ = '\0';
+				cursor = skip_non_whitespace(token);
+				if (*cursor != '\0')
+					*cursor++ = '\0';
 				stack_machine(token);
 			}
 			free(line);
 		}
 	} else {
-		// why? it breaks "dc -2 2 * p"
+		// why? it breaks "dc -2 2 + p"
 		//if (argv[0][0] == '-')
 		//	bb_show_usage();
 		do {

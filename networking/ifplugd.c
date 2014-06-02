@@ -6,13 +6,40 @@
  *
  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
+
+//usage:#define ifplugd_trivial_usage
+//usage:       "[OPTIONS]"
+//usage:#define ifplugd_full_usage "\n\n"
+//usage:       "Network interface plug detection daemon\n"
+//usage:     "\n	-n		Don't daemonize"
+//usage:     "\n	-s		Don't log to syslog"
+//usage:     "\n	-i IFACE	Interface"
+//usage:     "\n	-f/-F		Treat link detection error as link down/link up"
+//usage:     "\n			(otherwise exit on error)"
+//usage:     "\n	-a		Don't up interface at each link probe"
+//usage:     "\n	-M		Monitor creation/destruction of interface"
+//usage:     "\n			(otherwise it must exist)"
+//usage:     "\n	-r PROG		Script to run"
+//usage:     "\n	-x ARG		Extra argument for script"
+//usage:     "\n	-I		Don't exit on nonzero exit code from script"
+//usage:     "\n	-p		Don't run \"up\" script on startup"
+//usage:     "\n	-q		Don't run \"down\" script on exit"
+//usage:     "\n	-l		Always run script on startup"
+//usage:     "\n	-t SECS		Poll time in seconds"
+//usage:     "\n	-u SECS		Delay before running script after link up"
+//usage:     "\n	-d SECS		Delay after link down"
+//usage:     "\n	-m MODE		API mode (mii, priv, ethtool, wlan, iff, auto)"
+//usage:     "\n	-k		Kill running daemon"
+
 #include "libbb.h"
 
 #include "fix_u32.h"
 #include <linux/if.h>
 #include <linux/mii.h>
 #include <linux/ethtool.h>
-#include <net/ethernet.h>
+#ifdef HAVE_NET_ETHERNET_H
+# include <net/ethernet.h>
+#endif
 #include <linux/netlink.h>
 #include <linux/rtnetlink.h>
 #include <linux/sockios.h>
@@ -131,18 +158,21 @@ static int network_ioctl(int request, void* data, const char *errmsg)
 
 static smallint detect_link_mii(void)
 {
-	struct ifreq ifreq;
-	struct mii_ioctl_data *mii = (void *)&ifreq.ifr_data;
+	/* char buffer instead of bona-fide struct avoids aliasing warning */
+	char buf[sizeof(struct ifreq)];
+	struct ifreq *const ifreq = (void *)buf;
 
-	set_ifreq_to_ifname(&ifreq);
+	struct mii_ioctl_data *mii = (void *)&ifreq->ifr_data;
 
-	if (network_ioctl(SIOCGMIIPHY, &ifreq, "SIOCGMIIPHY") < 0) {
+	set_ifreq_to_ifname(ifreq);
+
+	if (network_ioctl(SIOCGMIIPHY, ifreq, "SIOCGMIIPHY") < 0) {
 		return IFSTATUS_ERR;
 	}
 
 	mii->reg_num = 1;
 
-	if (network_ioctl(SIOCGMIIREG, &ifreq, "SIOCGMIIREG") < 0) {
+	if (network_ioctl(SIOCGMIIREG, ifreq, "SIOCGMIIREG") < 0) {
 		return IFSTATUS_ERR;
 	}
 
@@ -151,18 +181,21 @@ static smallint detect_link_mii(void)
 
 static smallint detect_link_priv(void)
 {
-	struct ifreq ifreq;
-	struct mii_ioctl_data *mii = (void *)&ifreq.ifr_data;
+	/* char buffer instead of bona-fide struct avoids aliasing warning */
+	char buf[sizeof(struct ifreq)];
+	struct ifreq *const ifreq = (void *)buf;
 
-	set_ifreq_to_ifname(&ifreq);
+	struct mii_ioctl_data *mii = (void *)&ifreq->ifr_data;
 
-	if (network_ioctl(SIOCDEVPRIVATE, &ifreq, "SIOCDEVPRIVATE") < 0) {
+	set_ifreq_to_ifname(ifreq);
+
+	if (network_ioctl(SIOCDEVPRIVATE, ifreq, "SIOCDEVPRIVATE") < 0) {
 		return IFSTATUS_ERR;
 	}
 
 	mii->reg_num = 1;
 
-	if (network_ioctl(SIOCDEVPRIVATE+1, &ifreq, "SIOCDEVPRIVATE+1") < 0) {
+	if (network_ioctl(SIOCDEVPRIVATE+1, ifreq, "SIOCDEVPRIVATE+1") < 0) {
 		return IFSTATUS_ERR;
 	}
 
@@ -418,20 +451,24 @@ static smallint detect_link(void)
 static NOINLINE int check_existence_through_netlink(void)
 {
 	int iface_len;
-	char replybuf[1024];
+	/* Buffer was 1K, but on linux-3.9.9 it was reported to be too small.
+	 * netlink.h: "limit to 8K to avoid MSG_TRUNC when PAGE_SIZE is very large".
+	 * Note: on error returns (-1) we exit, no need to free replybuf.
+	 */
+	enum { BUF_SIZE = 8 * 1024 };
+	char *replybuf = xmalloc(BUF_SIZE);
 
 	iface_len = strlen(G.iface);
 	while (1) {
 		struct nlmsghdr *mhdr;
 		ssize_t bytes;
 
-		bytes = recv(netlink_fd, &replybuf, sizeof(replybuf), MSG_DONTWAIT);
+		bytes = recv(netlink_fd, replybuf, BUF_SIZE, MSG_DONTWAIT);
 		if (bytes < 0) {
 			if (errno == EAGAIN)
-				return G.iface_exists;
+				goto ret;
 			if (errno == EINTR)
 				continue;
-
 			bb_perror_msg("netlink: recv");
 			return -1;
 		}
@@ -474,6 +511,8 @@ static NOINLINE int check_existence_through_netlink(void)
 		}
 	}
 
+ ret:
+	free(replybuf);
 	return G.iface_exists;
 }
 
@@ -518,12 +557,13 @@ int ifplugd_main(int argc UNUSED_PARAM, char **argv)
 	applet_name = xasprintf("ifplugd(%s)", G.iface);
 
 #if ENABLE_FEATURE_PIDFILE
-	pidfile_name = xasprintf(_PATH_VARRUN"ifplugd.%s.pid", G.iface);
+	pidfile_name = xasprintf(CONFIG_PID_FILE_PATH "/ifplugd.%s.pid", G.iface);
 	pid_from_pidfile = read_pid(pidfile_name);
 
 	if (opts & FLAG_KILL) {
 		if (pid_from_pidfile > 0)
-			kill(pid_from_pidfile, SIGQUIT);
+			/* Upstream tool use SIGINT for -k */
+			kill(pid_from_pidfile, SIGINT);
 		return EXIT_SUCCESS;
 	}
 

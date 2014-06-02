@@ -11,6 +11,25 @@
  *
  * See RFC 1179 for protocol description.
  */
+
+//usage:#define lpr_trivial_usage
+//usage:       "-P queue[@host[:port]] -U USERNAME -J TITLE -Vmh [FILE]..."
+/* -C CLASS exists too, not shown.
+ * CLASS is supposed to be printed on banner page, if one is requested */
+//usage:#define lpr_full_usage "\n\n"
+//usage:       "	-P	lp service to connect to (else uses $PRINTER)"
+//usage:     "\n	-m	Send mail on completion"
+//usage:     "\n	-h	Print banner page too"
+//usage:     "\n	-V	Verbose"
+//usage:
+//usage:#define lpq_trivial_usage
+//usage:       "[-P queue[@host[:port]]] [-U USERNAME] [-d JOBID]... [-fs]"
+//usage:#define lpq_full_usage "\n\n"
+//usage:       "	-P	lp service to connect to (else uses $PRINTER)"
+//usage:     "\n	-d	Delete jobs"
+//usage:     "\n	-f	Force any waiting job to be printed"
+//usage:     "\n	-s	Short display"
+
 #include "libbb.h"
 
 /*
@@ -70,6 +89,10 @@ int lpqr_main(int argc UNUSED_PARAM, char *argv[])
 	unsigned opts;
 	int fd;
 
+	queue = getenv("PRINTER");
+	if (!queue)
+		queue = "lp";
+
 	// parse options
 	// TODO: set opt_complementary: s,d,f are mutually exclusive
 	opts = getopt32(argv,
@@ -79,16 +102,7 @@ int lpqr_main(int argc UNUSED_PARAM, char *argv[])
 	);
 	argv += optind;
 
-	// if queue is not specified -> use $PRINTER
-	if (!(opts & OPT_P))
-		queue = getenv("PRINTER");
-	// if queue is still not specified ->
-	if (!queue) {
-		// ... queue defaults to "lp"
-		// server defaults to "localhost"
-		queue = "lp";
-	// if queue is specified ->
-	} else {
+	{
 		// queue name is to the left of '@'
 		char *s = strchr(queue, '@');
 		if (s) {
@@ -167,6 +181,17 @@ int lpqr_main(int argc UNUSED_PARAM, char *argv[])
 			dfd = xopen(*argv, O_RDONLY);
 		}
 
+		st.st_size = 0; /* paranoia: fstat may theoretically fail */
+		fstat(dfd, &st);
+
+		/* Apparently, some servers are buggy and won't accept 0-sized jobs.
+		 * Standard lpr works around it by refusing to send such jobs:
+		 */
+		if (st.st_size == 0) {
+			bb_error_msg("nothing to print");
+			continue;
+		}
+
 		/* "The name ... should start with ASCII "cfA",
 		 * followed by a three digit job number, followed
 		 * by the host name which has constructed the file."
@@ -191,14 +216,11 @@ int lpqr_main(int argc UNUSED_PARAM, char *argv[])
 			, (opts & LPR_m) ? user : ""
 			, remote_filename
 		);
-		// delete possible "\nX\n" patterns
+		// delete possible "\nX\n" (that is, one-char) patterns
 		c = controlfile;
-		cflen = (unsigned)strlen(controlfile);
 		while ((c = strchr(c, '\n')) != NULL) {
 			if (c[1] && c[2] == '\n') {
-				/* can't use strcpy, results are undefined */
-				memmove(c, c+2, cflen - (c-controlfile) - 1);
-				cflen -= 2;
+				overlapping_strcpy(c, c+2);
 			} else {
 				c++;
 			}
@@ -209,6 +231,7 @@ int lpqr_main(int argc UNUSED_PARAM, char *argv[])
 			bb_error_msg("sending control file");
 		/* "Acknowledgement processing must occur as usual
 		 * after the command is sent." */
+		cflen = (unsigned)strlen(controlfile);
 		fdprintf(fd, "\x2" "%u c%s\n", cflen, remote_filename);
 		get_response_or_say_and_die(fd, "sending control file");
 		/* "Once all of the contents have
@@ -222,8 +245,6 @@ int lpqr_main(int argc UNUSED_PARAM, char *argv[])
 		// send data file, with name "dfaXXX"
 		if (opts & LPR_V)
 			bb_error_msg("sending data file");
-		st.st_size = 0; /* paranoia: fstat may theoretically fail */
-		fstat(dfd, &st);
 		fdprintf(fd, "\x3" "%"OFF_FMT"u d%s\n", st.st_size, remote_filename);
 		get_response_or_say_and_die(fd, "sending data file");
 		if (bb_copyfd_size(dfd, fd, st.st_size) != st.st_size) {

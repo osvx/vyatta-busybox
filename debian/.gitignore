@@ -1,13 +1,15 @@
-build
-*.log
-files
-stamps
-vyatta-busybox
-busybox-static
-busybox-syslogd
-busybox-udeb
-busybox
-udhcpc
-udhcpd
-*.substvars
-*.debhelper
+# debhelper files
+/*.*.debhelper
+/*.debhelper.log
+/*.substvars
+/files
+# build dirs
+/build/
+# packages install dirs
+/busybox/
+/busybox-static/
+/busybox-udeb/
+/busybox-syslogd/
+/udhcpc/
+/udhcpd/
+/vyatta-busybox/

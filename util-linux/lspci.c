@@ -6,6 +6,15 @@
  *
  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
+
+//usage:#define lspci_trivial_usage
+//usage:       "[-mk]"
+//usage:#define lspci_full_usage "\n\n"
+//usage:       "List all PCI devices"
+//usage:     "\n"
+//usage:     "\n	-m	Parsable output"
+//usage:     "\n	-k	Show driver"
+
 #include "libbb.h"
 
 enum {
@@ -65,11 +74,11 @@ static int FAST_FUNC fileAction(
 
 	if (option_mask32 & OPT_m) {
 		printf("%s \"Class %04x\" \"%04x\" \"%04x\" \"%04x\" \"%04x\"",
-		       pci_slot_name, pci_class, pci_vid, pci_did,
-		       pci_subsys_vid, pci_subsys_did);
+			pci_slot_name, pci_class, pci_vid, pci_did,
+			pci_subsys_vid, pci_subsys_did);
 	} else {
 		printf("%s Class %04x: %04x:%04x",
-		       pci_slot_name, pci_class, pci_vid, pci_did);
+			pci_slot_name, pci_class, pci_vid, pci_did);
 	}
 
 	if ((option_mask32 & OPT_k) && driver) {

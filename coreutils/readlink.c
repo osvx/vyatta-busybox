@@ -6,6 +6,17 @@
  *
  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
+
+//usage:#define readlink_trivial_usage
+//usage:	IF_FEATURE_READLINK_FOLLOW("[-fnv] ") "FILE"
+//usage:#define readlink_full_usage "\n\n"
+//usage:       "Display the value of a symlink"
+//usage:	IF_FEATURE_READLINK_FOLLOW( "\n"
+//usage:     "\n	-f	Canonicalize by following all symlinks"
+//usage:     "\n	-n	Don't add newline"
+//usage:     "\n	-v	Verbose"
+//usage:	)
+
 #include "libbb.h"
 
 /*
@@ -28,7 +39,10 @@
  *   -q, --quiet, -s, --silent     suppress most error messages
  *   -v, --verbose                 report error messages
  *
- * bbox supports: -f -n -v (fully), -q -s (accepts but ignores)
+ * bbox supports: -f (partially) -n -v (fully), -q -s (accepts but ignores)
+ * Note: we export the -f flag, but our -f behaves like coreutils' -e.
+ * Unfortunately, there isn't a C lib function we can leverage to get this
+ * behavior which means we'd have to implement the full stack ourselves :(.
  */
 
 int readlink_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;

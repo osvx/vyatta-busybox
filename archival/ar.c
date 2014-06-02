@@ -17,8 +17,61 @@
  * http://www.unix-systems.org/single_unix_specification_v2/xcu/ar.html
  */
 
+//config:config AR
+//config:	bool "ar"
+//config:	default n  # needs to be improved to be able to replace binutils ar
+//config:	help
+//config:	  ar is an archival utility program used to create, modify, and
+//config:	  extract contents from archives. An archive is a single file holding
+//config:	  a collection of other files in a structure that makes it possible to
+//config:	  retrieve the original individual files (called archive members).
+//config:	  The original files' contents, mode (permissions), timestamp, owner,
+//config:	  and group are preserved in the archive, and can be restored on
+//config:	  extraction.
+//config:
+//config:	  The stored filename is limited to 15 characters. (for more information
+//config:	  see long filename support).
+//config:	  ar has 60 bytes of overheads for every stored file.
+//config:
+//config:	  This implementation of ar can extract archives, it cannot create or
+//config:	  modify them.
+//config:	  On an x86 system, the ar applet adds about 1K.
+//config:
+//config:	  Unless you have a specific application which requires ar, you should
+//config:	  probably say N here.
+//config:
+//config:config FEATURE_AR_LONG_FILENAMES
+//config:	bool "Support for long filenames (not needed for debs)"
+//config:	default y
+//config:	depends on AR
+//config:	help
+//config:	  By default the ar format can only store the first 15 characters
+//config:	  of the filename, this option removes that limitation.
+//config:	  It supports the GNU ar long filename method which moves multiple long
+//config:	  filenames into a the data section of a new ar entry.
+//config:
+//config:config FEATURE_AR_CREATE
+//config:	bool "Support archive creation"
+//config:	default y
+//config:	depends on AR
+//config:	help
+//config:	  This enables archive creation (-c and -r) with busybox ar.
+
+//applet:IF_AR(APPLET(ar, BB_DIR_USR_BIN, BB_SUID_DROP))
+//kbuild:lib-$(CONFIG_AR) += ar.o
+
+//usage:#define ar_trivial_usage
+//usage:       "[-o] [-v] [-p] [-t] [-x] ARCHIVE FILES"
+//usage:#define ar_full_usage "\n\n"
+//usage:       "Extract or list FILES from an ar archive\n"
+//usage:     "\n	-o	Preserve original dates"
+//usage:     "\n	-p	Extract to stdout"
+//usage:     "\n	-t	List"
+//usage:     "\n	-x	Extract"
+//usage:     "\n	-v	Verbose"
+
 #include "libbb.h"
-#include "archive.h"
+#include "bb_archive.h"
 #include "ar.h"
 
 #if ENABLE_FEATURE_AR_CREATE
@@ -71,7 +124,7 @@ static void output_ar_header(archive_handle_t *handle)
 }
 
 /*
- * when replacing files in an existing archive, copy from the the
+ * when replacing files in an existing archive, copy from the
  * original archive those files that are to be left intact
  */
 static void FAST_FUNC copy_data(archive_handle_t *handle)

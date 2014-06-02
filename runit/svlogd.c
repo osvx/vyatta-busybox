@@ -125,7 +125,23 @@ log message, you can use a pattern like this instead
 -*: *: pid *
 */
 
-#include <sys/poll.h>
+//usage:#define svlogd_trivial_usage
+//usage:       "[-ttv] [-r C] [-R CHARS] [-l MATCHLEN] [-b BUFLEN] DIR..."
+//usage:#define svlogd_full_usage "\n\n"
+//usage:       "Continuously read log data from stdin and write to rotated log files in DIRs"
+//usage:   "\n"
+//usage:   "\n""DIR/config file modifies behavior:"
+//usage:   "\n""sSIZE - when to rotate logs"
+//usage:   "\n""nNUM - number of files to retain"
+/*usage:   "\n""NNUM - min number files to retain" - confusing */
+/*usage:   "\n""tSEC - rotate file if it get SEC seconds old" - confusing */
+//usage:   "\n""!PROG - process rotated log with PROG"
+/*usage:   "\n""uIPADDR - send log over UDP" - unsupported */
+/*usage:   "\n""UIPADDR - send log over UDP and DONT log" - unsupported */
+/*usage:   "\n""pPFX - prefix each line with PFX" - unsupported */
+//usage:   "\n""+,-PATTERN - (de)select line for logging"
+//usage:   "\n""E,ePATTERN - (de)select line for stderr"
+
 #include <sys/file.h>
 #include "libbb.h"
 #include "runit_lib.h"
@@ -170,6 +186,7 @@ struct globals {
 	unsigned nearest_rotate;
 
 	void* (*memRchr)(const void *, int, size_t);
+	char *shell;
 
 	smallint exitasap;
 	smallint rotateasap;
@@ -365,6 +382,9 @@ static void processorstart(struct logdir *ld)
 	/* vfork'ed child trashes this byte, save... */
 	sv_ch = ld->fnsave[26];
 
+	if (!G.shell)
+		G.shell = xstrdup(get_shell_name());
+
 	while ((pid = vfork()) == -1)
 		pause2cannot("vfork for processor", ld->name);
 	if (!pid) {
@@ -399,8 +419,7 @@ static void processorstart(struct logdir *ld)
 		fd = xopen("newstate", O_WRONLY|O_NDELAY|O_TRUNC|O_CREAT);
 		xmove_fd(fd, 5);
 
-// getenv("SHELL")?
-		execl(DEFAULT_SHELL, DEFAULT_SHELL_SHORT_NAME, "-c", ld->processor, (char*) NULL);
+		execl(G.shell, G.shell, "-c", ld->processor, (char*) NULL);
 		bb_perror_msg_and_die(FATAL"can't %s processor %s", "run", ld->name);
 	}
 	ld->fnsave[26] = sv_ch; /* ...restore */
@@ -581,12 +600,12 @@ static int buffer_pwrite(int n, char *s, unsigned len)
 
 			while (fchdir(ld->fddir) == -1)
 				pause2cannot("change directory, want remove old logfile",
-							 ld->name);
+							ld->name);
 			oldest[0] = 'A';
 			oldest[1] = oldest[27] = '\0';
 			while (!(d = opendir(".")))
 				pause2cannot("open directory, want remove old logfile",
-							 ld->name);
+							ld->name);
 			errno = 0;
 			while ((f = readdir(d)))
 				if ((f->d_name[0] == '@') && (strlen(f->d_name) == 27)) {
@@ -725,11 +744,6 @@ static NOINLINE unsigned logdir_open(struct logdir *ld, const char *fn)
 				ld->inst = new;
 				break;
 			case 's': {
-				static const struct suffix_mult km_suffixes[] = {
-					{ "k", 1024 },
-					{ "m", 1024*1024 },
-					{ "", 0 }
-				};
 				ld->sizemax = xatou_sfx(&s[1], km_suffixes);
 				break;
 			}

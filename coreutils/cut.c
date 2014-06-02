@@ -9,6 +9,23 @@
  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
 
+//usage:#define cut_trivial_usage
+//usage:       "[OPTIONS] [FILE]..."
+//usage:#define cut_full_usage "\n\n"
+//usage:       "Print selected fields from each input FILE to stdout\n"
+//usage:     "\n	-b LIST	Output only bytes from LIST"
+//usage:     "\n	-c LIST	Output only characters from LIST"
+//usage:     "\n	-d CHAR	Use CHAR instead of tab as the field delimiter"
+//usage:     "\n	-s	Output only the lines containing delimiter"
+//usage:     "\n	-f N	Print only these fields"
+//usage:     "\n	-n	Ignored"
+//usage:
+//usage:#define cut_example_usage
+//usage:       "$ echo \"Hello world\" | cut -f 1 -d ' '\n"
+//usage:       "Hello\n"
+//usage:       "$ echo \"Hello world\" | cut -f 2 -d ' '\n"
+//usage:       "world\n"
+
 #include "libbb.h"
 
 /* This is a NOEXEC applet. Be very careful! */
@@ -195,7 +212,7 @@ int cut_main(int argc UNUSED_PARAM, char **argv)
 		if (opt & CUT_OPT_SUPPRESS_FLGS) {
 			bb_error_msg_and_die
 				("suppressing non-delimited lines makes sense%s",
-				 _op_on_field);
+				_op_on_field);
 		}
 		if (delim != '\t') {
 			bb_error_msg_and_die

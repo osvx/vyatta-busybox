@@ -12,6 +12,66 @@
  *
  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
+
+//usage:#define stat_trivial_usage
+//usage:       "[OPTIONS] FILE..."
+//usage:#define stat_full_usage "\n\n"
+//usage:       "Display file (default) or filesystem status\n"
+//usage:	IF_FEATURE_STAT_FORMAT(
+//usage:     "\n	-c fmt	Use the specified format"
+//usage:	)
+//usage:     "\n	-f	Display filesystem status"
+//usage:     "\n	-L	Follow links"
+//usage:     "\n	-t	Display info in terse form"
+//usage:	IF_SELINUX(
+//usage:     "\n	-Z	Print security context"
+//usage:	)
+//usage:	IF_FEATURE_STAT_FORMAT(
+//usage:       "\n\nValid format sequences for files:\n"
+//usage:       " %a	Access rights in octal\n"
+//usage:       " %A	Access rights in human readable form\n"
+//usage:       " %b	Number of blocks allocated (see %B)\n"
+//usage:       " %B	The size in bytes of each block reported by %b\n"
+//usage:       " %d	Device number in decimal\n"
+//usage:       " %D	Device number in hex\n"
+//usage:       " %f	Raw mode in hex\n"
+//usage:       " %F	File type\n"
+//usage:       " %g	Group ID of owner\n"
+//usage:       " %G	Group name of owner\n"
+//usage:       " %h	Number of hard links\n"
+//usage:       " %i	Inode number\n"
+//usage:       " %n	File name\n"
+//usage:       " %N	File name, with -> TARGET if symlink\n"
+//usage:       " %o	I/O block size\n"
+//usage:       " %s	Total size, in bytes\n"
+//usage:       " %t	Major device type in hex\n"
+//usage:       " %T	Minor device type in hex\n"
+//usage:       " %u	User ID of owner\n"
+//usage:       " %U	User name of owner\n"
+//usage:       " %x	Time of last access\n"
+//usage:       " %X	Time of last access as seconds since Epoch\n"
+//usage:       " %y	Time of last modification\n"
+//usage:       " %Y	Time of last modification as seconds since Epoch\n"
+//usage:       " %z	Time of last change\n"
+//usage:       " %Z	Time of last change as seconds since Epoch\n"
+//usage:       "\nValid format sequences for file systems:\n"
+//usage:       " %a	Free blocks available to non-superuser\n"
+//usage:       " %b	Total data blocks in file system\n"
+//usage:       " %c	Total file nodes in file system\n"
+//usage:       " %d	Free file nodes in file system\n"
+//usage:       " %f	Free blocks in file system\n"
+//usage:	IF_SELINUX(
+//usage:       " %C	Security context in selinux\n"
+//usage:	)
+//usage:       " %i	File System ID in hex\n"
+//usage:       " %l	Maximum length of filenames\n"
+//usage:       " %n	File name\n"
+//usage:       " %s	Block size (for faster transfer)\n"
+//usage:       " %S	Fundamental block size (for block counts)\n"
+//usage:       " %t	Type in hex\n"
+//usage:       " %T	Type in human readable form"
+//usage:	)
+
 #include "libbb.h"
 
 #define OPT_FILESYS     (1 << 0)
@@ -39,9 +99,15 @@ static const char *file_type(const struct stat *st)
 	if (S_ISFIFO(st->st_mode)) return "fifo";
 	if (S_ISLNK(st->st_mode))  return "symbolic link";
 	if (S_ISSOCK(st->st_mode)) return "socket";
+#ifdef S_TYPEISMQ
 	if (S_TYPEISMQ(st))        return "message queue";
+#endif
+#ifdef S_TYPEISSEM
 	if (S_TYPEISSEM(st))       return "semaphore";
+#endif
+#ifdef S_TYPEISSHM
 	if (S_TYPEISSHM(st))       return "shared memory object";
+#endif
 #ifdef S_TYPEISTMO
 	if (S_TYPEISTMO(st))       return "typed memory object";
 #endif
@@ -61,7 +127,7 @@ static const char *human_time(time_t t)
 	/*static char buf[sizeof("YYYY-MM-DD HH:MM:SS.000000000")] ALIGN1;*/
 #define buf bb_common_bufsiz1
 
-	strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S.000000000", localtime(&t));
+	strcpy(strftime_YYYYMMDDHHMMSS(buf, sizeof(buf), &t), ".000000000");
 	return buf;
 #undef buf
 }
@@ -376,7 +442,7 @@ static bool do_statfs(const char *filename, const char *format)
 		     : getfilecon(filename, &scontext)
 		    ) < 0
 		) {
-			bb_perror_msg(filename);
+			bb_simple_perror_msg(filename);
 			return 0;
 		}
 	}
@@ -489,7 +555,7 @@ static bool do_stat(const char *filename, const char *format)
 		     : getfilecon(filename, &scontext)
 		    ) < 0
 		) {
-			bb_perror_msg(filename);
+			bb_simple_perror_msg(filename);
 			return 0;
 		}
 	}
@@ -525,37 +591,43 @@ static bool do_stat(const char *filename, const char *format)
 # else
 		if (option_mask32 & OPT_TERSE) {
 			format = (option_mask32 & OPT_SELINUX ?
-				  "%n %s %b %f %u %g %D %i %h %t %T %X %Y %Z %o %C\n":
-				  "%n %s %b %f %u %g %D %i %h %t %T %X %Y %Z %o\n");
+				"%n %s %b %f %u %g %D %i %h %t %T %X %Y %Z %o %C\n"
+				:
+				"%n %s %b %f %u %g %D %i %h %t %T %X %Y %Z %o\n"
+				);
 		} else {
 			if (S_ISBLK(statbuf.st_mode) || S_ISCHR(statbuf.st_mode)) {
 				format = (option_mask32 & OPT_SELINUX ?
-					  "  File: %N\n"
-					  "  Size: %-10s\tBlocks: %-10b IO Block: %-6o %F\n"
-					  "Device: %Dh/%dd\tInode: %-10i  Links: %-5h"
-					  " Device type: %t,%T\n"
-					  "Access: (%04a/%10.10A)  Uid: (%5u/%8U)   Gid: (%5g/%8G)\n"
-					  "   S_Context: %C\n"
-					  "Access: %x\n" "Modify: %y\n" "Change: %z\n":
-					  "  File: %N\n"
-					  "  Size: %-10s\tBlocks: %-10b IO Block: %-6o %F\n"
-					  "Device: %Dh/%dd\tInode: %-10i  Links: %-5h"
-					  " Device type: %t,%T\n"
-					  "Access: (%04a/%10.10A)  Uid: (%5u/%8U)   Gid: (%5g/%8G)\n"
-					  "Access: %x\n" "Modify: %y\n" "Change: %z\n");
+					"  File: %N\n"
+					"  Size: %-10s\tBlocks: %-10b IO Block: %-6o %F\n"
+					"Device: %Dh/%dd\tInode: %-10i  Links: %-5h"
+					" Device type: %t,%T\n"
+					"Access: (%04a/%10.10A)  Uid: (%5u/%8U)   Gid: (%5g/%8G)\n"
+					"   S_Context: %C\n"
+					"Access: %x\n" "Modify: %y\n" "Change: %z\n"
+					:
+					"  File: %N\n"
+					"  Size: %-10s\tBlocks: %-10b IO Block: %-6o %F\n"
+					"Device: %Dh/%dd\tInode: %-10i  Links: %-5h"
+					" Device type: %t,%T\n"
+					"Access: (%04a/%10.10A)  Uid: (%5u/%8U)   Gid: (%5g/%8G)\n"
+					"Access: %x\n" "Modify: %y\n" "Change: %z\n"
+					);
 			} else {
 				format = (option_mask32 & OPT_SELINUX ?
-					  "  File: %N\n"
-					  "  Size: %-10s\tBlocks: %-10b IO Block: %-6o %F\n"
-					  "Device: %Dh/%dd\tInode: %-10i  Links: %h\n"
-					  "Access: (%04a/%10.10A)  Uid: (%5u/%8U)   Gid: (%5g/%8G)\n"
-					  "S_Context: %C\n"
-					  "Access: %x\n" "Modify: %y\n" "Change: %z\n":
-					  "  File: %N\n"
-					  "  Size: %-10s\tBlocks: %-10b IO Block: %-6o %F\n"
-					  "Device: %Dh/%dd\tInode: %-10i  Links: %h\n"
-					  "Access: (%04a/%10.10A)  Uid: (%5u/%8U)   Gid: (%5g/%8G)\n"
-					  "Access: %x\n" "Modify: %y\n" "Change: %z\n");
+					"  File: %N\n"
+					"  Size: %-10s\tBlocks: %-10b IO Block: %-6o %F\n"
+					"Device: %Dh/%dd\tInode: %-10i  Links: %h\n"
+					"Access: (%04a/%10.10A)  Uid: (%5u/%8U)   Gid: (%5g/%8G)\n"
+					"S_Context: %C\n"
+					"Access: %x\n" "Modify: %y\n" "Change: %z\n"
+					:
+					"  File: %N\n"
+					"  Size: %-10s\tBlocks: %-10b IO Block: %-6o %F\n"
+					"Device: %Dh/%dd\tInode: %-10i  Links: %h\n"
+					"Access: (%04a/%10.10A)  Uid: (%5u/%8U)   Gid: (%5g/%8G)\n"
+					"Access: %x\n" "Modify: %y\n" "Change: %z\n"
+					);
 			}
 		}
 # endif

@@ -8,11 +8,11 @@
  * Licensed under GPLv2, see file LICENSE in this source tree.
  */
 
-//applet:IF_MODPROBE_SMALL(APPLET(modprobe, _BB_DIR_SBIN, _BB_SUID_DROP))
-//applet:IF_MODPROBE_SMALL(APPLET_ODDNAME(depmod, modprobe, _BB_DIR_SBIN, _BB_SUID_DROP, modprobe))
-//applet:IF_MODPROBE_SMALL(APPLET_ODDNAME(insmod, modprobe, _BB_DIR_SBIN, _BB_SUID_DROP, modprobe))
-//applet:IF_MODPROBE_SMALL(APPLET_ODDNAME(lsmod, modprobe, _BB_DIR_SBIN, _BB_SUID_DROP, modprobe))
-//applet:IF_MODPROBE_SMALL(APPLET_ODDNAME(rmmod, modprobe, _BB_DIR_SBIN, _BB_SUID_DROP, modprobe))
+//applet:IF_MODPROBE_SMALL(APPLET(modprobe, BB_DIR_SBIN, BB_SUID_DROP))
+//applet:IF_MODPROBE_SMALL(APPLET_ODDNAME(depmod, modprobe, BB_DIR_SBIN, BB_SUID_DROP, modprobe))
+//applet:IF_MODPROBE_SMALL(APPLET_ODDNAME(insmod, modprobe, BB_DIR_SBIN, BB_SUID_DROP, modprobe))
+//applet:IF_MODPROBE_SMALL(APPLET_ODDNAME(lsmod, modprobe, BB_DIR_SBIN, BB_SUID_DROP, modprobe))
+//applet:IF_MODPROBE_SMALL(APPLET_ODDNAME(rmmod, modprobe, BB_DIR_SBIN, BB_SUID_DROP, modprobe))
 
 #include "libbb.h"
 /* After libbb.h, since it needs sys/types.h on some systems */
@@ -205,6 +205,7 @@ static void parse_module(module_info *info, const char *pathname)
 	/* Read (possibly compressed) module */
 	len = 64 * 1024 * 1024; /* 64 Mb at most */
 	module_image = xmalloc_open_zipped_read_close(pathname, &len);
+	/* module_image == NULL is ok here, find_keyword handles it */
 //TODO: optimize redundant module body reads
 
 	/* "alias1 symbol:sym1 alias2 symbol:sym2" */
@@ -593,11 +594,18 @@ static void process_module(char *name, const char *cmdline_options)
 				bb_perror_msg("remove '%s'", name);
 			goto ret;
 		}
-		/* N.B. we do not stop here -
+
+		if (applet_name[0] == 'r') {
+			/* rmmod: do not remove dependencies, exit */
+			goto ret;
+		}
+
+		/* modprobe -r: we do not stop here -
 		 * continue to unload modules on which the module depends:
 		 * "-r --remove: option causes modprobe to remove a module.
 		 * If the modules it depends on are also unused, modprobe
-		 * will try to remove them, too." */
+		 * will try to remove them, too."
+		 */
 	}
 
 	if (!info) {
@@ -695,6 +703,10 @@ The following options are useful for people managing distributions:
 
 //usage:#if ENABLE_MODPROBE_SMALL
 
+//// Note: currently, help system shows modprobe --help text for all aliased cmds
+//// (see APPLET_ODDNAME macro definition).
+//// All other help texts defined below are not used. FIXME?
+
 //usage:#define depmod_trivial_usage NOUSAGE_STR
 //usage:#define depmod_full_usage ""
 
@@ -710,7 +722,6 @@ The following options are useful for people managing distributions:
 //usage:#define insmod_full_usage "\n\n"
 //usage:       "Load the specified kernel modules into the kernel"
 //usage:	IF_FEATURE_2_4_MODULES( "\n"
-//usage:     "\nOptions:"
 //usage:     "\n	-f	Force module to load into the wrong kernel version"
 //usage:     "\n	-k	Make module autoclean-able"
 //usage:     "\n	-v	Verbose"
@@ -726,7 +737,6 @@ The following options are useful for people managing distributions:
 //usage:       "[-wfa] [MODULE]..."
 //usage:#define rmmod_full_usage "\n\n"
 //usage:       "Unload kernel modules\n"
-//usage:     "\nOptions:"
 //usage:     "\n	-w	Wait until the module is no longer used"
 //usage:     "\n	-f	Force unload"
 //usage:     "\n	-a	Remove all unused modules (recursively)"
@@ -737,8 +747,7 @@ The following options are useful for people managing distributions:
 //usage:#define modprobe_trivial_usage
 //usage:	"[-qfwrsv] MODULE [symbol=value]..."
 //usage:#define modprobe_full_usage "\n\n"
-//usage:       "Options:"
-//usage:     "\n	-r	Remove MODULE (stacks) or do autoclean"
+//usage:       "	-r	Remove MODULE (stacks) or do autoclean"
 //usage:     "\n	-q	Quiet"
 //usage:     "\n	-v	Verbose"
 //usage:     "\n	-f	Force"
@@ -807,7 +816,7 @@ int modprobe_main(int argc UNUSED_PARAM, char **argv)
 	opt_complementary = "-1";
 	/* only -q (quiet) and -r (rmmod),
 	 * the rest are accepted and ignored (compat) */
-	getopt32(argv, "qrfsvw");
+	getopt32(argv, "qrfsvwb");
 	argv += optind;
 
 	/* are we rmmod? -> simulate modprobe -r */
@@ -844,13 +853,17 @@ int modprobe_main(int argc UNUSED_PARAM, char **argv)
 		void *map;
 
 		len = MAXINT(ssize_t);
-		map = xmalloc_xopen_read_close(*argv, &len);
+		map = xmalloc_open_zipped_read_close(*argv, &len);
+		if (!map)
+			bb_perror_msg_and_die("can't read '%s'", *argv);
 		if (init_module(map, len,
 			IF_FEATURE_MODPROBE_SMALL_OPTIONS_ON_CMDLINE(options ? options : "")
 			IF_NOT_FEATURE_MODPROBE_SMALL_OPTIONS_ON_CMDLINE("")
-				) != 0)
+			) != 0
+		) {
 			bb_error_msg_and_die("can't insert '%s': %s",
 					*argv, moderror(errno));
+		}
 		return 0;
 	}
 

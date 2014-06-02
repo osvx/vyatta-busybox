@@ -8,14 +8,13 @@
  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
 
-//applet:IF_RMMOD(APPLET(rmmod, _BB_DIR_SBIN, _BB_SUID_DROP))
+//applet:IF_RMMOD(APPLET(rmmod, BB_DIR_SBIN, BB_SUID_DROP))
 
 //usage:#if !ENABLE_MODPROBE_SMALL
 //usage:#define rmmod_trivial_usage
 //usage:       "[-wfa] [MODULE]..."
 //usage:#define rmmod_full_usage "\n\n"
 //usage:       "Unload kernel modules\n"
-//usage:     "\nOptions:"
 //usage:     "\n	-w	Wait until the module is no longer used"
 //usage:     "\n	-f	Force unload"
 //usage:     "\n	-a	Remove all unused modules (recursively)"
@@ -61,7 +60,7 @@ int rmmod_main(int argc UNUSED_PARAM, char **argv)
 			filename2modname(bname, modname);
 		if (bb_delete_module(modname, flags))
 			bb_error_msg_and_die("can't unload '%s': %s",
-					     modname, moderror(errno));
+					modname, moderror(errno));
 	}
 
 	return EXIT_SUCCESS;

@@ -8,6 +8,15 @@
  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
 
+//usage:#define ipcrm_trivial_usage
+//usage:       "[-MQS key] [-mqs id]"
+//usage:#define ipcrm_full_usage "\n\n"
+//usage:       "Upper-case options MQS remove an object by shmkey value.\n"
+//usage:       "Lower-case options remove an object by shmid value.\n"
+//usage:     "\n	-mM	Remove memory segment after last detach"
+//usage:     "\n	-qQ	Remove message queue"
+//usage:     "\n	-sS	Remove semaphore"
+
 #include "libbb.h"
 
 /* X/OPEN tells us to use <sys/{types,ipc,sem}.h> for semctl() */
@@ -151,7 +160,7 @@ int ipcrm_main(int argc, char **argv)
 
 			/* convert key to id */
 			id = ((c == 'q') ? msgget(key, 0) :
-				  (c == 'm') ? shmget(key, 0, 0) : semget(key, 0, 0));
+				(c == 'm') ? shmget(key, 0, 0) : semget(key, 0, 0));
 
 			if (id < 0) {
 				const char *errmsg;
@@ -180,8 +189,8 @@ int ipcrm_main(int argc, char **argv)
 		}
 
 		result = ((c == 'q') ? msgctl(id, IPC_RMID, NULL) :
-				  (c == 'm') ? shmctl(id, IPC_RMID, NULL) :
-				  semctl(id, 0, IPC_RMID, arg));
+				(c == 'm') ? shmctl(id, IPC_RMID, NULL) :
+				semctl(id, 0, IPC_RMID, arg));
 
 		if (result) {
 			const char *errmsg;
