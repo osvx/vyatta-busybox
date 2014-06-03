@@ -33,3 +33,5 @@ busybox_unstripped*
 core
 .gdb_history
 .gdbinit
+
+/build
